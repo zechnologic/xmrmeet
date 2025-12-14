@@ -7,6 +7,9 @@ export interface User {
     country: string | null;
     state: string | null;
     city: string | null;
+    postal_code: string | null;
+    latitude: number | null;
+    longitude: number | null;
     available_sell_xmr: number;
     available_buy_xmr: number;
     contact_info: string | null;
@@ -19,6 +22,9 @@ export interface PublicUser {
     country: string | null;
     state: string | null;
     city: string | null;
+    postal_code: string | null;
+    latitude: number | null;
+    longitude: number | null;
     available_sell_xmr: number;
     available_buy_xmr: number;
     contact_info: string | null;
@@ -27,7 +33,7 @@ export interface PublicUser {
 export declare function getUserByUsername(username: string): User | undefined;
 export declare function getUserById(id: string): User | undefined;
 export declare function createUser(id: string, username: string, passwordHash: string): User;
-export declare function updateUserSettings(userId: string, country: string | null, state: string | null, city: string | null, availableSellXmr: boolean, availableBuyXmr: boolean, contactInfo: string | null): User | undefined;
+export declare function updateUserSettings(userId: string, country: string | null, postalCode: string | null, latitude: number | null, longitude: number | null, availableSellXmr: boolean, availableBuyXmr: boolean, contactInfo: string | null): User | undefined;
 export declare function getAvailableUsers(country?: string, state?: string, city?: string): PublicUser[];
 export default db;
 //# sourceMappingURL=db.d.ts.map

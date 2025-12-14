@@ -7,9 +7,12 @@ import loginRouter from "./routes/login.js";
 import userRouter from "./routes/user.js";
 import meetupRouter from "./routes/meetup.js";
 import locationsRouter from "./routes/locations.js";
+import { runMigrations } from "./db/migrations.js";
 // ES module equivalent of __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+// Run database migrations
+runMigrations();
 const app = express();
 const PORT = process.env.PORT || 3000;
 // Register API routes

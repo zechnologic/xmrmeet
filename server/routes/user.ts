@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { getUserById, updateUserSettings } from "../db.js";
+import { geocoder } from "../services/geocoder.js";
 
 const router = express.Router();
 router.use(express.json());
@@ -66,10 +67,10 @@ router.get("/api/user/me", authenticateToken, (req: Request, res: Response) => {
 });
 
 // Update user settings
-router.put("/api/user/settings", authenticateToken, (req: Request, res: Response) => {
+router.put("/api/user/settings", authenticateToken, async (req: Request, res: Response) => {
   try {
     const { userId } = (req as any).user;
-    const { country, state, city, availableSellXmr, availableBuyXmr, contactInfo } = req.body;
+    const { country, postalCode, availableSellXmr, availableBuyXmr, contactInfo } = req.body;
 
     // Validation
     if (typeof availableSellXmr !== "boolean" || typeof availableBuyXmr !== "boolean") {
@@ -79,11 +80,32 @@ router.put("/api/user/settings", authenticateToken, (req: Request, res: Response
       });
     }
 
+    // Geocode location if provided
+    let latitude: number | null = null;
+    let longitude: number | null = null;
+
+    if (country && postalCode) {
+      try {
+        const coords = await geocoder.geocodePostalCode(country, postalCode);
+
+        if (coords) {
+          latitude = coords.lat;
+          longitude = coords.lon;
+        } else {
+          console.warn(`Failed to geocode postal code for user ${userId}: ${country}, ${postalCode}`);
+        }
+      } catch (error) {
+        console.error(`Geocoding error for user ${userId}:`, error);
+        // Continue with save even if geocoding fails
+      }
+    }
+
     const updatedUser = updateUserSettings(
       userId,
       country || null,
-      state || null,
-      city || null,
+      postalCode || null,
+      latitude,
+      longitude,
       availableSellXmr,
       availableBuyXmr,
       contactInfo || null

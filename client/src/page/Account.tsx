@@ -8,8 +8,9 @@ interface UserSettings {
   id: string;
   username: string;
   country: string | null;
-  state: string | null;
-  city: string | null;
+  postal_code: string | null;
+  latitude: number | null;
+  longitude: number | null;
   available_sell_xmr: number;
   available_buy_xmr: number;
   contact_info: string | null;
@@ -20,12 +21,7 @@ interface UserSettings {
 interface Country {
   code: string;
   name: string;
-  states: State[];
-}
-
-interface State {
-  code: string;
-  name: string;
+  states: Array<{code: string; name: string}>;
 }
 
 function Account() {
@@ -38,8 +34,7 @@ function Account() {
 
   const [locations, setLocations] = useState<Country[]>([]);
   const [country, setCountry] = useState("");
-  const [state, setState] = useState("");
-  const [city, setCity] = useState("");
+  const [postalCode, setPostalCode] = useState("");
   const [availableSellXmr, setAvailableSellXmr] = useState(false);
   const [availableBuyXmr, setAvailableBuyXmr] = useState(false);
   const [contactInfo, setContactInfo] = useState("");
@@ -80,8 +75,7 @@ function Account() {
       if (data.success) {
         setUser(data.user);
         setCountry(data.user.country || "");
-        setState(data.user.state || "");
-        setCity(data.user.city || "");
+        setPostalCode(data.user.postal_code || "");
         setAvailableSellXmr(!!data.user.available_sell_xmr);
         setAvailableBuyXmr(!!data.user.available_buy_xmr);
         setContactInfo(data.user.contact_info || "");
@@ -102,16 +96,8 @@ function Account() {
 
   const handleCountryChange = (newCountry: string) => {
     setCountry(newCountry);
-    setState("");
-    setCity("");
+    setPostalCode("");
   };
-
-  const handleStateChange = (newState: string) => {
-    setState(newState);
-    setCity("");
-  };
-
-  const selectedCountryData = locations.find((loc) => loc.code === country);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -134,8 +120,7 @@ function Account() {
         },
         body: JSON.stringify({
           country: country || null,
-          state: state || null,
-          city: city || null,
+          postalCode: postalCode || null,
           availableSellXmr,
           availableBuyXmr,
           contactInfo: contactInfo || null,
@@ -214,40 +199,22 @@ function Account() {
               </select>
             </div>
 
-            {country && selectedCountryData && (
-              <div className="mb-4">
-                <label htmlFor="state" className="block mb-2 font-semibold">
-                  State/Province (optional)
-                </label>
-                <select
-                  id="state"
-                  value={state}
-                  onChange={(e) => handleStateChange(e.target.value)}
-                  className="w-full px-4 py-2 bg-[#2a2a2a] border border-orange-600 text-white focus:outline-none focus:border-orange-500"
-                >
-                  <option value="">Select a state/province</option>
-                  {selectedCountryData.states.map((st) => (
-                    <option key={st.code} value={st.code}>
-                      {st.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            )}
-
             {country && (
               <div className="mb-6">
-                <label htmlFor="city" className="block mb-2 font-semibold">
-                  City (optional)
+                <label htmlFor="postalCode" className="block mb-2 font-semibold">
+                  Zip/Postal Code (optional)
                 </label>
                 <input
                   type="text"
-                  id="city"
-                  value={city}
-                  onChange={(e) => setCity(e.target.value)}
+                  id="postalCode"
+                  value={postalCode}
+                  onChange={(e) => setPostalCode(e.target.value)}
                   className="w-full px-4 py-2 bg-[#2a2a2a] border border-orange-600 text-white focus:outline-none focus:border-orange-500"
-                  placeholder="Enter your city"
+                  placeholder="e.g., 94102, M5H 2N2, 03810"
                 />
+                <p className="text-xs text-gray-500 mt-1">
+                  Your zip/postal code helps others find meetups near you
+                </p>
               </div>
             )}
 

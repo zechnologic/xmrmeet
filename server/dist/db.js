@@ -36,18 +36,18 @@ export function createUser(id, username, passwordHash) {
     stmt.run(id, username, passwordHash);
     return getUserById(id);
 }
-export function updateUserSettings(userId, country, state, city, availableSellXmr, availableBuyXmr, contactInfo) {
+export function updateUserSettings(userId, country, postalCode, latitude, longitude, availableSellXmr, availableBuyXmr, contactInfo) {
     const stmt = db.prepare(`
     UPDATE users
-    SET country = ?, state = ?, city = ?, available_sell_xmr = ?, available_buy_xmr = ?, contact_info = ?, updated_at = strftime('%s', 'now')
+    SET country = ?, postal_code = ?, latitude = ?, longitude = ?, available_sell_xmr = ?, available_buy_xmr = ?, contact_info = ?, updated_at = strftime('%s', 'now')
     WHERE id = ?
   `);
-    stmt.run(country, state, city, availableSellXmr ? 1 : 0, availableBuyXmr ? 1 : 0, contactInfo, userId);
+    stmt.run(country, postalCode, latitude, longitude, availableSellXmr ? 1 : 0, availableBuyXmr ? 1 : 0, contactInfo, userId);
     return getUserById(userId);
 }
 export function getAvailableUsers(country, state, city) {
     let query = `
-    SELECT id, username, country, state, city, available_sell_xmr, available_buy_xmr, contact_info, created_at
+    SELECT id, username, country, state, city, postal_code, latitude, longitude, available_sell_xmr, available_buy_xmr, contact_info, created_at
     FROM users
     WHERE (available_sell_xmr = 1 OR available_buy_xmr = 1)
   `;

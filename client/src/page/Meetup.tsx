@@ -29,6 +29,7 @@ function Meetup() {
   const [users, setUsers] = useState<AvailableUser[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const [locations, setLocations] = useState<Country[]>([]);
   const [countryFilter, setCountryFilter] = useState("");
@@ -36,6 +37,8 @@ function Meetup() {
   const [cityFilter, setCityFilter] = useState("");
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsLoggedIn(!!token);
     fetchLocations();
   }, []);
 
@@ -232,9 +235,25 @@ function Meetup() {
                     <p className="text-xs text-gray-500 uppercase mb-1">
                       Contact
                     </p>
-                    <p className="text-white whitespace-pre-wrap">
-                      {user.contact_info}
-                    </p>
+                    {isLoggedIn ? (
+                      <p className="text-white whitespace-pre-wrap">
+                        {user.contact_info}
+                      </p>
+                    ) : (
+                      <div className="relative">
+                        <p className="text-white whitespace-pre-wrap blur-sm select-none">
+                          {user.contact_info}
+                        </p>
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <a
+                            href="/login"
+                            className="px-4 py-2 bg-orange-600 text-white font-semibold hover:bg-orange-700 transition-colors"
+                          >
+                            Sign in to view contact info
+                          </a>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>

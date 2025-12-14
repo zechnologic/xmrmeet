@@ -35,6 +35,9 @@ export interface User {
   country: string | null;
   state: string | null;
   city: string | null;
+  postal_code: string | null;
+  latitude: number | null;
+  longitude: number | null;
   available_sell_xmr: number;
   available_buy_xmr: number;
   contact_info: string | null;
@@ -48,6 +51,9 @@ export interface PublicUser {
   country: string | null;
   state: string | null;
   city: string | null;
+  postal_code: string | null;
+  latitude: number | null;
+  longitude: number | null;
   available_sell_xmr: number;
   available_buy_xmr: number;
   contact_info: string | null;
@@ -79,18 +85,19 @@ export function createUser(
 export function updateUserSettings(
   userId: string,
   country: string | null,
-  state: string | null,
-  city: string | null,
+  postalCode: string | null,
+  latitude: number | null,
+  longitude: number | null,
   availableSellXmr: boolean,
   availableBuyXmr: boolean,
   contactInfo: string | null
 ): User | undefined {
   const stmt = db.prepare(`
     UPDATE users
-    SET country = ?, state = ?, city = ?, available_sell_xmr = ?, available_buy_xmr = ?, contact_info = ?, updated_at = strftime('%s', 'now')
+    SET country = ?, postal_code = ?, latitude = ?, longitude = ?, available_sell_xmr = ?, available_buy_xmr = ?, contact_info = ?, updated_at = strftime('%s', 'now')
     WHERE id = ?
   `);
-  stmt.run(country, state, city, availableSellXmr ? 1 : 0, availableBuyXmr ? 1 : 0, contactInfo, userId);
+  stmt.run(country, postalCode, latitude, longitude, availableSellXmr ? 1 : 0, availableBuyXmr ? 1 : 0, contactInfo, userId);
   return getUserById(userId);
 }
 
@@ -100,7 +107,7 @@ export function getAvailableUsers(
   city?: string
 ): PublicUser[] {
   let query = `
-    SELECT id, username, country, state, city, available_sell_xmr, available_buy_xmr, contact_info, created_at
+    SELECT id, username, country, state, city, postal_code, latitude, longitude, available_sell_xmr, available_buy_xmr, contact_info, created_at
     FROM users
     WHERE (available_sell_xmr = 1 OR available_buy_xmr = 1)
   `;

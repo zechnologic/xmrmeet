@@ -1,6 +1,7 @@
 import express from "express";
 import jwt from "jsonwebtoken";
 import { getUserById, updateUserSettings } from "../db.js";
+import { geocoder } from "../services/geocoder.js";
 const router = express.Router();
 router.use(express.json());
 const JWT_SECRET = process.env.JWT_SECRET || "fallback-secret-for-development";
@@ -53,10 +54,10 @@ router.get("/api/user/me", authenticateToken, (req, res) => {
     }
 });
 // Update user settings
-router.put("/api/user/settings", authenticateToken, (req, res) => {
+router.put("/api/user/settings", authenticateToken, async (req, res) => {
     try {
         const { userId } = req.user;
-        const { country, state, city, availableSellXmr, availableBuyXmr, contactInfo } = req.body;
+        const { country, postalCode, availableSellXmr, availableBuyXmr, contactInfo } = req.body;
         // Validation
         if (typeof availableSellXmr !== "boolean" || typeof availableBuyXmr !== "boolean") {
             return res.status(400).json({
@@ -64,7 +65,26 @@ router.put("/api/user/settings", authenticateToken, (req, res) => {
                 error: "availableSellXmr and availableBuyXmr must be boolean values",
             });
         }
-        const updatedUser = updateUserSettings(userId, country || null, state || null, city || null, availableSellXmr, availableBuyXmr, contactInfo || null);
+        // Geocode location if provided
+        let latitude = null;
+        let longitude = null;
+        if (country && postalCode) {
+            try {
+                const coords = await geocoder.geocodePostalCode(country, postalCode);
+                if (coords) {
+                    latitude = coords.lat;
+                    longitude = coords.lon;
+                }
+                else {
+                    console.warn(`Failed to geocode postal code for user ${userId}: ${country}, ${postalCode}`);
+                }
+            }
+            catch (error) {
+                console.error(`Geocoding error for user ${userId}:`, error);
+                // Continue with save even if geocoding fails
+            }
+        }
+        const updatedUser = updateUserSettings(userId, country || null, postalCode || null, latitude, longitude, availableSellXmr, availableBuyXmr, contactInfo || null);
         if (!updatedUser) {
             return res.status(404).json({
                 success: false,
