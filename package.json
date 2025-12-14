@@ -1,0 +1,35 @@
+{
+  "name": "xmrmeet",
+  "version": "0.0.1",
+  "description": "",
+  "main": "server/dist/index.js",
+  "types": "server/dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc && cd client && npm install && npm run build",
+    "build:server": "tsc",
+    "build:client": "cd client && npm run build",
+    "clean": "rm -rf server/dist client/dist",
+    "dev": "npm run clean && npm run build:server && npm run build:client && npm run start",
+    "start": "node server/dist/index.js",
+    "reset-db": "node reset_db.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "AGPL-3.0",
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^22.10.2",
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "better-sqlite3": "^12.5.0",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3"
+  }
+}

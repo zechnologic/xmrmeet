@@ -1,0 +1,62 @@
+import { useState, useEffect } from "react";
+import { Link } from "react-router";
+
+export default function Nav() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const userData = localStorage.getItem("user");
+
+    if (token && userData) {
+      setIsLoggedIn(true);
+    }
+
+    // Listen for storage changes (login/logout in other tabs)
+    const handleStorageChange = () => {
+      const token = localStorage.getItem("token");
+      const userData = localStorage.getItem("user");
+      setIsLoggedIn(!!token && !!userData);
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, []);
+
+  return (
+    <div className="w-full absolute top-0 left-0 h-[48px] flex items-center justify-between px-4 border-b border-orange-600 bg-[#232323] text-orange-600">
+      <Link to="/">
+        <div className="font-bold cursor-pointer hover:text-orange-500 transition-colors">
+          XMR Meet
+        </div>
+      </Link>
+      <div className="flex gap-4 items-center">
+        <Link to="/meet">
+          <button className="px-4 py-1 hover:text-orange-500 transition-colors">
+            Meet
+          </button>
+        </Link>
+        {isLoggedIn ? (
+          <Link to="/account">
+            <button className="px-4 py-1 bg-orange-600 text-white hover:bg-orange-700 transition-colors">
+              Account
+            </button>
+          </Link>
+        ) : (
+          <>
+            <Link to="/login">
+              <button className="px-4 py-1 hover:text-orange-500 transition-colors">
+                Login
+              </button>
+            </Link>
+            <Link to="/signup">
+              <button className="px-4 py-1 bg-orange-600 text-white hover:bg-orange-700 transition-colors">
+                Sign up
+              </button>
+            </Link>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
