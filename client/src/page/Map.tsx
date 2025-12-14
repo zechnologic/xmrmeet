@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import MarkerClusterGroup from "react-leaflet-cluster";
+import { MapContainer, TileLayer, CircleMarker, Popup } from "react-leaflet";
 import Layout from "../components/Layout";
 import { API_BASE_URL } from "../config/api";
 import "leaflet/dist/leaflet.css";
@@ -126,49 +125,57 @@ function Map() {
             className="z-0"
           >
             <TileLayer
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
             />
 
-            <MarkerClusterGroup>
-              {groupedUsers.map((group) => (
-                <Marker key={`${group.lat},${group.lon}`} position={[group.lat, group.lon]}>
-                  <Popup>
-                    <div className="p-2 min-w-[200px]">
-                      <h3 className="font-bold mb-3 text-gray-900">
-                        {group.users.length} {group.users.length === 1 ? "user" : "users"}
-                      </h3>
-                      {group.users.map((user) => (
-                        <div key={user.id} className="mb-3 pb-3 border-b border-gray-200 last:border-b-0">
-                          <div className="font-semibold text-gray-900 mb-1">{user.username}</div>
-                          <div className="text-sm text-gray-700 space-y-1">
-                            {user.available_sell_xmr === 1 && (
-                              <div>📤 Available to sell XMR</div>
-                            )}
-                            {user.available_buy_xmr === 1 && (
-                              <div>📥 Available to buy XMR</div>
-                            )}
-                          </div>
-                          {user.contact_info && (
-                            <div className="text-xs mt-2">
-                              {isLoggedIn ? (
-                                <div className="text-gray-600">
-                                  <strong>Contact:</strong> {user.contact_info}
-                                </div>
-                              ) : (
-                                <div className="text-orange-600 font-semibold blur-sm select-none">
-                                  Sign in to view contact info
-                                </div>
-                              )}
-                            </div>
+            {groupedUsers.map((group) => (
+              <CircleMarker
+                key={`${group.lat},${group.lon}`}
+                center={[group.lat, group.lon]}
+                radius={10}
+                pathOptions={{
+                  fillColor: "#ea580c",
+                  fillOpacity: 0.8,
+                  color: "#fb923c",
+                  weight: 2,
+                }}
+              >
+                <Popup>
+                  <div className="p-2 min-w-[200px]">
+                    <h3 className="font-bold mb-3 text-gray-900">
+                      {group.users.length} {group.users.length === 1 ? "user" : "users"}
+                    </h3>
+                    {group.users.map((user) => (
+                      <div key={user.id} className="mb-3 pb-3 border-b border-gray-200 last:border-b-0">
+                        <div className="font-semibold text-gray-900 mb-1">{user.username}</div>
+                        <div className="text-sm text-gray-700 space-y-1">
+                          {user.available_sell_xmr === 1 && (
+                            <div>📤 Available to sell XMR</div>
+                          )}
+                          {user.available_buy_xmr === 1 && (
+                            <div>📥 Available to buy XMR</div>
                           )}
                         </div>
-                      ))}
-                    </div>
-                  </Popup>
-                </Marker>
-              ))}
-            </MarkerClusterGroup>
+                        {user.contact_info && (
+                          <div className="text-xs mt-2">
+                            {isLoggedIn ? (
+                              <div className="text-gray-600">
+                                <strong>Contact:</strong> {user.contact_info}
+                              </div>
+                            ) : (
+                              <div className="text-orange-600 font-semibold blur-sm select-none">
+                                Sign in to view contact info
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </Popup>
+              </CircleMarker>
+            ))}
           </MapContainer>
         )}
       </div>
