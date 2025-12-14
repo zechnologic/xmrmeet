@@ -4,7 +4,6 @@ import { getUserById, updateUserSettings } from "../db.js";
 import { geocoder } from "../services/geocoder.js";
 
 const router = express.Router();
-router.use(express.json());
 
 const JWT_SECRET = process.env.JWT_SECRET || "fallback-secret-for-development";
 

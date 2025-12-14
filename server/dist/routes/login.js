@@ -3,7 +3,6 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { getUserByUsername } from "../db.js";
 const router = express.Router();
-router.use(express.json());
 const JWT_SECRET = process.env.JWT_SECRET || "fallback-secret-for-development";
 const JWT_EXPIRES_IN = "7d";
 router.post("/login", async (req, res) => {

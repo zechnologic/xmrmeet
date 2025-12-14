@@ -8,6 +8,13 @@ import userRouter from "./routes/user.js";
 import meetupRouter from "./routes/meetup.js";
 import locationsRouter from "./routes/locations.js";
 import { runMigrations } from "./db/migrations.js";
+import {
+  signupLimiter,
+  loginLimiter,
+  settingsLimiter,
+  publicApiLimiter,
+  generalLimiter,
+} from "./middleware/rateLimiters.js";
 
 // ES module equivalent of __dirname
 const __filename = fileURLToPath(import.meta.url);
@@ -18,6 +25,23 @@ runMigrations();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Global middleware
+app.use(express.json());
+
+// Apply general rate limiter to all API routes
+app.use("/api", generalLimiter);
+
+// Apply specific rate limiters to auth routes
+app.use("/signup", signupLimiter);
+app.use("/login", loginLimiter);
+
+// Apply settings limiter to user settings endpoint
+app.use("/api/user/settings", settingsLimiter);
+
+// Apply public API limiter to meetup endpoints
+app.use("/api/meetup", publicApiLimiter);
+app.use("/api/locations", publicApiLimiter);
 
 // Register API routes
 app.use(signupRouter);

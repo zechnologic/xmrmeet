@@ -164,36 +164,21 @@ function HowItWorks() {
                 </ul>
               </div>
 
-              {/* Street-Smart Tips */}
+              {/* Common Sense Tips */}
               <div>
-                <h3 className="text-xl font-semibold text-white mb-3">Street-Smart Tips</h3>
+                <h3 className="text-xl font-semibold text-white mb-3">Common Sense Tips</h3>
                 <ul className="list-disc list-inside space-y-2 ml-4">
                   <li>
-                    <strong>Scout the location first:</strong> Check the area for safety, foot
-                    traffic, and exit routes.
+                    <strong>Choose good locations:</strong> Pick busy cafés or public spaces with
+                    good visibility.
                   </li>
                   <li>
-                    <strong>Sit near exits:</strong> In cafés or public spaces, pick a table near
-                    the door or in clear view of staff.
+                    <strong>Keep it low-key:</strong> Be discreet with cash - no need to draw
+                    attention.
                   </li>
                   <li>
-                    <strong>Be aware of surroundings:</strong> Keep an eye out for suspicious
-                    behavior or anyone following you.
-                  </li>
-                  <li>
-                    <strong>Limit personal info:</strong> Only share what's necessary for the
-                    meetup. Avoid giving your home address.
-                  </li>
-                  <li>
-                    <strong>Use cash wisely:</strong> Don't flash large bills; keep it discreet.
-                  </li>
-                  <li>
-                    <strong>Split large transactions:</strong> For repeat meetups, break larger
-                    amounts into smaller transactions for safety.
-                  </li>
-                  <li>
-                    <strong>Park smart:</strong> If driving, park in well-lit areas with
-                    visibility from the street.
+                    <strong>Start small:</strong> Build trust over multiple meetups rather than
+                    doing large amounts right away.
                   </li>
                 </ul>
               </div>

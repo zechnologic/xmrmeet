@@ -46,7 +46,7 @@ function Signup() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ username, password, website: "" }),
       });
 
       const data = await response.json();
@@ -95,6 +95,20 @@ function Signup() {
               {error}
             </div>
           )}
+          {/* Honeypot field - hidden from users, catches bots */}
+          <input
+            type="text"
+            name="website"
+            autoComplete="off"
+            tabIndex={-1}
+            style={{
+              position: "absolute",
+              left: "-9999px",
+              width: "1px",
+              height: "1px",
+            }}
+            aria-hidden="true"
+          />
           <div className="mb-4">
             <label htmlFor="username" className="block mb-2 font-semibold">
               Username

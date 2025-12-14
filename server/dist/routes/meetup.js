@@ -1,7 +1,6 @@
 import express from "express";
 import { getAvailableUsers } from "../db.js";
 const router = express.Router();
-router.use(express.json());
 // Get all available users for meetups
 router.get("/api/meetup", (req, res) => {
     try {

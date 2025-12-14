@@ -3,11 +3,18 @@ import bcrypt from "bcrypt";
 import { randomBytes } from "crypto";
 import { createUser, getUserByUsername } from "../db.js";
 const router = express.Router();
-router.use(express.json());
 const SALT_ROUNDS = 10;
 router.post("/signup", async (req, res) => {
     try {
-        const { username, password } = req.body;
+        const { username, password, website } = req.body;
+        // Honeypot check - reject if filled (bot detection)
+        if (website) {
+            console.log("Honeypot triggered - bot signup attempt blocked");
+            return res.status(400).json({
+                success: false,
+                error: "Invalid signup request",
+            });
+        }
         // Validation
         if (!username || !password) {
             return res.status(400).json({
