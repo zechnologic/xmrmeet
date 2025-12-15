@@ -99,6 +99,13 @@ function Account() {
     setPostalCode("");
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate("/");
+    window.location.reload(); // Refresh to update nav
+  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError("");
@@ -157,10 +164,20 @@ function Account() {
   return (
     <Layout>
       <div className="min-h-screen pt-40 px-4 bg-[#232323] text-orange-600">
-        <h2 className="font-bold text-4xl uppercase">Account</h2>
-        <p className="mt-2 text-gray-400">
-          Logged in as <span className="text-orange-500">{user?.username}</span>
-        </p>
+        <div className="flex justify-between items-start max-w-4xl">
+          <div>
+            <h2 className="font-bold text-4xl uppercase">Account</h2>
+            <p className="mt-2 text-gray-400">
+              Logged in as <span className="text-orange-500">{user?.username}</span>
+            </p>
+          </div>
+          <button
+            onClick={handleLogout}
+            className="px-6 py-2 bg-transparent border border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white transition-colors font-semibold"
+          >
+            Logout
+          </button>
+        </div>
 
         <div className="mt-8 max-w-md">
           <h3 className="font-bold text-2xl uppercase mb-4">Meet Settings</h3>
