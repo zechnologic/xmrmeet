@@ -130,6 +130,82 @@ function About() {
             </div>
           </section>
 
+          {/* Support the Project */}
+          <section className="mb-12 border-t border-orange-900 pt-8">
+            <h2 className="text-3xl font-bold text-orange-500 mb-6">
+              Support This Project
+            </h2>
+            <div className="space-y-4">
+              <p>
+                XMR Meet was created by{" "}
+                <a
+                  href="https://x.com/zechnologic"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-orange-500 hover:underline font-semibold"
+                >
+                  @zechnologic
+                </a>{" "}
+                - a developer passionate about Monero, privacy, and building tools for the
+                community. If you find this platform useful and want to support its
+                continued development, consider:
+              </p>
+              <div className="bg-[#2a2a2a] border border-orange-600 p-6">
+                <ul className="space-y-3">
+                  <li className="flex items-start gap-3">
+                    <span className="text-orange-500 text-xl">→</span>
+                    <div>
+                      <strong className="text-white">Follow on X:</strong>{" "}
+                      <a
+                        href="https://x.com/zechnologic"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-orange-500 hover:underline"
+                      >
+                        @zechnologic
+                      </a>{" "}
+                      for updates and XMR content
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-orange-500 text-xl">→</span>
+                    <div>
+                      <strong className="text-white">Subscribe on YouTube:</strong>{" "}
+                      <a
+                        href="https://youtube.com/@zechnologic"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-orange-500 hover:underline"
+                      >
+                        @zechnologic
+                      </a>{" "}
+                      for crypto tutorials and project updates
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-orange-500 text-xl">→</span>
+                    <div>
+                      <strong className="text-white">Star on GitHub:</strong>{" "}
+                      <a
+                        href="https://github.com/zechnologic/xmrmeet"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-orange-500 hover:underline"
+                      >
+                        github.com/zechnologic/xmrmeet
+                      </a>{" "}
+                      to contribute or follow development
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <p className="text-sm text-gray-500">
+                Your support helps keep this project free, open-source, and ad-free for the
+                entire community.
+              </p>
+            </div>
+          </section>
+
           {/* Privacy */}
           <section className="mb-12 border-t border-orange-900 pt-8">
             <h2 className="text-3xl font-bold text-orange-500 mb-6">Your Privacy</h2>
