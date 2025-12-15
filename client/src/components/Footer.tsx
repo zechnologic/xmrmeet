@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="text-sm">
             <span className="text-orange-600 font-semibold">XMR Meet</span> -
-            P2P meetups for cash-to-XMR trades
+            P2P Monero meetups and XMR-to-cash trades
           </div>
           <div className="flex gap-6 text-sm">
             <Link to="/about" className="hover:text-orange-500 transition-all">
