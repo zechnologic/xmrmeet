@@ -1,17 +1,36 @@
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
+import pkg from "pg";
+import dotenv from "dotenv";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const { Pool } = pkg;
 
-const dbPath = path.join(__dirname, "server", "database.db");
+dotenv.config();
 
-if (fs.existsSync(dbPath)) {
-  fs.unlinkSync(dbPath);
-  console.log("✓ Database deleted successfully from server/database.db");
-} else {
-  console.log("ℹ No database file found at server/database.db");
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: process.env.DATABASE_URL?.includes('render.com')
+    ? { rejectUnauthorized: false }
+    : undefined,
+});
+
+async function resetDatabase() {
+  const client = await pool.connect();
+  try {
+    console.log("Dropping all tables...");
+
+    // Drop all tables
+    await client.query("DROP TABLE IF EXISTS reviews CASCADE");
+    await client.query("DROP TABLE IF EXISTS users CASCADE");
+    await client.query("DROP TABLE IF EXISTS schema_version CASCADE");
+
+    console.log("✓ All database tables dropped successfully");
+    console.log("✓ Database will be recreated on next server start");
+  } catch (error) {
+    console.error("Error resetting database:", error);
+    process.exit(1);
+  } finally {
+    client.release();
+    await pool.end();
+  }
 }
 
-console.log("✓ Database will be recreated on next server start");
+resetDatabase();

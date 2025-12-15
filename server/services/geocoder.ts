@@ -3,6 +3,8 @@ import { LOCATIONS } from "../data/locations.js";
 interface GeocodingResult {
   lat: number;
   lon: number;
+  city: string | null;
+  state: string | null;
 }
 
 interface CacheEntry {
@@ -79,6 +81,7 @@ class Geocoder {
       url.searchParams.set("country", countryName);
       url.searchParams.set("format", "json");
       url.searchParams.set("limit", "1");
+      url.searchParams.set("addressdetails", "1");
 
       const response = await fetch(url.toString(), {
         signal: controller.signal,
@@ -101,13 +104,23 @@ class Geocoder {
         return null;
       }
 
+      const address = data[0].address || {};
+
+      // Extract city from various possible fields
+      const city = address.city || address.town || address.village || address.hamlet || null;
+
+      // Extract state from various possible fields
+      const state = address.state || address.state_district || address.province || address.region || null;
+
       const result: GeocodingResult = {
         lat: parseFloat(data[0].lat),
         lon: parseFloat(data[0].lon),
+        city,
+        state,
       };
 
       this.saveToCache(cacheKey, result);
-      console.log(`Geocoded ${postalCode}, ${countryName}: ${result.lat}, ${result.lon}`);
+      console.log(`Geocoded ${postalCode}, ${countryName}: ${result.lat}, ${result.lon}, ${city}, ${state}`);
 
       return result;
     } catch (error) {

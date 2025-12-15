@@ -78,12 +78,12 @@ export async function createUser(id, username, passwordHash) {
     await pool.query("INSERT INTO users (id, username, password_hash) VALUES ($1, $2, $3)", [id, username, passwordHash]);
     return (await getUserById(id));
 }
-export async function updateUserSettings(userId, country, postalCode, latitude, longitude, availableSellXmr, availableBuyXmr, contactInfo) {
+export async function updateUserSettings(userId, country, state, city, postalCode, latitude, longitude, availableSellXmr, availableBuyXmr, contactInfo) {
     await pool.query(`UPDATE users
-     SET country = $1, postal_code = $2, latitude = $3, longitude = $4,
-         available_sell_xmr = $5, available_buy_xmr = $6, contact_info = $7,
+     SET country = $1, state = $2, city = $3, postal_code = $4, latitude = $5, longitude = $6,
+         available_sell_xmr = $7, available_buy_xmr = $8, contact_info = $9,
          updated_at = EXTRACT(EPOCH FROM NOW())::BIGINT
-     WHERE id = $8`, [country, postalCode, latitude, longitude, availableSellXmr ? 1 : 0, availableBuyXmr ? 1 : 0, contactInfo, userId]);
+     WHERE id = $10`, [country, state, city, postalCode, latitude, longitude, availableSellXmr ? 1 : 0, availableBuyXmr ? 1 : 0, contactInfo, userId]);
     return getUserById(userId);
 }
 export async function updateUserPassword(userId, passwordHash) {

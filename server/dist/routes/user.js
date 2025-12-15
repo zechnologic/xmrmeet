@@ -68,12 +68,16 @@ router.put("/api/user/settings", authenticateToken, async (req, res) => {
         // Geocode location if provided
         let latitude = null;
         let longitude = null;
+        let city = null;
+        let state = null;
         if (country && postalCode) {
             try {
                 const coords = await geocoder.geocodePostalCode(country, postalCode);
                 if (coords) {
                     latitude = coords.lat;
                     longitude = coords.lon;
+                    city = coords.city;
+                    state = coords.state;
                 }
                 else {
                     console.warn(`Failed to geocode postal code for user ${userId}: ${country}, ${postalCode}`);
@@ -84,7 +88,7 @@ router.put("/api/user/settings", authenticateToken, async (req, res) => {
                 // Continue with save even if geocoding fails
             }
         }
-        const updatedUser = await updateUserSettings(userId, country || null, postalCode || null, latitude, longitude, availableSellXmr, availableBuyXmr, contactInfo || null);
+        const updatedUser = await updateUserSettings(userId, country || null, state, city, postalCode || null, latitude, longitude, availableSellXmr, availableBuyXmr, contactInfo || null);
         if (!updatedUser) {
             return res.status(404).json({
                 success: false,

@@ -46,7 +46,7 @@ export interface ReviewWithReviewer extends Review {
 export declare function getUserByUsername(username: string): Promise<User | undefined>;
 export declare function getUserById(id: string): Promise<User | undefined>;
 export declare function createUser(id: string, username: string, passwordHash: string): Promise<User>;
-export declare function updateUserSettings(userId: string, country: string | null, postalCode: string | null, latitude: number | null, longitude: number | null, availableSellXmr: boolean, availableBuyXmr: boolean, contactInfo: string | null): Promise<User | undefined>;
+export declare function updateUserSettings(userId: string, country: string | null, state: string | null, city: string | null, postalCode: string | null, latitude: number | null, longitude: number | null, availableSellXmr: boolean, availableBuyXmr: boolean, contactInfo: string | null): Promise<User | undefined>;
 export declare function updateUserPassword(userId: string, passwordHash: string): Promise<boolean>;
 export declare function deleteUser(userId: string): Promise<boolean>;
 export declare function getAvailableUsers(country?: string, state?: string, city?: string): Promise<PublicUser[]>;

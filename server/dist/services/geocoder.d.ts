@@ -1,6 +1,8 @@
 interface GeocodingResult {
     lat: number;
     lon: number;
+    city: string | null;
+    state: string | null;
 }
 declare class Geocoder {
     private cache;
