@@ -224,8 +224,8 @@ export async function getAvailableUsers(
     paramCount++;
   }
   if (city) {
-    query += ` AND city = $${paramCount}`;
-    params.push(city);
+    query += ` AND city ILIKE $${paramCount}`;
+    params.push(`%${city}%`);
     paramCount++;
   }
 
