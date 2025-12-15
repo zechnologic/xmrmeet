@@ -26,7 +26,7 @@ export default function Nav() {
 
   return (
     <>
-      <div className="w-full absolute top-0 left-0 h-[48px] flex items-center justify-between px-4 border-b border-orange-600 bg-[#121212] text-orange-600">
+      <div className="w-full absolute top-0 left-0 h-[56px] flex items-center justify-between px-4 border-b border-orange-600 bg-[#121212] text-orange-600">
         <Link to="/">
           <div className="font-bold cursor-pointer hover:text-orange-500 transition-colors">
             XMR Meet

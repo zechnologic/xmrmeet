@@ -13,16 +13,19 @@ function About() {
           {/* Mission Statement */}
           <section className="mb-12">
             <p className="text-xl text-[#FAFAFA] leading-relaxed">
-              XMR Meet is an open-source, community-driven platform for Monero enthusiasts
-              who enjoy connecting with others in person to exchange Monero and cash. We're
-              a simple directory for hobbyists who want to discover fellow community members
-              in their area and engage in casual, peer-to-peer exchanges.
+              XMR Meet is an open-source, community-driven platform for Monero
+              enthusiasts who enjoy connecting with others in person to exchange
+              Monero and cash. We're a simple directory for hobbyists who want
+              to discover fellow community members in their area and engage in
+              casual, P2P exchanges.
             </p>
           </section>
 
           {/* Why Section */}
           <section className="mb-12 border-t border-orange-900 pt-8">
-            <h2 className="text-3xl font-bold text-orange-500 mb-6">Why XMR Meet?</h2>
+            <h2 className="text-3xl font-bold text-orange-500 mb-6">
+              Why XMR Meet?
+            </h2>
 
             <div className="space-y-6">
               <div>
@@ -30,11 +33,12 @@ function About() {
                   Making Monero Real
                 </h3>
                 <p className="leading-relaxed">
-                  Cryptocurrency becomes truly powerful when it moves beyond digital wallets
-                  and into the real world. XMR Meet exists to bridge that gap - to make
-                  Monero more dynamic, more tangible, and more accessible to everyday people.
-                  When you can meet someone at a local café and exchange cash for XMR, it
-                  stops being just numbers on a screen and becomes real money.
+                  Cryptocurrency becomes truly powerful when it moves beyond
+                  digital wallets and into the real world. XMR Meet exists to
+                  bridge that gap - to make Monero more dynamic, more tangible,
+                  and more accessible to everyday people. When you can meet
+                  someone at a local café and exchange cash for XMR, it stops
+                  being just numbers on a screen and becomes real money.
                 </p>
               </div>
 
@@ -43,10 +47,11 @@ function About() {
                   Fighting Exchange Delistings
                 </h3>
                 <p className="leading-relaxed">
-                  As more exchanges delist Monero due to regulatory pressure, peer-to-peer
-                  networks become increasingly important. XMR Meet empowers the community to
-                  create its own liquidity, independent of centralized platforms. You don't
-                  need an exchange when you have neighbors who believe in financial privacy.
+                  As more exchanges delist Monero due to regulatory pressure,
+                  P2P networks become increasingly important. XMR Meet empowers
+                  the community to create its own liquidity, independent of
+                  centralized platforms. You don't need an exchange when you
+                  have neighbors who believe in financial privacy.
                 </p>
               </div>
 
@@ -55,14 +60,15 @@ function About() {
                   Building Real Adoption
                 </h3>
                 <p className="leading-relaxed">
-                  For XMR holders who want to see the price go up - and let's be honest, we
-                  all do - there's no better strategy than real-world usage. The more people
-                  actively using and exchanging Monero in their daily lives, the more it
-                  behaves like an actual currency rather than just a speculative asset. Real
-                  adoption drives real value. Every local meetup, every in-person exchange,
-                  every new user who discovers XMR through a friendly face instead of a
-                  corporate interface - that's what makes the network stronger and more
-                  resilient.
+                  For XMR holders who want to see the price go up - and let's be
+                  honest, we all do - there's no better strategy than real-world
+                  usage. The more people actively using and exchanging Monero in
+                  their daily lives, the more it behaves like an actual currency
+                  rather than just a speculative asset. Real adoption drives
+                  real value. Every local meetup, every in-person exchange,
+                  every new user who discovers XMR through a friendly face
+                  instead of a corporate interface - that's what makes the
+                  network stronger and more resilient.
                 </p>
               </div>
 
@@ -71,10 +77,11 @@ function About() {
                   Community Over Corporations
                 </h3>
                 <p className="leading-relaxed">
-                  Monero was built on principles of decentralization and privacy. XMR Meet
-                  extends those principles to the way we acquire and exchange it. No KYC, no
-                  corporate middlemen, no surveillance - just people connecting with people.
-                  This is how peer-to-peer currency was always meant to work.
+                  Monero was built on principles of decentralization and
+                  privacy. XMR Meet extends those principles to the way we
+                  acquire and exchange it. No KYC, no corporate middlemen, no
+                  surveillance - just people connecting with people. This is how
+                  P2P currency was always meant to work.
                 </p>
               </div>
             </div>
@@ -82,27 +89,34 @@ function About() {
 
           {/* How It Works */}
           <section className="mb-12 border-t border-orange-900 pt-8">
-            <h2 className="text-3xl font-bold text-orange-500 mb-6">How It Works</h2>
+            <h2 className="text-3xl font-bold text-orange-500 mb-6">
+              How It Works
+            </h2>
             <div className="space-y-4">
               <p>
-                XMR Meet is intentionally simple. Users create a profile, share their
-                location (country + postal code), and indicate whether they're available to
-                buy or sell XMR for cash. That's it.
+                XMR Meet is intentionally simple. Users create a profile, share
+                their location (country + postal code), and indicate whether
+                they're available to buy or sell XMR for cash. That's it.
               </p>
               <p>
-                We don't facilitate trades, set prices, or handle transactions. All
-                communication happens offline through your preferred messaging service -
-                Signal, Telegram, email, whatever you're comfortable with. We're just the
-                directory that helps you find like-minded people nearby.
+                We don't facilitate trades, set prices, or handle transactions.
+                All communication happens offline through your preferred
+                messaging service - Signal, Telegram, email, whatever you're
+                comfortable with. We're just the directory that helps you find
+                like-minded people nearby.
               </p>
               <p>
-                This platform is for <strong>hobby purposes only</strong> with a recommended
-                limit of $300 USD per trade. We're about building community and making small,
-                casual exchanges accessible - not competing with commercial trading platforms.
+                This platform is for <strong>hobby purposes only</strong> with a
+                recommended limit of $300 USD per trade. We're about building
+                community and making small, casual exchanges accessible - not
+                competing with commercial trading platforms.
               </p>
               <p className="text-sm text-gray-500">
                 Want to know more?{" "}
-                <Link to="/how-it-works" className="text-orange-500 hover:underline">
+                <Link
+                  to="/how-it-works"
+                  className="text-orange-500 hover:underline"
+                >
                   Check out our detailed guide
                 </Link>{" "}
                 including safety tips and best practices.
@@ -117,15 +131,15 @@ function About() {
             </h2>
             <div className="space-y-4">
               <p>
-                XMR Meet is fully open source under the AGPLv3 license. The code is
-                transparent, auditable, and available for anyone to review, fork, or
-                contribute to. We believe in the same principles that make Monero great:
-                openness, privacy, and community ownership.
+                XMR Meet is fully open source under the AGPLv3 license. The code
+                is transparent, auditable, and available for anyone to review,
+                fork, or contribute to. We believe in the same principles that
+                make Monero great: openness, privacy, and community ownership.
               </p>
               <p>
-                This project is built by enthusiasts, for enthusiasts. No venture capital, no
-                corporate interests, no profit motive - just a tool to help the Monero
-                community connect and thrive.
+                This project is built by enthusiasts, for enthusiasts. No
+                venture capital, no corporate interests, no profit motive - just
+                a tool to help the Monero community connect and thrive.
               </p>
             </div>
           </section>
@@ -146,9 +160,9 @@ function About() {
                 >
                   @zechnologic
                 </a>{" "}
-                - a developer passionate about Monero, privacy, and building tools for the
-                community. If you find this platform useful and want to support its
-                continued development, consider:
+                - a developer passionate about Monero, privacy, and building
+                tools for the community. If you find this platform useful and
+                want to support its continued development, consider:
               </p>
               <div className="bg-[#171717] border border-orange-600 p-6 rounded-md">
                 <ul className="space-y-3">
@@ -170,7 +184,9 @@ function About() {
                   <li className="flex items-start gap-3">
                     <span className="text-orange-500 text-xl">→</span>
                     <div>
-                      <strong className="text-white">Subscribe on YouTube:</strong>{" "}
+                      <strong className="text-white">
+                        Subscribe on YouTube:
+                      </strong>{" "}
                       <a
                         href="https://youtube.com/@zechnologic"
                         target="_blank"
@@ -200,25 +216,27 @@ function About() {
                 </ul>
               </div>
               <p className="text-sm text-gray-500">
-                Your support helps keep this project free, open-source, and ad-free for the
-                entire community.
+                Your support helps keep this project free, open-source, and
+                ad-free for the entire community.
               </p>
             </div>
           </section>
 
           {/* Privacy */}
           <section className="mb-12 border-t border-orange-900 pt-8">
-            <h2 className="text-3xl font-bold text-orange-500 mb-6">Your Privacy</h2>
+            <h2 className="text-3xl font-bold text-orange-500 mb-6">
+              Your Privacy
+            </h2>
             <div className="space-y-4">
               <p>
-                We don't track IP addresses, use analytics tools, or collect any data beyond
-                what's necessary to provide the service. We store your username, location
-                preferences, availability settings, and optional contact information - that's
-                it.
+                We don't track IP addresses, use analytics tools, or collect any
+                data beyond what's necessary to provide the service. We store
+                your username, location preferences, availability settings, and
+                optional contact information - that's it.
               </p>
               <p>
-                No cookies, no trackers, no surveillance. Your activity on this site is your
-                business, not ours.
+                No cookies, no trackers, no surveillance. Your activity on this
+                site is your business, not ours.
               </p>
               <p className="text-sm text-gray-500">
                 Read our full{" "}
@@ -237,7 +255,8 @@ function About() {
                 Ready to Connect?
               </h2>
               <p className="mb-6 text-[#FAFAFA]">
-                Join the community and start meeting fellow Monero enthusiasts in your area.
+                Join the community and start meeting fellow Monero enthusiasts
+                in your area.
               </p>
               <div className="flex gap-4 justify-center flex-wrap">
                 <Link

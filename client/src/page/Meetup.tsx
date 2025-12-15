@@ -194,73 +194,69 @@ function Meetup() {
             </p>
           </div>
         ) : (
-          <div className="mt-8 space-y-4 max-w-2xl">
-            <p className="text-[#FAFAFA]">
+          <div className="mt-8 max-w-7xl">
+            <p className="text-[#FAFAFA] mb-4">
               Found {users.length} {users.length === 1 ? "user" : "users"}
             </p>
-            {users.map((user) => (
-              <div
-                key={user.id}
-                className="p-6 bg-[#171717] border border-orange-600 rounded-md"
-              >
-                <div className="flex items-start justify-between">
-                  <div>
-                    <Link to={`/user/${user.username}`}>
-                      <h3 className="font-bold text-xl text-orange-500 hover:text-orange-400 cursor-pointer">
-                        {user.username}
-                      </h3>
-                    </Link>
-                    {(user.country || user.state || user.city) && (
-                      <p className="text-gray-400 mt-1">
-                        <span className="text-orange-600">📍</span> {getLocationString(user)}
-                      </p>
-                    )}
-                  </div>
-                </div>
-
-                <div className="mt-4 space-y-2">
-                  {user.available_sell_xmr === 1 && (
-                    <div className="flex items-center text-white">
-                      <span className="text-green-500 mr-2">✓</span>
-                      Available to sell XMR for cash
-                    </div>
-                  )}
-                  {user.available_buy_xmr === 1 && (
-                    <div className="flex items-center text-white">
-                      <span className="text-green-500 mr-2">✓</span>
-                      Available to buy XMR with cash
-                    </div>
-                  )}
-                </div>
-
-                {user.contact_info && (
-                  <div className="mt-4 p-3 bg-[#121212] border border-orange-900 rounded-md">
-                    <p className="text-xs text-gray-500 uppercase mb-1">
-                      Contact
-                    </p>
-                    {isLoggedIn ? (
-                      <p className="text-white whitespace-pre-wrap">
-                        {user.contact_info}
-                      </p>
-                    ) : (
-                      <div className="relative">
-                        <p className="text-white whitespace-pre-wrap blur-sm select-none">
-                          {user.contact_info}
-                        </p>
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <a
-                            href="/login"
-                            className="px-4 py-2 bg-orange-600 text-white font-semibold hover:bg-orange-700 transition-all rounded-md"
-                          >
-                            Sign in to view contact info
-                          </a>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            ))}
+            <div className="overflow-x-auto border border-orange-600 rounded-md">
+              <table className="w-full bg-[#171717]">
+                <thead>
+                  <tr className="border-b border-orange-600">
+                    <th className="px-4 py-3 text-left text-orange-500 font-semibold">Username</th>
+                    <th className="px-4 py-3 text-left text-orange-500 font-semibold">Location</th>
+                    <th className="px-4 py-3 text-center text-orange-500 font-semibold">Sell XMR</th>
+                    <th className="px-4 py-3 text-center text-orange-500 font-semibold">Buy XMR</th>
+                    <th className="px-4 py-3 text-left text-orange-500 font-semibold">Contact</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {users.map((user) => (
+                    <tr key={user.id} className="border-b border-orange-900 hover:bg-[#1a1a1a] transition-colors">
+                      <td className="px-4 py-3">
+                        <Link to={`/user/${user.username}`}>
+                          <span className="text-orange-500 hover:text-orange-400 font-semibold cursor-pointer">
+                            {user.username}
+                          </span>
+                        </Link>
+                      </td>
+                      <td className="px-4 py-3 text-[#FAFAFA] text-sm">
+                        {(user.country || user.state || user.city) ? getLocationString(user) : "-"}
+                      </td>
+                      <td className="px-4 py-3 text-center">
+                        {user.available_sell_xmr === 1 ? (
+                          <span className="text-green-500">✓</span>
+                        ) : (
+                          <span className="text-gray-600">-</span>
+                        )}
+                      </td>
+                      <td className="px-4 py-3 text-center">
+                        {user.available_buy_xmr === 1 ? (
+                          <span className="text-green-500">✓</span>
+                        ) : (
+                          <span className="text-gray-600">-</span>
+                        )}
+                      </td>
+                      <td className="px-4 py-3 text-[#FAFAFA] text-sm">
+                        {user.contact_info ? (
+                          isLoggedIn ? (
+                            <span className="whitespace-pre-wrap break-all">{user.contact_info}</span>
+                          ) : (
+                            <a
+                              href="/login"
+                              className="text-orange-500 hover:text-orange-400 underline text-xs"
+                            >
+                              Sign in to view
+                            </a>
+                          )
+                        ) : (
+                          <span className="text-gray-600">-</span>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
       </div>
