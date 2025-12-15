@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
+import { dbReady } from "./lib/db.js";
 import signupRouter from "./routes/signup.js";
 import loginRouter from "./routes/login.js";
 import userRouter from "./routes/user.js";
@@ -60,7 +61,18 @@ app.use(express.static(path.join(__dirname, "../../client/dist")));
 app.use((_req, res) => {
     res.sendFile(path.join(__dirname, "../../client/dist/index.html"));
 });
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-});
+// Wait for database to be ready before starting server
+async function startServer() {
+    try {
+        await dbReady;
+        app.listen(PORT, () => {
+            console.log(`Server running on http://localhost:${PORT}`);
+        });
+    }
+    catch (error) {
+        console.error("Failed to initialize database:", error);
+        process.exit(1);
+    }
+}
+startServer();
 //# sourceMappingURL=index.js.map

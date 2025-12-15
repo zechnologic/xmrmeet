@@ -64,8 +64,8 @@ async function initializeTables() {
         client.release();
     }
 }
-// Run initialization
-initializeTables().catch(console.error);
+// Run initialization and export the promise so server can wait for it
+export const dbReady = initializeTables();
 export async function getUserByUsername(username) {
     const result = await pool.query("SELECT * FROM users WHERE username = $1", [username]);
     return result.rows[0];

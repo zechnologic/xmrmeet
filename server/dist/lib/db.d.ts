@@ -1,5 +1,6 @@
 import { Pool } from "pg";
 declare const pool: Pool;
+export declare const dbReady: Promise<void>;
 export interface User {
     id: string;
     username: string;

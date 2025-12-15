@@ -66,8 +66,8 @@ async function initializeTables() {
   }
 }
 
-// Run initialization
-initializeTables().catch(console.error);
+// Run initialization and export the promise so server can wait for it
+export const dbReady = initializeTables();
 
 // User operations
 export interface User {
