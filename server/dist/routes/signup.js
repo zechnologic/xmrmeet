@@ -1,7 +1,7 @@
 import express from "express";
 import bcrypt from "bcrypt";
 import { randomBytes } from "crypto";
-import { createUser, getUserByUsername } from "../db.js";
+import { createUser, getUserByUsername } from "../lib/db.js";
 const router = express.Router();
 const SALT_ROUNDS = 10;
 router.post("/signup", async (req, res) => {
@@ -35,7 +35,7 @@ router.post("/signup", async (req, res) => {
             });
         }
         // Check if user already exists
-        const existingUser = getUserByUsername(username);
+        const existingUser = await getUserByUsername(username);
         if (existingUser) {
             return res.status(409).json({
                 success: false,
@@ -46,7 +46,7 @@ router.post("/signup", async (req, res) => {
         const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
         // Create user
         const userId = randomBytes(16).toString("hex");
-        const user = createUser(userId, username, passwordHash);
+        const user = await createUser(userId, username, passwordHash);
         res.status(201).json({
             success: true,
             message: "User created successfully",

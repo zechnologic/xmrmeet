@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { getUserByUsername } from "../db.js";
+import { getUserByUsername } from "../lib/db.js";
 
 const router = express.Router();
 
@@ -21,7 +21,7 @@ router.post("/login", async (req: Request, res: Response) => {
     }
 
     // Get user
-    const user = getUserByUsername(username);
+    const user = await getUserByUsername(username);
     if (!user) {
       return res.status(401).json({
         success: false,

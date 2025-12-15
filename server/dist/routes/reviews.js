@@ -1,7 +1,7 @@
 import express from "express";
 import jwt from "jsonwebtoken";
 import { randomBytes } from "crypto";
-import { getUserByUsername, getUserById, getApprovedReviewsForUser, getAverageRating, createReview, hasUserReviewedUser, getPendingReviews, approveReview, deleteReview, } from "../db.js";
+import { getUserByUsername, getUserById, getApprovedReviewsForUser, getAverageRating, createReview, hasUserReviewedUser, getPendingReviews, approveReview, deleteReview, } from "../lib/db.js";
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET || "fallback-secret-for-development";
 // Middleware to verify JWT token
@@ -27,9 +27,9 @@ function authenticateToken(req, res, next) {
     }
 }
 // Middleware to check if user is admin
-function requireAdmin(req, res, next) {
+async function requireAdmin(req, res, next) {
     const { userId } = req.user;
-    const user = getUserById(userId);
+    const user = await getUserById(userId);
     if (!user || !user.is_admin) {
         return res.status(403).json({
             success: false,
@@ -39,18 +39,18 @@ function requireAdmin(req, res, next) {
     next();
 }
 // Get user profile with reviews
-router.get("/api/user/:username", (req, res) => {
+router.get("/api/user/:username", async (req, res) => {
     try {
         const { username } = req.params;
-        const user = getUserByUsername(username);
+        const user = await getUserByUsername(username);
         if (!user) {
             return res.status(404).json({
                 success: false,
                 error: "User not found",
             });
         }
-        const reviews = getApprovedReviewsForUser(username);
-        const averageRating = getAverageRating(username);
+        const reviews = await getApprovedReviewsForUser(username);
+        const averageRating = await getAverageRating(username);
         // Don't expose password or sensitive info
         const { password_hash, ...publicUser } = user;
         res.json({
@@ -70,7 +70,7 @@ router.get("/api/user/:username", (req, res) => {
     }
 });
 // Submit a review (authenticated)
-router.post("/api/reviews", authenticateToken, (req, res) => {
+router.post("/api/reviews", authenticateToken, async (req, res) => {
     try {
         const { userId } = req.user;
         const { revieweeUsername, rating, comment } = req.body;
@@ -100,7 +100,7 @@ router.post("/api/reviews", authenticateToken, (req, res) => {
             });
         }
         // Check if reviewee exists
-        const reviewee = getUserByUsername(revieweeUsername);
+        const reviewee = await getUserByUsername(revieweeUsername);
         if (!reviewee) {
             return res.status(404).json({
                 success: false,
@@ -115,7 +115,7 @@ router.post("/api/reviews", authenticateToken, (req, res) => {
             });
         }
         // Check if user already reviewed this person
-        if (hasUserReviewedUser(userId, revieweeUsername)) {
+        if (await hasUserReviewedUser(userId, revieweeUsername)) {
             return res.status(400).json({
                 success: false,
                 error: "You have already reviewed this user",
@@ -123,7 +123,7 @@ router.post("/api/reviews", authenticateToken, (req, res) => {
         }
         // Create review
         const reviewId = randomBytes(16).toString("hex");
-        const review = createReview(reviewId, userId, revieweeUsername, rating, comment);
+        const review = await createReview(reviewId, userId, revieweeUsername, rating, comment);
         res.status(201).json({
             success: true,
             message: "Review submitted for approval",
@@ -139,9 +139,9 @@ router.post("/api/reviews", authenticateToken, (req, res) => {
     }
 });
 // Get pending reviews (admin only)
-router.get("/api/admin/reviews/pending", authenticateToken, requireAdmin, (req, res) => {
+router.get("/api/admin/reviews/pending", authenticateToken, requireAdmin, async (req, res) => {
     try {
-        const reviews = getPendingReviews();
+        const reviews = await getPendingReviews();
         res.json({
             success: true,
             reviews,
@@ -156,10 +156,10 @@ router.get("/api/admin/reviews/pending", authenticateToken, requireAdmin, (req, 
     }
 });
 // Approve a review (admin only)
-router.put("/api/admin/reviews/:id/approve", authenticateToken, requireAdmin, (req, res) => {
+router.put("/api/admin/reviews/:id/approve", authenticateToken, requireAdmin, async (req, res) => {
     try {
         const { id } = req.params;
-        const success = approveReview(id);
+        const success = await approveReview(id);
         if (!success) {
             return res.status(404).json({
                 success: false,
@@ -180,10 +180,10 @@ router.put("/api/admin/reviews/:id/approve", authenticateToken, requireAdmin, (r
     }
 });
 // Delete a review (admin only)
-router.delete("/api/admin/reviews/:id", authenticateToken, requireAdmin, (req, res) => {
+router.delete("/api/admin/reviews/:id", authenticateToken, requireAdmin, async (req, res) => {
     try {
         const { id } = req.params;
-        const success = deleteReview(id);
+        const success = await deleteReview(id);
         if (!success) {
             return res.status(404).json({
                 success: false,

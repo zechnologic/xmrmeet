@@ -1,6 +1,6 @@
 import express from "express";
 import jwt from "jsonwebtoken";
-import { getUserById, updateUserSettings } from "../db.js";
+import { getUserById, updateUserSettings } from "../lib/db.js";
 import { geocoder } from "../services/geocoder.js";
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET || "fallback-secret-for-development";
@@ -27,10 +27,10 @@ function authenticateToken(req, res, next) {
     }
 }
 // Get current user profile
-router.get("/api/user/me", authenticateToken, (req, res) => {
+router.get("/api/user/me", authenticateToken, async (req, res) => {
     try {
         const { userId } = req.user;
-        const user = getUserById(userId);
+        const user = await getUserById(userId);
         if (!user) {
             return res.status(404).json({
                 success: false,
@@ -83,7 +83,7 @@ router.put("/api/user/settings", authenticateToken, async (req, res) => {
                 // Continue with save even if geocoding fails
             }
         }
-        const updatedUser = updateUserSettings(userId, country || null, postalCode || null, latitude, longitude, availableSellXmr, availableBuyXmr, contactInfo || null);
+        const updatedUser = await updateUserSettings(userId, country || null, postalCode || null, latitude, longitude, availableSellXmr, availableBuyXmr, contactInfo || null);
         if (!updatedUser) {
             return res.status(404).json({
                 success: false,

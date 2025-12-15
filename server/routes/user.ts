@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { getUserById, updateUserSettings } from "../db.js";
+import { getUserById, updateUserSettings } from "../lib/db.js";
 import { geocoder } from "../services/geocoder.js";
 
 const router = express.Router();
@@ -37,10 +37,10 @@ function authenticateToken(req: Request, res: Response, next: Function) {
 }
 
 // Get current user profile
-router.get("/api/user/me", authenticateToken, (req: Request, res: Response) => {
+router.get("/api/user/me", authenticateToken, async (req: Request, res: Response) => {
   try {
     const { userId } = (req as any).user;
-    const user = getUserById(userId);
+    const user = await getUserById(userId);
 
     if (!user) {
       return res.status(404).json({
@@ -99,7 +99,7 @@ router.put("/api/user/settings", authenticateToken, async (req: Request, res: Re
       }
     }
 
-    const updatedUser = updateUserSettings(
+    const updatedUser = await updateUserSettings(
       userId,
       country || null,
       postalCode || null,

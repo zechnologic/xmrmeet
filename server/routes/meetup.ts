@@ -1,13 +1,13 @@
 import express, { Request, Response } from "express";
-import { getAvailableUsers } from "../db.js";
+import { getAvailableUsers } from "../lib/db.js";
 
 const router = express.Router();
 
 // Get all available users for meetups
-router.get("/api/meetup", (req: Request, res: Response) => {
+router.get("/api/meetup", async (req: Request, res: Response) => {
   try {
     const { country, state, city } = req.query;
-    const users = getAvailableUsers(
+    const users = await getAvailableUsers(
       country as string | undefined,
       state as string | undefined,
       city as string | undefined

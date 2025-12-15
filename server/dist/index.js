@@ -8,13 +8,10 @@ import userRouter from "./routes/user.js";
 import meetupRouter from "./routes/meetup.js";
 import locationsRouter from "./routes/locations.js";
 import reviewsRouter from "./routes/reviews.js";
-import { runMigrations } from "./db/migrations.js";
 import { signupLimiter, loginLimiter, settingsLimiter, publicApiLimiter, generalLimiter, } from "./middleware/rateLimiters.js";
 // ES module equivalent of __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-// Run database migrations
-runMigrations();
 const app = express();
 const PORT = process.env.PORT || 3000;
 // Global middleware

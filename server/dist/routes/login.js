@@ -1,7 +1,7 @@
 import express from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { getUserByUsername } from "../db.js";
+import { getUserByUsername } from "../lib/db.js";
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET || "fallback-secret-for-development";
 const JWT_EXPIRES_IN = "7d";
@@ -16,7 +16,7 @@ router.post("/login", async (req, res) => {
             });
         }
         // Get user
-        const user = getUserByUsername(username);
+        const user = await getUserByUsername(username);
         if (!user) {
             return res.status(401).json({
                 success: false,
