@@ -9,6 +9,8 @@ interface AvailableUser {
   id: string;
   username: string;
   country: string | null;
+  state: string | null;
+  city: string | null;
   postal_code: string | null;
   latitude: number | null;
   longitude: number | null;
@@ -79,6 +81,13 @@ function Map() {
   };
 
   const groupedUsers = groupByCoordinates(users);
+
+  const getLocationString = (user: AvailableUser): string => {
+    const parts: string[] = [];
+    if (user.city) parts.push(user.city);
+    if (user.country) parts.push(user.country);
+    return parts.join(", ");
+  };
 
   if (loading) {
     return (
@@ -154,6 +163,11 @@ function Map() {
                             {user.username}
                           </div>
                         </Link>
+                        {(user.city || user.country) && (
+                          <div className="text-xs text-gray-600 mb-2">
+                            {getLocationString(user)}
+                          </div>
+                        )}
                         <div className="text-sm text-gray-700 space-y-1">
                           {user.available_sell_xmr === 1 && (
                             <div>📤 Available to sell XMR</div>
