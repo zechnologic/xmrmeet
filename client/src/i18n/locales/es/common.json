@@ -1,0 +1,31 @@
+{
+  "nav": {
+    "brand": "XMR Meet",
+    "about": "Acerca de",
+    "howItWorks": "Cómo funciona",
+    "meet": "Reuniones",
+    "map": "Mapa",
+    "login": "Iniciar sesión",
+    "signup": "Registrarse",
+    "account": "Cuenta"
+  },
+  "footer": {
+    "brand": "XMR Meet",
+    "tagline": "Reuniones entre pares para intercambios de efectivo a XMR",
+    "about": "Acerca de",
+    "privacy": "Privacidad",
+    "terms": "Términos"
+  },
+  "language": {
+    "en": "English",
+    "es": "Español",
+    "fr": "Français"
+  },
+  "buttons": {
+    "loading": "Cargando...",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "submit": "Enviar"
+  }
+}

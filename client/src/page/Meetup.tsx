@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router";
+import { useTranslation } from "react-i18next";
 import Layout from "../components/Layout";
 import { API_BASE_URL } from "../config/api";
 
@@ -27,6 +28,7 @@ interface State {
 }
 
 function Meetup() {
+  const { t } = useTranslation('pages');
   const [users, setUsers] = useState<AvailableUser[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -75,10 +77,10 @@ function Meetup() {
       if (data.success) {
         setUsers(data.users);
       } else {
-        setError(data.error || "Failed to fetch users");
+        setError(data.error || t('meetup.errorNetwork'));
       }
     } catch (err) {
-      setError("Network error. Please try again.");
+      setError(t('meetup.errorNetwork'));
       console.error("Fetch error:", err);
     } finally {
       setLoading(false);
@@ -116,15 +118,15 @@ function Meetup() {
   return (
     <Layout>
       <div className="min-h-screen pt-40 px-4 bg-[#232323] text-orange-600">
-        <h2 className="font-bold text-4xl uppercase">Meetup</h2>
+        <h2 className="font-bold text-4xl uppercase">{t('meetup.title')}</h2>
         <p className="mt-2 text-gray-400 max-w-2xl">
-          Connect with people in your area who want to trade XMR for cash
+          {t('meetup.subtitle')}
         </p>
 
         <div className="mt-8 max-w-md space-y-4">
           <div>
             <label htmlFor="countryFilter" className="block mb-2 font-semibold">
-              Filter by Country
+              {t('meetup.filterCountry')}
             </label>
             <select
               id="countryFilter"
@@ -132,7 +134,7 @@ function Meetup() {
               onChange={(e) => handleCountryChange(e.target.value)}
               className="w-full px-4 py-2 bg-[#2a2a2a] border border-orange-600 text-white focus:outline-none focus:border-orange-500"
             >
-              <option value="">All countries</option>
+              <option value="">{t('meetup.filterCountryAll')}</option>
               {locations.map((loc) => (
                 <option key={loc.code} value={loc.code}>
                   {loc.name}
@@ -144,7 +146,7 @@ function Meetup() {
           {countryFilter && selectedCountryData && (
             <div>
               <label htmlFor="stateFilter" className="block mb-2 font-semibold">
-                Filter by State/Province
+                {t('meetup.filterState')}
               </label>
               <select
                 id="stateFilter"
@@ -152,7 +154,7 @@ function Meetup() {
                 onChange={(e) => handleStateChange(e.target.value)}
                 className="w-full px-4 py-2 bg-[#2a2a2a] border border-orange-600 text-white focus:outline-none focus:border-orange-500"
               >
-                <option value="">All states/provinces</option>
+                <option value="">{t('meetup.filterStateAll')}</option>
                 {selectedCountryData.states.map((st) => (
                   <option key={st.code} value={st.code}>
                     {st.name}
@@ -165,7 +167,7 @@ function Meetup() {
           {countryFilter && (
             <div>
               <label htmlFor="cityFilter" className="block mb-2 font-semibold">
-                Filter by City
+                {t('meetup.filterCity')}
               </label>
               <input
                 type="text"
@@ -173,7 +175,7 @@ function Meetup() {
                 value={cityFilter}
                 onChange={(e) => setCityFilter(e.target.value)}
                 className="w-full px-4 py-2 bg-[#2a2a2a] border border-orange-600 text-white focus:outline-none focus:border-orange-500"
-                placeholder="Enter city name"
+                placeholder={t('meetup.filterCityPlaceholder')}
               />
             </div>
           )}
@@ -186,17 +188,17 @@ function Meetup() {
         )}
 
         {loading ? (
-          <p className="mt-8 text-gray-400">Loading...</p>
+          <p className="mt-8 text-gray-400">{t('meetup.loading')}</p>
         ) : users.length === 0 ? (
           <div className="mt-8 p-6 bg-[#2a2a2a] border border-orange-600 max-w-2xl">
             <p className="text-gray-400">
-              No users are currently available for meetups with the selected filters.
+              {t('meetup.noUsers')}
             </p>
           </div>
         ) : (
           <div className="mt-8 space-y-4 max-w-2xl">
             <p className="text-gray-400">
-              Found {users.length} {users.length === 1 ? "user" : "users"}
+              {t('meetup.found')} {users.length} {users.length === 1 ? t('meetup.user') : t('meetup.users')}
             </p>
             {users.map((user) => (
               <div
@@ -222,13 +224,13 @@ function Meetup() {
                   {user.available_sell_xmr === 1 && (
                     <div className="flex items-center text-white">
                       <span className="text-green-500 mr-2">✓</span>
-                      Available to sell XMR for cash
+                      {t('meetup.availableSell')}
                     </div>
                   )}
                   {user.available_buy_xmr === 1 && (
                     <div className="flex items-center text-white">
                       <span className="text-green-500 mr-2">✓</span>
-                      Available to buy XMR with cash
+                      {t('meetup.availableBuy')}
                     </div>
                   )}
                 </div>
@@ -236,7 +238,7 @@ function Meetup() {
                 {user.contact_info && (
                   <div className="mt-4 p-3 bg-[#232323] border border-orange-900">
                     <p className="text-xs text-gray-500 uppercase mb-1">
-                      Contact
+                      {t('meetup.contact')}
                     </p>
                     {isLoggedIn ? (
                       <p className="text-white whitespace-pre-wrap">
@@ -252,7 +254,7 @@ function Meetup() {
                             href="/login"
                             className="px-4 py-2 bg-orange-600 text-white font-semibold hover:bg-orange-700 transition-colors"
                           >
-                            Sign in to view contact info
+                            {t('meetup.signInToView')}
                           </a>
                         </div>
                       </div>
