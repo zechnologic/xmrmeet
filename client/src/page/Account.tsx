@@ -126,6 +126,19 @@ function Account() {
     setSuccess("");
     setSaving(true);
 
+    // Validate required fields when availability is checked
+    if ((availableSellXmr || availableBuyXmr) && !postalCode) {
+      setError("Zip/Postal Code is required when availability is enabled");
+      setSaving(false);
+      return;
+    }
+
+    if ((availableSellXmr || availableBuyXmr) && !contactInfo) {
+      setError("Contact Info is required when availability is enabled");
+      setSaving(false);
+      return;
+    }
+
     const token = localStorage.getItem("token");
     if (!token) {
       navigate("/login");
@@ -329,7 +342,7 @@ function Account() {
             {country && (
               <div className="mb-6">
                 <label htmlFor="postalCode" className="block mb-2 font-semibold">
-                  Zip/Postal Code (optional)
+                  Zip/Postal Code {(availableSellXmr || availableBuyXmr) ? "(required)" : "(optional)"}
                 </label>
                 <input
                   type="text"
@@ -375,12 +388,13 @@ function Account() {
 
             <div className="mb-6">
               <label htmlFor="contactInfo" className="block mb-2 font-semibold">
-                Contact Info (optional)
+                Contact Info {(availableSellXmr || availableBuyXmr) ? "(required)" : "(optional)"}
               </label>
               <textarea
                 id="contactInfo"
                 value={contactInfo}
                 onChange={(e) => setContactInfo(e.target.value)}
+                maxLength={64}
                 className="w-full px-4 py-2 bg-[#171717] border border-orange-600 text-[#FAFAFA] focus:outline-none focus:border-orange-500"
                 placeholder="How should people contact you? (e.g., Signal, Telegram, Email)"
                 rows={3}
