@@ -1,6 +1,61 @@
 {
-  "login": {},
-  "signup": {},
-  "account": {},
-  "validation": {}
+  "login": {
+    "title": "Login",
+    "subtitle": "Welcome back. Login to your anonymous account.",
+    "username": "Username",
+    "usernamePlaceholder": "Enter your username",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "submit": "Login",
+    "submitting": "Logging in...",
+    "noAccount": "Don't have an account?",
+    "signupLink": "Sign up",
+    "errorNetwork": "Network error. Please try again.",
+    "errorGeneric": "Login failed"
+  },
+  "signup": {
+    "title": "Sign Up",
+    "subtitle": "Create an anonymous account to start connecting with the Monero community.",
+    "username": "Username",
+    "usernamePlaceholder": "Choose a username (min 3 characters)",
+    "password": "Password",
+    "passwordPlaceholder": "Choose a password (min 6 characters)",
+    "confirmPassword": "Confirm Password",
+    "confirmPasswordPlaceholder": "Confirm your password",
+    "submit": "Sign Up",
+    "submitting": "Creating account...",
+    "haveAccount": "Already have an account?",
+    "loginLink": "Login",
+    "errorNetwork": "Network error. Please try again.",
+    "errorGeneric": "Signup failed"
+  },
+  "account": {
+    "title": "Account",
+    "loggedInAs": "Logged in as",
+    "logout": "Logout",
+    "loading": "Loading...",
+    "settingsTitle": "Meet Settings",
+    "settingsSubtitle": "Configure your availability to meet up for cash-to-XMR trades",
+    "country": "Country (optional)",
+    "countryPlaceholder": "Select a country",
+    "postalCode": "Zip/Postal Code (optional)",
+    "postalCodePlaceholder": "e.g., 94102, M5H 2N2, 03810",
+    "postalCodeHelp": "Your zip/postal code helps others find meetups near you",
+    "availability": "Availability",
+    "availableSell": "I am available to sell XMR for cash",
+    "availableBuy": "I am available to buy XMR with cash",
+    "contactInfo": "Contact Info (optional)",
+    "contactInfoPlaceholder": "How should people contact you? (e.g., Signal, Telegram, Email)",
+    "contactInfoHelp": "This will be publicly visible if you enable availability",
+    "submit": "Save Settings",
+    "submitting": "Saving...",
+    "successMessage": "Settings saved successfully!",
+    "errorNetwork": "Network error. Please try again.",
+    "errorGeneric": "Failed to update settings"
+  },
+  "validation": {
+    "passwordsMismatch": "Passwords do not match",
+    "passwordTooShort": "Password must be at least 6 characters",
+    "usernameTooShort": "Username must be at least 3 characters"
+  }
 }

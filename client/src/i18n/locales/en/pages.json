@@ -7,9 +7,203 @@
       "signupCta": "Sign up"
     }
   },
-  "about": {},
-  "howItWorks": {},
-  "meetup": {},
-  "map": {},
-  "userProfile": {}
+  "about": {
+    "title": "About XMR Meet",
+    "mission": "XMR Meet is an open-source, community-driven platform for Monero enthusiasts who enjoy connecting with others in person to exchange Monero and cash. We're a simple directory for hobbyists who want to discover fellow community members in their area and engage in casual, peer-to-peer exchanges.",
+    "why": {
+      "title": "Why XMR Meet?",
+      "makingReal": {
+        "title": "Making Monero Real",
+        "text": "Cryptocurrency becomes truly powerful when it moves beyond digital wallets and into the real world. XMR Meet exists to bridge that gap - to make Monero more dynamic, more tangible, and more accessible to everyday people. When you can meet someone at a local café and exchange cash for XMR, it stops being just numbers on a screen and becomes real money."
+      },
+      "fightingDelistings": {
+        "title": "Fighting Exchange Delistings",
+        "text": "As more exchanges delist Monero due to regulatory pressure, peer-to-peer networks become increasingly important. XMR Meet empowers the community to create its own liquidity, independent of centralized platforms. You don't need an exchange when you have neighbors who believe in financial privacy."
+      },
+      "buildingAdoption": {
+        "title": "Building Real Adoption",
+        "text": "For XMR holders who want to see the price go up - and let's be honest, we all do - there's no better strategy than real-world usage. The more people actively using and exchanging Monero in their daily lives, the more it behaves like an actual currency rather than just a speculative asset. Real adoption drives real value. Every local meetup, every in-person exchange, every new user who discovers XMR through a friendly face instead of a corporate interface - that's what makes the network stronger and more resilient."
+      },
+      "community": {
+        "title": "Community Over Corporations",
+        "text": "Monero was built on principles of decentralization and privacy. XMR Meet extends those principles to the way we acquire and exchange it. No KYC, no corporate middlemen, no surveillance - just people connecting with people. This is how peer-to-peer currency was always meant to work."
+      }
+    },
+    "howItWorks": {
+      "title": "How It Works",
+      "p1": "XMR Meet is intentionally simple. Users create a profile, share their location (country + postal code), and indicate whether they're available to buy or sell XMR for cash. That's it.",
+      "p2": "We don't facilitate trades, set prices, or handle transactions. All communication happens offline through your preferred messaging service - Signal, Telegram, email, whatever you're comfortable with. We're just the directory that helps you find like-minded people nearby.",
+      "p3": "This platform is for hobby purposes only with a recommended limit of $300 USD per trade. We're about building community and making small, casual exchanges accessible - not competing with commercial trading platforms.",
+      "p4prefix": "Want to know more?",
+      "p4link": "Check out our detailed guide",
+      "p4suffix": "including safety tips and best practices."
+    },
+    "openSource": {
+      "title": "Open Source & Community",
+      "p1": "XMR Meet is fully open source under the AGPLv3 license. The code is transparent, auditable, and available for anyone to review, fork, or contribute to. We believe in the same principles that make Monero great: openness, privacy, and community ownership.",
+      "p2": "This project is built by enthusiasts, for enthusiasts. No venture capital, no corporate interests, no profit motive - just a tool to help the Monero community connect and thrive."
+    },
+    "privacy": {
+      "title": "Your Privacy",
+      "p1": "We don't track IP addresses, use analytics tools, or collect any data beyond what's necessary to provide the service. We store your username, location preferences, availability settings, and optional contact information - that's it.",
+      "p2": "No cookies, no trackers, no surveillance. Your activity on this site is your business, not ours.",
+      "p3prefix": "Read our full",
+      "p3link": "Privacy Policy",
+      "p3suffix": "for details."
+    },
+    "cta": {
+      "title": "Ready to Connect?",
+      "subtitle": "Join the community and start meeting fellow Monero enthusiasts in your area.",
+      "signup": "Sign Up",
+      "browse": "Browse Users"
+    }
+  },
+  "howItWorks": {
+    "title": "How It Works",
+    "subtitle": "XMR Meet is a community directory for Monero enthusiasts who enjoy casual, in-person exchanges. This is for fun, education, and connecting with like-minded peers.",
+    "whatIs": {
+      "title": "What is XMR Meet?",
+      "intro": "XMR Meet is an open-source platform where users can:",
+      "li1": "Create a profile and share their location (country + postal code)",
+      "li2": "Indicate if they're available to sell XMR for cash, buy XMR with cash, or both",
+      "li3": "Browse and discover others in their area who are interested in meetups",
+      "li4": "View contact information and reach out via secure messaging apps",
+      "note": "Important: XMR Meet is just a directory. All communication, pricing negotiation, and meetup coordination happens offline via your preferred messaging service (Signal, Telegram, WhatsApp, email, etc.)."
+    },
+    "gettingStarted": {
+      "title": "Getting Started",
+      "step1": {
+        "title": "1. Sign Up",
+        "text": "Create an account with just a username and password. Simple."
+      },
+      "step2": {
+        "title": "2. Set Your Location",
+        "text": "In your Account settings, add your country and postal code. We'll show you on the map at street-level precision so others nearby can find you."
+      },
+      "step3": {
+        "title": "3. Set Availability",
+        "text": "Check the boxes for whether you're available to sell XMR for cash, buy XMR with cash, or both."
+      },
+      "step4": {
+        "title": "4. Add Contact Info",
+        "text": "Share how people should reach you (e.g., \"Signal: @username\" or \"Email: your@email.com\"). This will be visible to signed-in users."
+      },
+      "step5": {
+        "title": "5. Browse & Connect",
+        "textPrefix": "Check out the",
+        "meetLink": "Meet",
+        "textMid": "page or",
+        "mapLink": "Map",
+        "textSuffix": "to find others in your area. Reach out via their contact info and coordinate a meetup!"
+      }
+    },
+    "safety": {
+      "title": "Safety Guidelines",
+      "intro": "While XMR Meet is for fun and community, personal safety should always come first. Follow these guidelines to make your meetups safe and enjoyable.",
+      "general": {
+        "title": "General Safety",
+        "li1": "Meet in public, busy places: Parks, cafés, co-working spaces, or shopping areas are ideal. Avoid secluded locations or private homes for first-time meetings.",
+        "li2": "Daytime is best: If possible, schedule meetups during daylight hours when visibility is higher.",
+        "li3": "Bring a friend: Let someone know where you're going and who you're meeting. Bring a trusted friend if you can.",
+        "li4": "Stay alert: Keep your phone accessible, be aware of your surroundings, and trust your instincts. If something feels off, leave.",
+        "li5": "Limit distractions: Avoid headphones or being too engrossed in your phone during the meetup."
+      },
+      "transactions": {
+        "title": "Transaction Limits & Handling",
+        "li1": "Start small: For first-time meetups, keep transactions under $300 USD worth of Monero. Build trust gradually.",
+        "li2": "Count and verify cash discreetly: Ensure both parties agree on the amount before completing the exchange.",
+        "li3": "Verify Monero transfers: Double-check wallet addresses and amounts. Confirm transactions before handing over cash.",
+        "li4": "Separate your funds: Don't carry more cash or Monero than necessary for a single meetup."
+      },
+      "communication": {
+        "title": "Communication & Planning",
+        "li1": "Use secure messaging apps: Signal, Telegram, WhatsApp, or email. Avoid sharing sensitive info publicly.",
+        "li2": "Confirm details before meeting: Double-check location, time, and amount. Send a photo of the meetup spot if needed.",
+        "li3": "Have a backup plan: Agree on what to do if one party is late or cancels."
+      },
+      "commonSense": {
+        "title": "Common Sense Tips",
+        "li1": "Choose good locations: Pick busy cafés or public spaces with good visibility.",
+        "li2": "Keep it low-key: Be discreet with cash - no need to draw attention.",
+        "li3": "Start small: Build trust over multiple meetups rather than doing large amounts right away."
+      },
+      "conduct": {
+        "title": "Conduct",
+        "li1": "Respect boundaries: Be polite, professional, and friendly.",
+        "li2": "No pricing discussion on the platform: Discuss prices and rates privately offline.",
+        "li3": "Be punctual: Respect others' time; communicate delays immediately.",
+        "li4": "Avoid risky behavior: Don't agree to exchanges that feel unsafe, pressured, or suspicious."
+      },
+      "trust": {
+        "title": "Building Trust",
+        "li1": "Start with small amounts: Test the process before committing to larger exchanges.",
+        "li2": "Repeat meetups: Trust builds over time—don't feel pressured to transact large amounts immediately.",
+        "li3": "Reference mutual contacts if possible: Community connections can help establish credibility.",
+        "li4": "Report unsafe behavior: If someone behaves inappropriately, block them and report to the platform."
+      }
+    },
+    "finalNote": {
+      "title": "Final Note",
+      "p1": "XMR Meet is all about community, fun, and safe in-person exchanges. By following these guidelines, you can enjoy connecting with fellow Monero enthusiasts while keeping yourself and others safe.",
+      "p2": "Remember: This is a hobby platform for small, casual exchanges. Keep transactions under $300 USD and prioritize safety above all else."
+    }
+  },
+  "meetup": {
+    "title": "Meetup",
+    "subtitle": "Connect with people in your area who want to trade XMR for cash",
+    "filterCountry": "Filter by Country",
+    "filterCountryAll": "All countries",
+    "filterState": "Filter by State/Province",
+    "filterStateAll": "All states/provinces",
+    "filterCity": "Filter by City",
+    "filterCityPlaceholder": "Enter city name",
+    "loading": "Loading...",
+    "noUsers": "No users are currently available for meetups with the selected filters.",
+    "found": "Found",
+    "user": "user",
+    "users": "users",
+    "availableSell": "Available to sell XMR for cash",
+    "availableBuy": "Available to buy XMR with cash",
+    "contact": "Contact",
+    "signInToView": "Sign in to view contact info",
+    "errorNetwork": "Network error. Please try again."
+  },
+  "map": {
+    "loading": "Loading map...",
+    "retry": "Retry",
+    "noUsersTitle": "No users with locations yet",
+    "noUsersSubtitle": "Add your location in Account settings to appear on the map",
+    "user": "user",
+    "users": "users",
+    "availableSellShort": "Available to sell XMR",
+    "availableBuyShort": "Available to buy XMR",
+    "contact": "Contact:",
+    "signInToView": "Sign in to view contact info"
+  },
+  "userProfile": {
+    "loading": "Loading...",
+    "browseUsers": "Browse Users",
+    "profile": "Profile",
+    "location": "Location:",
+    "availableTo": "Available to:",
+    "sellXmr": "Sell XMR for cash",
+    "buyXmr": "Buy XMR with cash",
+    "notAvailable": "Not currently available",
+    "contact": "Contact:",
+    "signInToView": "Sign in to view contact info",
+    "writeReview": "Write a Review",
+    "submitReview": "Submit Review",
+    "rating": "Rating",
+    "reviewLabel": "Review (10-500 characters)",
+    "reviewCharacters": "characters",
+    "submitButton": "Submit Review",
+    "submitting": "Submitting...",
+    "cancel": "Cancel",
+    "reviewSuccess": "Review submitted! It will be visible after admin approval.",
+    "reviewsTitle": "Reviews",
+    "noReviews": "No reviews yet.",
+    "review": "review",
+    "reviews": "reviews",
+    "errorNetwork": "Network error. Please try again."
+  }
 }

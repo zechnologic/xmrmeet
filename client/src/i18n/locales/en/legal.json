@@ -1,4 +1,42 @@
 {
-  "privacy": {},
-  "terms": {}
+  "privacy": {
+    "title": "Privacy Policy",
+    "intro": "We don't track shit - no IP addresses or analytics tools.",
+    "whatWeStore": "The only information we store is:",
+    "li1": "Your username",
+    "li2": "Your chosen location (country and postal code)",
+    "li3": "Your availability preferences (buy/sell XMR)",
+    "li4": "Your contact information (if you provide it)",
+    "li5": "Reputation and review scores (when implemented)",
+    "conclusion": "That's it. No tracking, no analytics, no bullshit."
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "hobbyUse": {
+      "title": "Hobby Use Only",
+      "text": "By using XMR Meet, you agree that you are using this platform for hobby purposes only. This is not a commercial trading platform."
+    },
+    "tradeLimits": {
+      "title": "Trade Limits for Your Safety",
+      "text": "For your own safety and security, you agree to not exceed XMR valued at $300 USD on any single trade. This limit helps protect all users from significant financial risk."
+    },
+    "responsibility": {
+      "title": "Personal Responsibility",
+      "intro": "You are solely responsible for:",
+      "li1": "Your personal safety when meeting others",
+      "li2": "Verifying the identity and trustworthiness of trading partners",
+      "li3": "Meeting in safe, public locations",
+      "li4": "Complying with all local laws and regulations",
+      "li5": "The accuracy of information you provide"
+    },
+    "liability": {
+      "title": "No Liability",
+      "text": "XMR Meet is a bulletin board service only. We provide no guarantees, warranties, or liability for any trades, meetings, or interactions that occur through this platform."
+    },
+    "termination": {
+      "title": "Account Termination",
+      "text": "We reserve the right to terminate accounts that violate these terms or engage in fraudulent, illegal, or harmful behavior."
+    },
+    "agreement": "By creating an account and using this service, you acknowledge that you have read, understood, and agree to these terms."
+  }
 }

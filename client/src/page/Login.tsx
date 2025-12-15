@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import type { FormEvent } from "react";
 import { Link, useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
 import Layout from "../components/Layout";
 import { API_BASE_URL } from "../config/api";
 
 function Login() {
+  const { t } = useTranslation('forms');
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -40,10 +42,10 @@ function Login() {
         navigate("/account");
         window.location.reload(); // Refresh to update nav
       } else {
-        setError(data.error || "Login failed");
+        setError(data.error || t('login.errorGeneric'));
       }
     } catch (err) {
-      setError("Network error. Please try again.");
+      setError(t('login.errorNetwork'));
       console.error("Login error:", err);
     } finally {
       setLoading(false);
@@ -53,9 +55,9 @@ function Login() {
   return (
     <Layout>
       <div className="min-h-screen pt-40 px-4 bg-[#232323] text-orange-600">
-        <h2 className="font-bold text-4xl uppercase">Login</h2>
+        <h2 className="font-bold text-4xl uppercase">{t('login.title')}</h2>
         <p className="mt-4 text-gray-400 max-w-md">
-          Welcome back. Login to your anonymous account.
+          {t('login.subtitle')}
         </p>
         <form onSubmit={handleSubmit} className="mt-8 max-w-md">
           {error && (
@@ -65,7 +67,7 @@ function Login() {
           )}
           <div className="mb-4">
             <label htmlFor="username" className="block mb-2 font-semibold">
-              Username
+              {t('login.username')}
             </label>
             <input
               type="text"
@@ -73,13 +75,13 @@ function Login() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               className="w-full px-4 py-2 bg-[#2a2a2a] border border-orange-600 text-white focus:outline-none focus:border-orange-500"
-              placeholder="Enter your username"
+              placeholder={t('login.usernamePlaceholder')}
               required
             />
           </div>
           <div className="mb-6">
             <label htmlFor="password" className="block mb-2 font-semibold">
-              Password
+              {t('login.password')}
             </label>
             <input
               type="password"
@@ -87,7 +89,7 @@ function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-2 bg-[#2a2a2a] border border-orange-600 text-white focus:outline-none focus:border-orange-500"
-              placeholder="Enter your password"
+              placeholder={t('login.passwordPlaceholder')}
               required
             />
           </div>
@@ -96,15 +98,15 @@ function Login() {
             disabled={loading}
             className="w-full py-3 text-white bg-orange-600 hover:bg-orange-700 transition-colors cursor-pointer font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? "Logging in..." : "Login"}
+            {loading ? t('login.submitting') : t('login.submit')}
           </button>
           <div className="mt-4 text-center">
-            <span className="text-gray-400">Don't have an account? </span>
+            <span className="text-gray-400">{t('login.noAccount')} </span>
             <Link
               to="/signup"
               className="hover:text-orange-500 transition-colors"
             >
-              Sign up
+              {t('login.signupLink')}
             </Link>
           </div>
         </form>

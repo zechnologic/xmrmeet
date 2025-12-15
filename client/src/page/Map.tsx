@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { MapContainer, TileLayer, CircleMarker, Popup } from "react-leaflet";
 import { Link } from "react-router";
+import { useTranslation } from "react-i18next";
 import Layout from "../components/Layout";
 import { API_BASE_URL } from "../config/api";
 import "leaflet/dist/leaflet.css";
@@ -25,6 +26,7 @@ interface UserGroup {
 }
 
 function Map() {
+  const { t } = useTranslation('pages');
   const [users, setUsers] = useState<AvailableUser[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -48,10 +50,10 @@ function Map() {
         );
         setUsers(usersWithCoords);
       } else {
-        setError(data.error || "Failed to fetch users");
+        setError(data.error || t('map.retry'));
       }
     } catch (err) {
-      setError("Network error. Please try again.");
+      setError(t('map.retry'));
       console.error("Fetch error:", err);
     } finally {
       setLoading(false);
@@ -84,7 +86,7 @@ function Map() {
     return (
       <Layout>
         <div className="min-h-screen pt-[48px] bg-[#232323] flex items-center justify-center">
-          <p className="text-orange-600 text-xl">Loading map...</p>
+          <p className="text-orange-600 text-xl">{t('map.loading')}</p>
         </div>
       </Layout>
     );
@@ -100,7 +102,7 @@ function Map() {
               onClick={fetchUsers}
               className="px-6 py-2 bg-orange-600 text-white hover:bg-orange-700 transition-colors"
             >
-              Retry
+              {t('map.retry')}
             </button>
           </div>
         </div>
@@ -114,8 +116,8 @@ function Map() {
         {users.length === 0 ? (
           <div className="flex items-center justify-center h-[calc(100vh-48px)]">
             <div className="text-center text-gray-400">
-              <p className="text-xl mb-2">No users with locations yet</p>
-              <p className="text-sm">Add your location in Account settings to appear on the map</p>
+              <p className="text-xl mb-2">{t('map.noUsersTitle')}</p>
+              <p className="text-sm">{t('map.noUsersSubtitle')}</p>
             </div>
           </div>
         ) : (
@@ -145,7 +147,7 @@ function Map() {
                 <Popup>
                   <div className="p-2 min-w-[200px]">
                     <h3 className="font-bold mb-3 text-gray-900">
-                      {group.users.length} {group.users.length === 1 ? "user" : "users"}
+                      {group.users.length} {group.users.length === 1 ? t('map.user') : t('map.users')}
                     </h3>
                     {group.users.map((user) => (
                       <div key={user.id} className="mb-3 pb-3 border-b border-gray-200 last:border-b-0">
@@ -156,21 +158,21 @@ function Map() {
                         </Link>
                         <div className="text-sm text-gray-700 space-y-1">
                           {user.available_sell_xmr === 1 && (
-                            <div>📤 Available to sell XMR</div>
+                            <div>📤 {t('map.availableSellShort')}</div>
                           )}
                           {user.available_buy_xmr === 1 && (
-                            <div>📥 Available to buy XMR</div>
+                            <div>📥 {t('map.availableBuyShort')}</div>
                           )}
                         </div>
                         {user.contact_info && (
                           <div className="text-xs mt-2">
                             {isLoggedIn ? (
                               <div className="text-gray-600">
-                                <strong>Contact:</strong> {user.contact_info}
+                                <strong>{t('map.contact')}</strong> {user.contact_info}
                               </div>
                             ) : (
                               <div className="text-orange-600 font-semibold blur-sm select-none">
-                                Sign in to view contact info
+                                {t('map.signInToView')}
                               </div>
                             )}
                           </div>

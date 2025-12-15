@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import type { FormEvent } from "react";
 import { Link, useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
 import Layout from "../components/Layout";
 import { API_BASE_URL } from "../config/api";
 
 function Signup() {
+  const { t } = useTranslation('forms');
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -24,17 +26,17 @@ function Signup() {
     setError("");
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match");
+      setError(t('validation.passwordsMismatch'));
       return;
     }
 
     if (password.length < 6) {
-      setError("Password must be at least 6 characters");
+      setError(t('validation.passwordTooShort'));
       return;
     }
 
     if (username.length < 3) {
-      setError("Username must be at least 3 characters");
+      setError(t('validation.usernameTooShort'));
       return;
     }
 
@@ -72,10 +74,10 @@ function Signup() {
           navigate("/login");
         }
       } else {
-        setError(data.error || "Signup failed");
+        setError(data.error || t('signup.errorGeneric'));
       }
     } catch (err) {
-      setError("Network error. Please try again.");
+      setError(t('signup.errorNetwork'));
       console.error("Signup error:", err);
     } finally {
       setLoading(false);
@@ -85,9 +87,9 @@ function Signup() {
   return (
     <Layout>
       <div className="min-h-screen pt-40 px-4 bg-[#232323] text-orange-600">
-        <h2 className="font-bold text-4xl uppercase">Sign Up</h2>
+        <h2 className="font-bold text-4xl uppercase">{t('signup.title')}</h2>
         <p className="mt-4 text-gray-400 max-w-md">
-          Create an anonymous account to start connecting with the Monero community.
+          {t('signup.subtitle')}
         </p>
         <form onSubmit={handleSubmit} className="mt-8 max-w-md">
           {error && (
@@ -111,7 +113,7 @@ function Signup() {
           />
           <div className="mb-4">
             <label htmlFor="username" className="block mb-2 font-semibold">
-              Username
+              {t('signup.username')}
             </label>
             <input
               type="text"
@@ -119,13 +121,13 @@ function Signup() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               className="w-full px-4 py-2 bg-[#2a2a2a] border border-orange-600 text-white focus:outline-none focus:border-orange-500"
-              placeholder="Choose a username (min 3 characters)"
+              placeholder={t('signup.usernamePlaceholder')}
               required
             />
           </div>
           <div className="mb-4">
             <label htmlFor="password" className="block mb-2 font-semibold">
-              Password
+              {t('signup.password')}
             </label>
             <input
               type="password"
@@ -133,13 +135,13 @@ function Signup() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-2 bg-[#2a2a2a] border border-orange-600 text-white focus:outline-none focus:border-orange-500"
-              placeholder="Choose a password (min 6 characters)"
+              placeholder={t('signup.passwordPlaceholder')}
               required
             />
           </div>
           <div className="mb-6">
             <label htmlFor="confirmPassword" className="block mb-2 font-semibold">
-              Confirm Password
+              {t('signup.confirmPassword')}
             </label>
             <input
               type="password"
@@ -147,7 +149,7 @@ function Signup() {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               className="w-full px-4 py-2 bg-[#2a2a2a] border border-orange-600 text-white focus:outline-none focus:border-orange-500"
-              placeholder="Confirm your password"
+              placeholder={t('signup.confirmPasswordPlaceholder')}
               required
             />
           </div>
@@ -156,15 +158,15 @@ function Signup() {
             disabled={loading}
             className="w-full py-3 text-white bg-orange-600 hover:bg-orange-700 transition-colors cursor-pointer font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? "Creating account..." : "Sign Up"}
+            {loading ? t('signup.submitting') : t('signup.submit')}
           </button>
           <div className="mt-4 text-center">
-            <span className="text-gray-400">Already have an account? </span>
+            <span className="text-gray-400">{t('signup.haveAccount')} </span>
             <Link
               to="/login"
               className="hover:text-orange-500 transition-colors"
             >
-              Login
+              {t('signup.loginLink')}
             </Link>
           </div>
         </form>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import type { FormEvent } from "react";
 import { useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
 import Layout from "../components/Layout";
 import { API_BASE_URL } from "../config/api";
 
@@ -25,6 +26,7 @@ interface Country {
 }
 
 function Account() {
+  const { t } = useTranslation('forms');
   const navigate = useNavigate();
   const [user, setUser] = useState<UserSettings | null>(null);
   const [loading, setLoading] = useState(true);
@@ -80,14 +82,14 @@ function Account() {
         setAvailableBuyXmr(!!data.user.available_buy_xmr);
         setContactInfo(data.user.contact_info || "");
       } else {
-        setError(data.error || "Failed to fetch user data");
+        setError(data.error || t('account.errorGeneric'));
         if (response.status === 401 || response.status === 403) {
           localStorage.removeItem("token");
           navigate("/login");
         }
       }
     } catch (err) {
-      setError("Network error. Please try again.");
+      setError(t('account.errorNetwork'));
       console.error("Fetch error:", err);
     } finally {
       setLoading(false);
@@ -138,13 +140,13 @@ function Account() {
 
       if (data.success) {
         setUser(data.user);
-        setSuccess("Settings saved successfully!");
+        setSuccess(t('account.successMessage'));
         setTimeout(() => setSuccess(""), 3000);
       } else {
-        setError(data.error || "Failed to update settings");
+        setError(data.error || t('account.errorGeneric'));
       }
     } catch (err) {
-      setError("Network error. Please try again.");
+      setError(t('account.errorNetwork'));
       console.error("Update error:", err);
     } finally {
       setSaving(false);
@@ -155,7 +157,7 @@ function Account() {
     return (
       <Layout>
         <div className="min-h-screen pt-40 px-4 bg-[#232323] text-orange-600">
-          <p>Loading...</p>
+          <p>{t('account.loading')}</p>
         </div>
       </Layout>
     );
@@ -166,23 +168,23 @@ function Account() {
       <div className="min-h-screen pt-40 px-4 bg-[#232323] text-orange-600">
         <div className="flex justify-between items-start max-w-4xl">
           <div>
-            <h2 className="font-bold text-4xl uppercase">Account</h2>
+            <h2 className="font-bold text-4xl uppercase">{t('account.title')}</h2>
             <p className="mt-2 text-gray-400">
-              Logged in as <span className="text-orange-500">{user?.username}</span>
+              {t('account.loggedInAs')} <span className="text-orange-500">{user?.username}</span>
             </p>
           </div>
           <button
             onClick={handleLogout}
             className="px-6 py-2 bg-transparent border border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white transition-colors font-semibold"
           >
-            Logout
+            {t('account.logout')}
           </button>
         </div>
 
         <div className="mt-8 max-w-md">
-          <h3 className="font-bold text-2xl uppercase mb-4">Meet Settings</h3>
+          <h3 className="font-bold text-2xl uppercase mb-4">{t('account.settingsTitle')}</h3>
           <p className="text-gray-400 mb-6">
-            Configure your availability to meet up for cash-to-XMR trades
+            {t('account.settingsSubtitle')}
           </p>
 
           <form onSubmit={handleSubmit}>
@@ -199,7 +201,7 @@ function Account() {
 
             <div className="mb-4">
               <label htmlFor="country" className="block mb-2 font-semibold">
-                Country (optional)
+                {t('account.country')}
               </label>
               <select
                 id="country"
@@ -207,7 +209,7 @@ function Account() {
                 onChange={(e) => handleCountryChange(e.target.value)}
                 className="w-full px-4 py-2 bg-[#2a2a2a] border border-orange-600 text-white focus:outline-none focus:border-orange-500"
               >
-                <option value="">Select a country</option>
+                <option value="">{t('account.countryPlaceholder')}</option>
                 {locations.map((loc) => (
                   <option key={loc.code} value={loc.code}>
                     {loc.name}
@@ -219,7 +221,7 @@ function Account() {
             {country && (
               <div className="mb-6">
                 <label htmlFor="postalCode" className="block mb-2 font-semibold">
-                  Zip/Postal Code (optional)
+                  {t('account.postalCode')}
                 </label>
                 <input
                   type="text"
@@ -227,16 +229,16 @@ function Account() {
                   value={postalCode}
                   onChange={(e) => setPostalCode(e.target.value)}
                   className="w-full px-4 py-2 bg-[#2a2a2a] border border-orange-600 text-white focus:outline-none focus:border-orange-500"
-                  placeholder="e.g., 94102, M5H 2N2, 03810"
+                  placeholder={t('account.postalCodePlaceholder')}
                 />
                 <p className="text-xs text-gray-500 mt-1">
-                  Your zip/postal code helps others find meetups near you
+                  {t('account.postalCodeHelp')}
                 </p>
               </div>
             )}
 
             <div className="mb-6 p-4 bg-[#2a2a2a] border border-orange-600">
-              <h4 className="font-semibold mb-4">Availability</h4>
+              <h4 className="font-semibold mb-4">{t('account.availability')}</h4>
 
               <label className="flex items-center mb-3 cursor-pointer">
                 <input
@@ -246,7 +248,7 @@ function Account() {
                   className="w-5 h-5 accent-orange-600 cursor-pointer"
                 />
                 <span className="ml-3 text-white">
-                  I am available to sell XMR for cash
+                  {t('account.availableSell')}
                 </span>
               </label>
 
@@ -258,25 +260,25 @@ function Account() {
                   className="w-5 h-5 accent-orange-600 cursor-pointer"
                 />
                 <span className="ml-3 text-white">
-                  I am available to buy XMR with cash
+                  {t('account.availableBuy')}
                 </span>
               </label>
             </div>
 
             <div className="mb-6">
               <label htmlFor="contactInfo" className="block mb-2 font-semibold">
-                Contact Info (optional)
+                {t('account.contactInfo')}
               </label>
               <textarea
                 id="contactInfo"
                 value={contactInfo}
                 onChange={(e) => setContactInfo(e.target.value)}
                 className="w-full px-4 py-2 bg-[#2a2a2a] border border-orange-600 text-white focus:outline-none focus:border-orange-500"
-                placeholder="How should people contact you? (e.g., Signal, Telegram, Email)"
+                placeholder={t('account.contactInfoPlaceholder')}
                 rows={3}
               />
               <p className="text-xs text-gray-500 mt-1">
-                This will be publicly visible if you enable availability
+                {t('account.contactInfoHelp')}
               </p>
             </div>
 
@@ -285,7 +287,7 @@ function Account() {
               disabled={saving}
               className="w-full py-3 text-white bg-orange-600 hover:bg-orange-700 transition-colors cursor-pointer font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {saving ? "Saving..." : "Save Settings"}
+              {saving ? t('account.submitting') : t('account.submit')}
             </button>
           </form>
         </div>
