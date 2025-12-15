@@ -1,5 +1,6 @@
 import "dotenv/config";
 import express from "express";
+import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
 import signupRouter from "./routes/signup.js";
@@ -14,6 +15,27 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
+// Trust proxy for Render deployment
+app.set('trust proxy', true);
+// CORS configuration
+const allowedOrigins = [
+    'http://localhost:3000',
+    'https://xmrmeet.onrender.com'
+];
+app.use(cors({
+    origin: (origin, callback) => {
+        // Allow requests with no origin (like mobile apps or curl requests)
+        if (!origin)
+            return callback(null, true);
+        if (allowedOrigins.includes(origin)) {
+            callback(null, true);
+        }
+        else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true
+}));
 // Global middleware
 app.use(express.json());
 // Apply general rate limiter to all API routes
@@ -35,7 +57,7 @@ app.use(locationsRouter);
 app.use(reviewsRouter);
 app.use(express.static(path.join(__dirname, "../../client/dist")));
 // Handle all routes by serving index.html (SPA fallback)
-app.use((req, res) => {
+app.use((_req, res) => {
     res.sendFile(path.join(__dirname, "../../client/dist/index.html"));
 });
 app.listen(PORT, () => {
