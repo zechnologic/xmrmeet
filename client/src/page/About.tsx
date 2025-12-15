@@ -44,6 +44,24 @@ function About() {
 
               <div>
                 <h3 className="text-xl font-semibold text-white mb-3">
+                  Building a Network Effect
+                </h3>
+                <p className="leading-relaxed">
+                  Think of XMR Meet like EV charging stations for electric vehicles.
+                  When there are only a few charging stations, EV adoption is limited
+                  and road trips feel risky. But as more stations appear on the map,
+                  suddenly electric vehicles become practical for traveling anywhere.
+                  That's our vision for Monero. If enough people join this network,
+                  you'll be able to exchange XMR for cash wherever you go - on business
+                  trips, vacations, or just across town. Like an EV owner searching for
+                  charging stations, XMR users will have a friendly network of people
+                  ready to help them transact, making Monero truly usable as everyday
+                  currency.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-xl font-semibold text-white mb-3">
                   Fighting Exchange Delistings
                 </h3>
                 <p className="leading-relaxed">
