@@ -3,10 +3,10 @@ import Layout from "../components/Layout";
 function Privacy() {
   return (
     <Layout>
-      <div className="min-h-screen pt-40 px-4 bg-[#232323] text-orange-600">
+      <div className="min-h-screen pt-40 px-4 bg-[#121212] text-orange-600">
         <h2 className="font-bold text-4xl uppercase mb-6">Privacy Policy</h2>
 
-        <div className="max-w-2xl text-gray-300 space-y-4">
+        <div className="max-w-2xl text-[#FAFAFA] space-y-4">
           <p className="text-lg">
             We don't track shit - no IP addresses or analytics tools.
           </p>

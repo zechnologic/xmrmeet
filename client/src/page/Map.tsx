@@ -83,7 +83,7 @@ function Map() {
   if (loading) {
     return (
       <Layout>
-        <div className="min-h-screen pt-[48px] bg-[#232323] flex items-center justify-center">
+        <div className="min-h-screen pt-[48px] bg-[#121212] flex items-center justify-center">
           <p className="text-orange-600 text-xl">Loading map...</p>
         </div>
       </Layout>
@@ -93,12 +93,12 @@ function Map() {
   if (error) {
     return (
       <Layout>
-        <div className="min-h-screen pt-[48px] bg-[#232323] flex items-center justify-center">
+        <div className="min-h-screen pt-[48px] bg-[#121212] flex items-center justify-center">
           <div className="text-center">
             <p className="text-red-500 text-xl mb-4">{error}</p>
             <button
               onClick={fetchUsers}
-              className="px-6 py-2 bg-orange-600 text-white hover:bg-orange-700 transition-colors"
+              className="px-6 py-2 bg-orange-600 text-white hover:bg-orange-700 transition-all rounded-md"
             >
               Retry
             </button>
@@ -110,7 +110,7 @@ function Map() {
 
   return (
     <Layout>
-      <div className="min-h-screen pt-[48px] bg-[#232323]">
+      <div className="min-h-screen pt-[48px] bg-[#121212]">
         {users.length === 0 ? (
           <div className="flex items-center justify-center h-[calc(100vh-48px)]">
             <div className="text-center text-gray-400">

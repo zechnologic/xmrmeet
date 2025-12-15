@@ -52,14 +52,14 @@ function Login() {
 
   return (
     <Layout>
-      <div className="min-h-screen pt-40 px-4 bg-[#232323] text-orange-600">
+      <div className="min-h-screen pt-40 px-4 bg-[#121212] text-orange-600">
         <h2 className="font-bold text-4xl uppercase">Login</h2>
-        <p className="mt-4 text-gray-400 max-w-md">
+        <p className="mt-4 text-[#FAFAFA] max-w-md">
           Welcome back. Login to your anonymous account.
         </p>
         <form onSubmit={handleSubmit} className="mt-8 max-w-md">
           {error && (
-            <div className="mb-4 p-3 bg-red-900/50 border border-red-600 text-red-200">
+            <div className="mb-4 p-3 bg-red-900/50 border border-red-600 text-red-200 rounded-md">
               {error}
             </div>
           )}
@@ -72,7 +72,7 @@ function Login() {
               id="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full px-4 py-2 bg-[#2a2a2a] border border-orange-600 text-white focus:outline-none focus:border-orange-500"
+              className="w-full px-4 py-2 bg-[#171717] border border-orange-600 text-[#FAFAFA] focus:outline-none focus:border-orange-500 rounded-md"
               placeholder="Enter your username"
               required
             />
@@ -86,7 +86,7 @@ function Login() {
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 bg-[#2a2a2a] border border-orange-600 text-white focus:outline-none focus:border-orange-500"
+              className="w-full px-4 py-2 bg-[#171717] border border-orange-600 text-[#FAFAFA] focus:outline-none focus:border-orange-500 rounded-md"
               placeholder="Enter your password"
               required
             />
@@ -94,12 +94,12 @@ function Login() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 text-white bg-orange-600 hover:bg-orange-700 transition-colors cursor-pointer font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-3 text-white bg-orange-600 hover:bg-orange-700 transition-all cursor-pointer font-semibold disabled:opacity-50 disabled:cursor-not-allowed rounded-md"
           >
             {loading ? "Logging in..." : "Login"}
           </button>
           <div className="mt-4 text-center">
-            <span className="text-gray-400">Don't have an account? </span>
+            <span className="text-[#FAFAFA]">Don't have an account? </span>
             <Link
               to="/signup"
               className="hover:text-orange-500 transition-colors"

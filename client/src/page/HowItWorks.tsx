@@ -3,7 +3,7 @@ import Layout from "../components/Layout";
 function HowItWorks() {
   return (
     <Layout>
-      <div className="min-h-screen pt-40 px-4 pb-12 bg-[#232323] text-gray-300">
+      <div className="min-h-screen pt-40 px-4 pb-12 bg-[#121212] text-[#FAFAFA]">
         <div className="max-w-4xl mx-auto">
           <h1 className="font-bold text-4xl uppercase text-orange-600 mb-4">
             How It Works
@@ -232,9 +232,9 @@ function HowItWorks() {
 
           {/* Final Note */}
           <section className="border-t border-orange-900 pt-8">
-            <div className="bg-[#2a2a2a] border border-orange-600 p-6">
+            <div className="bg-[#171717] border border-orange-600 p-6 rounded-md">
               <h3 className="text-xl font-bold text-orange-500 mb-3">Final Note</h3>
-              <p className="text-gray-300">
+              <p className="text-[#FAFAFA]">
                 XMR Meet is all about community, fun, and safe in-person exchanges. By
                 following these guidelines, you can enjoy connecting with fellow Monero
                 enthusiasts while keeping yourself and others safe.

@@ -115,9 +115,9 @@ function Meetup() {
 
   return (
     <Layout>
-      <div className="min-h-screen pt-40 px-4 bg-[#232323] text-orange-600">
+      <div className="min-h-screen pt-40 px-4 bg-[#121212] text-orange-600">
         <h2 className="font-bold text-4xl uppercase">Meetup</h2>
-        <p className="mt-2 text-gray-400 max-w-2xl">
+        <p className="mt-2 text-[#FAFAFA] max-w-2xl">
           Connect with people in your area who want to trade XMR for cash
         </p>
 
@@ -130,7 +130,7 @@ function Meetup() {
               id="countryFilter"
               value={countryFilter}
               onChange={(e) => handleCountryChange(e.target.value)}
-              className="w-full px-4 py-2 bg-[#2a2a2a] border border-orange-600 text-white focus:outline-none focus:border-orange-500"
+              className="w-full px-4 py-2 bg-[#171717] border border-orange-600 text-[#FAFAFA] focus:outline-none focus:border-orange-500"
             >
               <option value="">All countries</option>
               {locations.map((loc) => (
@@ -150,7 +150,7 @@ function Meetup() {
                 id="stateFilter"
                 value={stateFilter}
                 onChange={(e) => handleStateChange(e.target.value)}
-                className="w-full px-4 py-2 bg-[#2a2a2a] border border-orange-600 text-white focus:outline-none focus:border-orange-500"
+                className="w-full px-4 py-2 bg-[#171717] border border-orange-600 text-[#FAFAFA] focus:outline-none focus:border-orange-500"
               >
                 <option value="">All states/provinces</option>
                 {selectedCountryData.states.map((st) => (
@@ -172,7 +172,7 @@ function Meetup() {
                 id="cityFilter"
                 value={cityFilter}
                 onChange={(e) => setCityFilter(e.target.value)}
-                className="w-full px-4 py-2 bg-[#2a2a2a] border border-orange-600 text-white focus:outline-none focus:border-orange-500"
+                className="w-full px-4 py-2 bg-[#171717] border border-orange-600 text-[#FAFAFA] focus:outline-none focus:border-orange-500"
                 placeholder="Enter city name"
               />
             </div>
@@ -180,28 +180,28 @@ function Meetup() {
         </div>
 
         {error && (
-          <div className="mt-4 p-3 bg-red-900/50 border border-red-600 text-red-200 max-w-2xl">
+          <div className="mt-4 p-3 bg-red-900/50 border border-red-600 text-red-200 max-w-2xl rounded-md">
             {error}
           </div>
         )}
 
         {loading ? (
-          <p className="mt-8 text-gray-400">Loading...</p>
+          <p className="mt-8 text-[#FAFAFA]">Loading...</p>
         ) : users.length === 0 ? (
-          <div className="mt-8 p-6 bg-[#2a2a2a] border border-orange-600 max-w-2xl">
-            <p className="text-gray-400">
+          <div className="mt-8 p-6 bg-[#171717] border border-orange-600 max-w-2xl rounded-md">
+            <p className="text-[#FAFAFA]">
               No users are currently available for meetups with the selected filters.
             </p>
           </div>
         ) : (
           <div className="mt-8 space-y-4 max-w-2xl">
-            <p className="text-gray-400">
+            <p className="text-[#FAFAFA]">
               Found {users.length} {users.length === 1 ? "user" : "users"}
             </p>
             {users.map((user) => (
               <div
                 key={user.id}
-                className="p-6 bg-[#2a2a2a] border border-orange-600"
+                className="p-6 bg-[#171717] border border-orange-600 rounded-md"
               >
                 <div className="flex items-start justify-between">
                   <div>
@@ -234,7 +234,7 @@ function Meetup() {
                 </div>
 
                 {user.contact_info && (
-                  <div className="mt-4 p-3 bg-[#232323] border border-orange-900">
+                  <div className="mt-4 p-3 bg-[#121212] border border-orange-900 rounded-md">
                     <p className="text-xs text-gray-500 uppercase mb-1">
                       Contact
                     </p>
@@ -250,7 +250,7 @@ function Meetup() {
                         <div className="absolute inset-0 flex items-center justify-center">
                           <a
                             href="/login"
-                            className="px-4 py-2 bg-orange-600 text-white font-semibold hover:bg-orange-700 transition-colors"
+                            className="px-4 py-2 bg-orange-600 text-white font-semibold hover:bg-orange-700 transition-all rounded-md"
                           >
                             Sign in to view contact info
                           </a>

@@ -3,10 +3,10 @@ import Layout from "../components/Layout";
 function Terms() {
   return (
     <Layout>
-      <div className="min-h-screen pt-40 px-4 bg-[#232323] text-orange-600">
+      <div className="min-h-screen pt-40 px-4 bg-[#121212] text-orange-600">
         <h2 className="font-bold text-4xl uppercase mb-6">Terms of Service</h2>
 
-        <div className="max-w-2xl text-gray-300 space-y-6">
+        <div className="max-w-2xl text-[#FAFAFA] space-y-6">
           <section>
             <h3 className="text-xl font-semibold text-orange-500 mb-3">
               Hobby Use Only

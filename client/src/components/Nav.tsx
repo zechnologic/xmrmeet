@@ -24,7 +24,7 @@ export default function Nav() {
   }, []);
 
   return (
-    <div className="w-full absolute top-0 left-0 h-[48px] flex items-center justify-between px-4 border-b border-orange-600 bg-[#232323] text-orange-600">
+    <div className="w-full absolute top-0 left-0 h-[48px] flex items-center justify-between px-4 border-b border-orange-600 bg-[#121212] text-orange-600">
       <Link to="/">
         <div className="font-bold cursor-pointer hover:text-orange-500 transition-colors">
           XMR Meet
@@ -53,7 +53,7 @@ export default function Nav() {
         </Link>
         {isLoggedIn ? (
           <Link to="/account">
-            <button className="px-4 py-1 bg-orange-600 text-white hover:bg-orange-700 transition-colors">
+            <button className="px-4 py-2 bg-orange-600 text-white hover:bg-orange-700 transition-all rounded-md">
               Account
             </button>
           </Link>
@@ -65,7 +65,7 @@ export default function Nav() {
               </button>
             </Link>
             <Link to="/signup">
-              <button className="px-4 py-1 bg-orange-600 text-white hover:bg-orange-700 transition-colors">
+              <button className="px-4 py-2 bg-orange-600 text-white hover:bg-orange-700 transition-all rounded-md">
                 Sign up
               </button>
             </Link>

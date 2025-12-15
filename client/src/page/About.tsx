@@ -4,7 +4,7 @@ import { Link } from "react-router";
 function About() {
   return (
     <Layout>
-      <div className="min-h-screen pt-40 px-4 pb-12 bg-[#232323] text-gray-300">
+      <div className="min-h-screen pt-40 px-4 pb-12 bg-[#121212] text-[#FAFAFA]">
         <div className="max-w-4xl mx-auto">
           <h1 className="font-bold text-4xl uppercase text-orange-600 mb-6">
             About XMR Meet
@@ -12,7 +12,7 @@ function About() {
 
           {/* Mission Statement */}
           <section className="mb-12">
-            <p className="text-xl text-gray-300 leading-relaxed">
+            <p className="text-xl text-[#FAFAFA] leading-relaxed">
               XMR Meet is an open-source, community-driven platform for Monero enthusiasts
               who enjoy connecting with others in person to exchange Monero and cash. We're
               a simple directory for hobbyists who want to discover fellow community members
@@ -150,7 +150,7 @@ function About() {
                 community. If you find this platform useful and want to support its
                 continued development, consider:
               </p>
-              <div className="bg-[#2a2a2a] border border-orange-600 p-6">
+              <div className="bg-[#171717] border border-orange-600 p-6 rounded-md">
                 <ul className="space-y-3">
                   <li className="flex items-start gap-3">
                     <span className="text-orange-500 text-xl">→</span>
@@ -232,23 +232,23 @@ function About() {
 
           {/* Call to Action */}
           <section className="border-t border-orange-900 pt-8">
-            <div className="bg-[#2a2a2a] border border-orange-600 p-8 text-center">
+            <div className="bg-[#171717] border border-orange-600 p-8 text-center rounded-md">
               <h2 className="text-2xl font-bold text-orange-500 mb-4">
                 Ready to Connect?
               </h2>
-              <p className="mb-6 text-gray-300">
+              <p className="mb-6 text-[#FAFAFA]">
                 Join the community and start meeting fellow Monero enthusiasts in your area.
               </p>
               <div className="flex gap-4 justify-center flex-wrap">
                 <Link
                   to="/signup"
-                  className="px-8 py-3 bg-orange-600 text-white font-semibold hover:bg-orange-700 transition-colors"
+                  className="px-8 py-3 bg-orange-600 text-white font-semibold hover:bg-orange-700 transition-all rounded-md"
                 >
                   Sign Up
                 </Link>
                 <Link
                   to="/meet"
-                  className="px-8 py-3 border border-orange-600 text-orange-600 font-semibold hover:bg-orange-900/30 transition-colors"
+                  className="px-8 py-3 border border-orange-600 text-orange-600 font-semibold hover:bg-orange-900/30 transition-all rounded-md"
                 >
                   Browse Users
                 </Link>

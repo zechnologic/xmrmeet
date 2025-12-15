@@ -154,7 +154,7 @@ function Account() {
   if (loading) {
     return (
       <Layout>
-        <div className="min-h-screen pt-40 px-4 bg-[#232323] text-orange-600">
+        <div className="min-h-screen pt-40 px-4 bg-[#121212] text-orange-600">
           <p>Loading...</p>
         </div>
       </Layout>
@@ -163,17 +163,17 @@ function Account() {
 
   return (
     <Layout>
-      <div className="min-h-screen pt-40 px-4 bg-[#232323] text-orange-600">
+      <div className="min-h-screen pt-40 px-4 bg-[#121212] text-orange-600">
         <div className="flex justify-between items-start max-w-4xl">
           <div>
             <h2 className="font-bold text-4xl uppercase">Account</h2>
-            <p className="mt-2 text-gray-400">
+            <p className="mt-2 text-[#FAFAFA]">
               Logged in as <span className="text-orange-500">{user?.username}</span>
             </p>
           </div>
           <button
             onClick={handleLogout}
-            className="px-6 py-2 bg-transparent border border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white transition-colors font-semibold"
+            className="px-6 py-2 bg-transparent border border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white transition-all font-semibold rounded-md"
           >
             Logout
           </button>
@@ -181,18 +181,18 @@ function Account() {
 
         <div className="mt-8 max-w-md">
           <h3 className="font-bold text-2xl uppercase mb-4">Meet Settings</h3>
-          <p className="text-gray-400 mb-6">
+          <p className="text-[#FAFAFA] mb-6">
             Configure your availability to meet up for cash-to-XMR trades
           </p>
 
           <form onSubmit={handleSubmit}>
             {error && (
-              <div className="mb-4 p-3 bg-red-900/50 border border-red-600 text-red-200">
+              <div className="mb-4 p-3 bg-red-900/50 border border-red-600 text-red-200 rounded-md">
                 {error}
               </div>
             )}
             {success && (
-              <div className="mb-4 p-3 bg-green-900/50 border border-green-600 text-green-200">
+              <div className="mb-4 p-3 bg-green-900/50 border border-green-600 text-green-200 rounded-md">
                 {success}
               </div>
             )}
@@ -205,7 +205,7 @@ function Account() {
                 id="country"
                 value={country}
                 onChange={(e) => handleCountryChange(e.target.value)}
-                className="w-full px-4 py-2 bg-[#2a2a2a] border border-orange-600 text-white focus:outline-none focus:border-orange-500"
+                className="w-full px-4 py-2 bg-[#171717] border border-orange-600 text-[#FAFAFA] focus:outline-none focus:border-orange-500"
               >
                 <option value="">Select a country</option>
                 {locations.map((loc) => (
@@ -226,7 +226,7 @@ function Account() {
                   id="postalCode"
                   value={postalCode}
                   onChange={(e) => setPostalCode(e.target.value)}
-                  className="w-full px-4 py-2 bg-[#2a2a2a] border border-orange-600 text-white focus:outline-none focus:border-orange-500"
+                  className="w-full px-4 py-2 bg-[#171717] border border-orange-600 text-[#FAFAFA] focus:outline-none focus:border-orange-500"
                   placeholder="e.g., 94102, M5H 2N2, 03810"
                 />
                 <p className="text-xs text-gray-500 mt-1">
@@ -235,7 +235,7 @@ function Account() {
               </div>
             )}
 
-            <div className="mb-6 p-4 bg-[#2a2a2a] border border-orange-600">
+            <div className="mb-6 p-4 bg-[#171717] border border-orange-600 rounded-md">
               <h4 className="font-semibold mb-4">Availability</h4>
 
               <label className="flex items-center mb-3 cursor-pointer">
@@ -271,7 +271,7 @@ function Account() {
                 id="contactInfo"
                 value={contactInfo}
                 onChange={(e) => setContactInfo(e.target.value)}
-                className="w-full px-4 py-2 bg-[#2a2a2a] border border-orange-600 text-white focus:outline-none focus:border-orange-500"
+                className="w-full px-4 py-2 bg-[#171717] border border-orange-600 text-[#FAFAFA] focus:outline-none focus:border-orange-500"
                 placeholder="How should people contact you? (e.g., Signal, Telegram, Email)"
                 rows={3}
               />
@@ -283,7 +283,7 @@ function Account() {
             <button
               type="submit"
               disabled={saving}
-              className="w-full py-3 text-white bg-orange-600 hover:bg-orange-700 transition-colors cursor-pointer font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-3 text-white bg-orange-600 hover:bg-orange-700 transition-all cursor-pointer font-semibold disabled:opacity-50 disabled:cursor-not-allowed rounded-md"
             >
               {saving ? "Saving..." : "Save Settings"}
             </button>

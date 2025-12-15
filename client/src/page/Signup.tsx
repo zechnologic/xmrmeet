@@ -84,14 +84,14 @@ function Signup() {
 
   return (
     <Layout>
-      <div className="min-h-screen pt-40 px-4 bg-[#232323] text-orange-600">
+      <div className="min-h-screen pt-40 px-4 bg-[#121212] text-orange-600">
         <h2 className="font-bold text-4xl uppercase">Sign Up</h2>
-        <p className="mt-4 text-gray-400 max-w-md">
+        <p className="mt-4 text-[#FAFAFA] max-w-md">
           Create an anonymous account to start connecting with the Monero community.
         </p>
         <form onSubmit={handleSubmit} className="mt-8 max-w-md">
           {error && (
-            <div className="mb-4 p-3 bg-red-900/50 border border-red-600 text-red-200">
+            <div className="mb-4 p-3 bg-red-900/50 border border-red-600 text-red-200 rounded-md">
               {error}
             </div>
           )}
@@ -118,7 +118,7 @@ function Signup() {
               id="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full px-4 py-2 bg-[#2a2a2a] border border-orange-600 text-white focus:outline-none focus:border-orange-500"
+              className="w-full px-4 py-2 bg-[#171717] border border-orange-600 text-[#FAFAFA] focus:outline-none focus:border-orange-500"
               placeholder="Choose a username (min 3 characters)"
               required
             />
@@ -132,7 +132,7 @@ function Signup() {
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 bg-[#2a2a2a] border border-orange-600 text-white focus:outline-none focus:border-orange-500"
+              className="w-full px-4 py-2 bg-[#171717] border border-orange-600 text-[#FAFAFA] focus:outline-none focus:border-orange-500"
               placeholder="Choose a password (min 6 characters)"
               required
             />
@@ -146,7 +146,7 @@ function Signup() {
               id="confirmPassword"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full px-4 py-2 bg-[#2a2a2a] border border-orange-600 text-white focus:outline-none focus:border-orange-500"
+              className="w-full px-4 py-2 bg-[#171717] border border-orange-600 text-[#FAFAFA] focus:outline-none focus:border-orange-500"
               placeholder="Confirm your password"
               required
             />
@@ -154,7 +154,7 @@ function Signup() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 text-white bg-orange-600 hover:bg-orange-700 transition-colors cursor-pointer font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-3 text-white bg-orange-600 hover:bg-orange-700 transition-all cursor-pointer font-semibold disabled:opacity-50 disabled:cursor-not-allowed rounded-md"
           >
             {loading ? "Creating account..." : "Sign Up"}
           </button>
@@ -162,7 +162,7 @@ function Signup() {
             <span className="text-gray-400">Already have an account? </span>
             <Link
               to="/login"
-              className="hover:text-orange-500 transition-colors"
+              className="hover:text-orange-500 transition-all"
             >
               Login
             </Link>

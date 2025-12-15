@@ -136,7 +136,7 @@ function UserProfile() {
   if (loading) {
     return (
       <Layout>
-        <div className="min-h-screen pt-40 px-4 bg-[#232323] text-orange-600">
+        <div className="min-h-screen pt-40 px-4 bg-[#121212] text-orange-600">
           <p>Loading...</p>
         </div>
       </Layout>
@@ -146,12 +146,12 @@ function UserProfile() {
   if (error && !user) {
     return (
       <Layout>
-        <div className="min-h-screen pt-40 px-4 bg-[#232323]">
+        <div className="min-h-screen pt-40 px-4 bg-[#121212]">
           <div className="max-w-2xl mx-auto text-center">
             <p className="text-red-500 text-xl mb-4">{error}</p>
             <button
               onClick={() => navigate("/meet")}
-              className="px-6 py-2 bg-orange-600 text-white hover:bg-orange-700 transition-colors"
+              className="px-6 py-2 bg-orange-600 text-white hover:bg-orange-700 transition-all rounded-md"
             >
               Browse Users
             </button>
@@ -167,7 +167,7 @@ function UserProfile() {
 
   return (
     <Layout>
-      <div className="min-h-screen pt-40 px-4 pb-12 bg-[#232323] text-gray-300">
+      <div className="min-h-screen pt-40 px-4 pb-12 bg-[#121212] text-[#FAFAFA]">
         <div className="max-w-4xl mx-auto">
           {/* User Header */}
           <div className="mb-8">
@@ -190,7 +190,7 @@ function UserProfile() {
           </div>
 
           {/* User Info */}
-          <section className="mb-8 p-6 bg-[#2a2a2a] border border-orange-600">
+          <section className="mb-8 p-6 bg-[#171717] border border-orange-600 rounded-md">
             <h2 className="text-xl font-bold text-orange-500 mb-4">Profile</h2>
 
             {user.country && (
@@ -228,7 +228,7 @@ function UserProfile() {
                     <div className="absolute inset-0 flex items-center justify-center">
                       <a
                         href="/login"
-                        className="px-4 py-2 bg-orange-600 text-white font-semibold hover:bg-orange-700 transition-colors"
+                        className="px-4 py-2 bg-orange-600 text-white font-semibold hover:bg-orange-700 transition-all rounded-md"
                       >
                         Sign in to view contact info
                       </a>
@@ -241,12 +241,12 @@ function UserProfile() {
 
           {/* Success/Error Messages */}
           {submitSuccess && (
-            <div className="mb-4 p-3 bg-green-900/50 border border-green-600 text-green-200">
+            <div className="mb-4 p-3 bg-green-900/50 border border-green-600 text-green-200 rounded-md">
               {submitSuccess}
             </div>
           )}
           {error && (
-            <div className="mb-4 p-3 bg-red-900/50 border border-red-600 text-red-200">
+            <div className="mb-4 p-3 bg-red-900/50 border border-red-600 text-red-200 rounded-md">
               {error}
             </div>
           )}
@@ -256,7 +256,7 @@ function UserProfile() {
             <div className="mb-8">
               <button
                 onClick={() => setShowReviewForm(true)}
-                className="px-6 py-3 bg-orange-600 text-white font-semibold hover:bg-orange-700 transition-colors"
+                className="px-6 py-3 bg-orange-600 text-white font-semibold hover:bg-orange-700 transition-all rounded-md"
               >
                 Write a Review
               </button>
@@ -265,7 +265,7 @@ function UserProfile() {
 
           {/* Review Form */}
           {showReviewForm && (
-            <section className="mb-8 p-6 bg-[#2a2a2a] border border-orange-600">
+            <section className="mb-8 p-6 bg-[#171717] border border-orange-600 rounded-md">
               <h2 className="text-xl font-bold text-orange-500 mb-4">Submit Review</h2>
               <form onSubmit={handleSubmitReview}>
                 <div className="mb-4">
@@ -294,7 +294,7 @@ function UserProfile() {
                     id="comment"
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
-                    className="w-full px-4 py-2 bg-[#232323] border border-orange-600 text-white focus:outline-none focus:border-orange-500"
+                    className="w-full px-4 py-2 bg-[#171717] border border-orange-600 text-[#FAFAFA] focus:outline-none focus:border-orange-500"
                     rows={4}
                     minLength={10}
                     maxLength={500}
@@ -309,14 +309,14 @@ function UserProfile() {
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="px-6 py-2 bg-orange-600 text-white font-semibold hover:bg-orange-700 transition-colors disabled:opacity-50"
+                    className="px-6 py-2 bg-orange-600 text-white font-semibold hover:bg-orange-700 transition-all disabled:opacity-50 rounded-md"
                   >
                     {submitting ? "Submitting..." : "Submit Review"}
                   </button>
                   <button
                     type="button"
                     onClick={() => setShowReviewForm(false)}
-                    className="px-6 py-2 border border-orange-600 text-orange-600 font-semibold hover:bg-orange-900/30 transition-colors"
+                    className="px-6 py-2 border border-orange-600 text-orange-600 font-semibold hover:bg-orange-900/30 transition-all rounded-md"
                   >
                     Cancel
                   </button>
@@ -336,7 +336,7 @@ function UserProfile() {
             ) : (
               <div className="space-y-4">
                 {reviews.map((review) => (
-                  <div key={review.id} className="p-6 bg-[#2a2a2a] border border-orange-900">
+                  <div key={review.id} className="p-6 bg-[#171717] border border-orange-900 rounded-md">
                     <div className="flex items-start justify-between mb-3">
                       <div>
                         <div className="font-semibold text-white mb-1">
