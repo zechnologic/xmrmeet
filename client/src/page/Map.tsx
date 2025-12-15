@@ -124,10 +124,10 @@ function Map() {
             zoom={4}
             style={{ height: "calc(100vh - 48px)", width: "100%" }}
             className="z-0"
+            attributionControl={false}
           >
             <TileLayer
               url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
             />
 
             {groupedUsers.map((group) => (
@@ -162,19 +162,23 @@ function Map() {
                             <div>📥 Available to buy XMR</div>
                           )}
                         </div>
-                        {user.contact_info && (
-                          <div className="text-xs mt-2">
-                            {isLoggedIn ? (
+                        <div className="text-xs mt-2">
+                          {isLoggedIn ? (
+                            user.contact_info ? (
                               <div className="text-gray-600">
                                 <strong>Contact:</strong> {user.contact_info}
                               </div>
                             ) : (
-                              <div className="text-orange-600 font-semibold blur-sm select-none">
-                                Sign in to view contact info
+                              <div className="text-gray-500 italic">
+                                No contact info provided
                               </div>
-                            )}
-                          </div>
-                        )}
+                            )
+                          ) : (
+                            <div className="text-orange-600 font-semibold blur-sm select-none">
+                              Sign in to view this user's contact info
+                            </div>
+                          )}
+                        </div>
                       </div>
                     ))}
                   </div>
