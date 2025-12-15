@@ -1,0 +1,31 @@
+{
+  "nav": {
+    "brand": "XMR Meet",
+    "about": "À propos",
+    "howItWorks": "Comment ça marche",
+    "meet": "Rencontres",
+    "map": "Carte",
+    "login": "Connexion",
+    "signup": "S'inscrire",
+    "account": "Compte"
+  },
+  "footer": {
+    "brand": "XMR Meet",
+    "tagline": "Rencontres pair-à-pair pour échanges espèces-XMR",
+    "about": "À propos",
+    "privacy": "Confidentialité",
+    "terms": "Conditions"
+  },
+  "language": {
+    "en": "English",
+    "es": "Español",
+    "fr": "Français"
+  },
+  "buttons": {
+    "loading": "Chargement...",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "submit": "Soumettre"
+  }
+}

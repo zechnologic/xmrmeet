@@ -1,0 +1,31 @@
+{
+  "nav": {
+    "brand": "XMR Meet",
+    "about": "About",
+    "howItWorks": "How It Works",
+    "meet": "Meet",
+    "map": "Map",
+    "login": "Login",
+    "signup": "Sign up",
+    "account": "Account"
+  },
+  "footer": {
+    "brand": "XMR Meet",
+    "tagline": "Peer-to-peer meetups for cash-to-XMR trades",
+    "about": "About",
+    "privacy": "Privacy",
+    "terms": "Terms"
+  },
+  "language": {
+    "en": "English",
+    "es": "Español",
+    "fr": "Français"
+  },
+  "buttons": {
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "submit": "Submit"
+  }
+}

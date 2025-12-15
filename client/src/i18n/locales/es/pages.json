@@ -1,0 +1,15 @@
+{
+  "home": {
+    "hero": {
+      "title": "Conéctate con entusiastas de Monero",
+      "subtitle": "XMR Meet es un directorio comunitario para aficionados de Monero que disfrutan de intercambios presenciales de efectivo a XMR. Encuentra personas afines en tu área y conéctate para reuniones casuales P2P.",
+      "browseCta": "Explorar reuniones",
+      "signupCta": "Registrarse"
+    }
+  },
+  "about": {},
+  "howItWorks": {},
+  "meetup": {},
+  "map": {},
+  "userProfile": {}
+}
