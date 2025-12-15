@@ -97,10 +97,17 @@ router.put("/api/user/settings", authenticateToken, async (req: Request, res: Re
           state = coords.state;
         } else {
           console.warn(`Failed to geocode postal code for user ${userId}: ${country}, ${postalCode}`);
+          return res.status(400).json({
+            success: false,
+            error: "Unable to process this zip code. Please choose a different nearby zip code instead.",
+          });
         }
       } catch (error) {
         console.error(`Geocoding error for user ${userId}:`, error);
-        // Continue with save even if geocoding fails
+        return res.status(400).json({
+          success: false,
+          error: "Unable to process this zip code. Please choose a different nearby zip code instead.",
+        });
       }
     }
 
