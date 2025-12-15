@@ -131,8 +131,8 @@ export async function getAvailableUsers(country, state, city) {
         paramCount++;
     }
     if (city) {
-        query += ` AND city = $${paramCount}`;
-        params.push(city);
+        query += ` AND city ILIKE $${paramCount}`;
+        params.push(`%${city}%`);
         paramCount++;
     }
     query += " ORDER BY updated_at DESC";

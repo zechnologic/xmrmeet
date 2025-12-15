@@ -129,7 +129,10 @@ class Geocoder {
       const city = address.city || address.town || address.village || address.hamlet || null;
 
       // Extract state from various possible fields
-      const state = address.state || address.state_district || address.province || address.region || null;
+      const stateName = address.state || address.state_district || address.province || address.region || null;
+
+      // Normalize state name to state code
+      const state = normalizeStateToCode(countryCode, stateName);
 
       const result: GeocodingResult = {
         lat: parseFloat(data[0].lat),

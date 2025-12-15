@@ -1,3 +1,24 @@
+import { LOCATIONS } from "../data/locations.js";
+// Helper function to normalize state names to state codes
+function normalizeStateToCode(countryCode, stateName) {
+    if (!stateName)
+        return null;
+    const country = LOCATIONS.find(c => c.code === countryCode);
+    if (!country)
+        return stateName;
+    // Try exact match first (case insensitive)
+    const stateNameLower = stateName.toLowerCase();
+    const exactMatch = country.states.find(s => s.name.toLowerCase() === stateNameLower);
+    if (exactMatch)
+        return exactMatch.code;
+    // Try partial match (for cases like "State of XYZ" or "XYZ Province")
+    const partialMatch = country.states.find(s => stateNameLower.includes(s.name.toLowerCase()) ||
+        s.name.toLowerCase().includes(stateNameLower));
+    if (partialMatch)
+        return partialMatch.code;
+    // If no match found, return original
+    return stateName;
+}
 const CACHE_TTL_MS = 30 * 24 * 60 * 60 * 1000; // 30 days
 const RATE_LIMIT_MS = 1000; // 1 request per second
 const REQUEST_TIMEOUT_MS = 10000; // 10 seconds
@@ -68,7 +89,9 @@ class Geocoder {
             // Extract city from various possible fields
             const city = address.city || address.town || address.village || address.hamlet || null;
             // Extract state from various possible fields
-            const state = address.state || address.state_district || address.province || address.region || null;
+            const stateName = address.state || address.state_district || address.province || address.region || null;
+            // Normalize state name to state code
+            const state = normalizeStateToCode(countryCode, stateName);
             const result = {
                 lat: parseFloat(data[0].lat),
                 lon: parseFloat(data[0].lon),
