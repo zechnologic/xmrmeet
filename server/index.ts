@@ -31,7 +31,9 @@ app.set('trust proxy', true);
 // CORS configuration
 const allowedOrigins = [
   'http://localhost:3000',
-  'https://xmrmeet.onrender.com'
+  'https://xmrmeet.onrender.com',
+  'https://www.xmrmeet.com',
+  'https://xmrmeet.com'
 ];
 
 app.use(cors({
