@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { getUserById, updateUserSettings } from "../lib/db.js";
+import bcrypt from "bcrypt";
+import { getUserById, updateUserSettings, updateUserPassword, deleteUser } from "../lib/db.js";
 import { geocoder } from "../services/geocoder.js";
 
 const router = express.Router();
@@ -126,6 +127,124 @@ router.put("/api/user/settings", authenticateToken, async (req: Request, res: Re
     });
   } catch (error) {
     console.error("Error updating settings:", error);
+    res.status(500).json({
+      success: false,
+      error: error instanceof Error ? error.message : "Unknown error",
+    });
+  }
+});
+
+// Change password
+router.put("/api/user/password", authenticateToken, async (req: Request, res: Response) => {
+  try {
+    const { userId } = (req as any).user;
+    const { currentPassword, newPassword } = req.body;
+
+    // Validation
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({
+        success: false,
+        error: "Current password and new password are required",
+      });
+    }
+
+    if (newPassword.length < 8) {
+      return res.status(400).json({
+        success: false,
+        error: "New password must be at least 8 characters long",
+      });
+    }
+
+    // Get user to verify current password
+    const user = await getUserById(userId);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        error: "User not found",
+      });
+    }
+
+    // Verify current password
+    const isValidPassword = await bcrypt.compare(currentPassword, user.password_hash);
+    if (!isValidPassword) {
+      return res.status(401).json({
+        success: false,
+        error: "Current password is incorrect",
+      });
+    }
+
+    // Hash new password
+    const passwordHash = await bcrypt.hash(newPassword, 10);
+
+    // Update password
+    const success = await updateUserPassword(userId, passwordHash);
+    if (!success) {
+      return res.status(500).json({
+        success: false,
+        error: "Failed to update password",
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Password updated successfully",
+    });
+  } catch (error) {
+    console.error("Error updating password:", error);
+    res.status(500).json({
+      success: false,
+      error: error instanceof Error ? error.message : "Unknown error",
+    });
+  }
+});
+
+// Delete account
+router.delete("/api/user/account", authenticateToken, async (req: Request, res: Response) => {
+  try {
+    const { userId } = (req as any).user;
+    const { password } = req.body;
+
+    // Validation
+    if (!password) {
+      return res.status(400).json({
+        success: false,
+        error: "Password is required to delete account",
+      });
+    }
+
+    // Get user to verify password
+    const user = await getUserById(userId);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        error: "User not found",
+      });
+    }
+
+    // Verify password
+    const isValidPassword = await bcrypt.compare(password, user.password_hash);
+    if (!isValidPassword) {
+      return res.status(401).json({
+        success: false,
+        error: "Password is incorrect",
+      });
+    }
+
+    // Delete user (this will also anonymize their reviews)
+    const success = await deleteUser(userId);
+    if (!success) {
+      return res.status(500).json({
+        success: false,
+        error: "Failed to delete account",
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Account deleted successfully",
+    });
+  } catch (error) {
+    console.error("Error deleting account:", error);
     res.status(500).json({
       success: false,
       error: error instanceof Error ? error.message : "Unknown error",

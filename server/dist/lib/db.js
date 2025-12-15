@@ -86,12 +86,37 @@ export async function updateUserSettings(userId, country, postalCode, latitude, 
      WHERE id = $8`, [country, postalCode, latitude, longitude, availableSellXmr ? 1 : 0, availableBuyXmr ? 1 : 0, contactInfo, userId]);
     return getUserById(userId);
 }
+export async function updateUserPassword(userId, passwordHash) {
+    const result = await pool.query(`UPDATE users
+     SET password_hash = $1, updated_at = EXTRACT(EPOCH FROM NOW())::BIGINT
+     WHERE id = $2`, [passwordHash, userId]);
+    return result.rowCount !== null && result.rowCount > 0;
+}
+export async function deleteUser(userId) {
+    const client = await pool.connect();
+    try {
+        await client.query("BEGIN");
+        // Anonymize reviews made by this user
+        await client.query(`UPDATE reviews SET reviewer_id = 'deleted' WHERE reviewer_id = $1`, [userId]);
+        // Delete the user
+        const result = await client.query("DELETE FROM users WHERE id = $1", [userId]);
+        await client.query("COMMIT");
+        return result.rowCount !== null && result.rowCount > 0;
+    }
+    catch (error) {
+        await client.query("ROLLBACK");
+        throw error;
+    }
+    finally {
+        client.release();
+    }
+}
 export async function getAvailableUsers(country, state, city) {
     let query = `
     SELECT id, username, country, state, city, postal_code, latitude, longitude,
            available_sell_xmr, available_buy_xmr, contact_info, created_at
     FROM users
-    WHERE (available_sell_xmr = 1 OR available_buy_xmr = 1)
+    WHERE (available_sell_xmr = 1 OR available_buy_xmr = 1 OR (latitude IS NOT NULL AND longitude IS NOT NULL))
   `;
     const params = [];
     let paramCount = 1;
@@ -121,9 +146,13 @@ export async function createReview(id, reviewerId, revieweeUsername, rating, com
     return result.rows[0];
 }
 export async function getApprovedReviewsForUser(username) {
-    const result = await pool.query(`SELECT r.*, u.username as reviewer_username
+    const result = await pool.query(`SELECT r.*,
+            CASE
+              WHEN r.reviewer_id = 'deleted' THEN '[Deleted User]'
+              ELSE COALESCE(u.username, '[Deleted User]')
+            END as reviewer_username
      FROM reviews r
-     JOIN users u ON r.reviewer_id = u.id
+     LEFT JOIN users u ON r.reviewer_id = u.id
      WHERE r.reviewee_username = $1 AND r.approved = 1
      ORDER BY r.created_at DESC`, [username]);
     return result.rows;
@@ -135,9 +164,13 @@ export async function getAverageRating(username) {
     return result.rows[0].avg_rating;
 }
 export async function getPendingReviews() {
-    const result = await pool.query(`SELECT r.*, u.username as reviewer_username
+    const result = await pool.query(`SELECT r.*,
+            CASE
+              WHEN r.reviewer_id = 'deleted' THEN '[Deleted User]'
+              ELSE COALESCE(u.username, '[Deleted User]')
+            END as reviewer_username
      FROM reviews r
-     JOIN users u ON r.reviewer_id = u.id
+     LEFT JOIN users u ON r.reviewer_id = u.id
      WHERE r.approved = 0
      ORDER BY r.created_at ASC`);
     return result.rows;

@@ -39,6 +39,20 @@ function Account() {
   const [availableBuyXmr, setAvailableBuyXmr] = useState(false);
   const [contactInfo, setContactInfo] = useState("");
 
+  // Password change state
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [passwordSuccess, setPasswordSuccess] = useState("");
+  const [changingPassword, setChangingPassword] = useState(false);
+
+  // Delete account state
+  const [deletePassword, setDeletePassword] = useState("");
+  const [deleteError, setDeleteError] = useState("");
+  const [deleting, setDeleting] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -148,6 +162,102 @@ function Account() {
       console.error("Update error:", err);
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handlePasswordChange = async (e: FormEvent) => {
+    e.preventDefault();
+    setPasswordError("");
+    setPasswordSuccess("");
+
+    if (newPassword !== confirmPassword) {
+      setPasswordError("New passwords do not match");
+      return;
+    }
+
+    if (newPassword.length < 8) {
+      setPasswordError("Password must be at least 8 characters long");
+      return;
+    }
+
+    setChangingPassword(true);
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/user/password`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          currentPassword,
+          newPassword,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setPasswordSuccess("Password changed successfully!");
+        setCurrentPassword("");
+        setNewPassword("");
+        setConfirmPassword("");
+        setTimeout(() => setPasswordSuccess(""), 3000);
+      } else {
+        setPasswordError(data.error || "Failed to change password");
+      }
+    } catch (err) {
+      setPasswordError("Network error. Please try again.");
+      console.error("Password change error:", err);
+    } finally {
+      setChangingPassword(false);
+    }
+  };
+
+  const handleDeleteAccount = async (e: FormEvent) => {
+    e.preventDefault();
+    setDeleteError("");
+    setDeleting(true);
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/user/account`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          password: deletePassword,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        navigate("/");
+        window.location.reload();
+      } else {
+        setDeleteError(data.error || "Failed to delete account");
+      }
+    } catch (err) {
+      setDeleteError("Network error. Please try again.");
+      console.error("Delete account error:", err);
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -288,6 +398,136 @@ function Account() {
               {saving ? "Saving..." : "Save Settings"}
             </button>
           </form>
+
+          {/* Change Password Section */}
+          <div className="mt-12">
+            <h3 className="font-bold text-2xl uppercase mb-4">Change Password</h3>
+            <form onSubmit={handlePasswordChange}>
+              {passwordError && (
+                <div className="mb-4 p-3 bg-red-900/50 border border-red-600 text-red-200 rounded-md">
+                  {passwordError}
+                </div>
+              )}
+              {passwordSuccess && (
+                <div className="mb-4 p-3 bg-green-900/50 border border-green-600 text-green-200 rounded-md">
+                  {passwordSuccess}
+                </div>
+              )}
+
+              <div className="mb-4">
+                <label htmlFor="currentPassword" className="block mb-2 font-semibold">
+                  Current Password
+                </label>
+                <input
+                  type="password"
+                  id="currentPassword"
+                  value={currentPassword}
+                  onChange={(e) => setCurrentPassword(e.target.value)}
+                  className="w-full px-4 py-2 bg-[#171717] border border-orange-600 text-[#FAFAFA] focus:outline-none focus:border-orange-500 rounded-md"
+                  required
+                />
+              </div>
+
+              <div className="mb-4">
+                <label htmlFor="newPassword" className="block mb-2 font-semibold">
+                  New Password
+                </label>
+                <input
+                  type="password"
+                  id="newPassword"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  className="w-full px-4 py-2 bg-[#171717] border border-orange-600 text-[#FAFAFA] focus:outline-none focus:border-orange-500 rounded-md"
+                  required
+                />
+              </div>
+
+              <div className="mb-6">
+                <label htmlFor="confirmPassword" className="block mb-2 font-semibold">
+                  Confirm New Password
+                </label>
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  className="w-full px-4 py-2 bg-[#171717] border border-orange-600 text-[#FAFAFA] focus:outline-none focus:border-orange-500 rounded-md"
+                  required
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={changingPassword}
+                className="w-full py-3 text-white bg-orange-600 hover:bg-orange-700 transition-all cursor-pointer font-semibold disabled:opacity-50 disabled:cursor-not-allowed rounded-md"
+              >
+                {changingPassword ? "Changing Password..." : "Change Password"}
+              </button>
+            </form>
+          </div>
+
+          {/* Delete Account Section */}
+          <div className="mt-12 pb-12">
+            <h3 className="font-bold text-2xl uppercase mb-4 text-red-600">Danger Zone</h3>
+            <div className="p-4 bg-[#171717] border border-red-600 rounded-md">
+              <h4 className="font-semibold mb-2 text-red-500">Delete Account</h4>
+              <p className="text-[#FAFAFA] text-sm mb-4">
+                This will permanently delete your account. Your reviews will be anonymized but preserved.
+              </p>
+
+              {!showDeleteConfirm ? (
+                <button
+                  onClick={() => setShowDeleteConfirm(true)}
+                  className="px-6 py-2 bg-transparent border border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition-all font-semibold rounded-md"
+                >
+                  Delete My Account
+                </button>
+              ) : (
+                <form onSubmit={handleDeleteAccount}>
+                  {deleteError && (
+                    <div className="mb-4 p-3 bg-red-900/50 border border-red-600 text-red-200 rounded-md">
+                      {deleteError}
+                    </div>
+                  )}
+
+                  <div className="mb-4">
+                    <label htmlFor="deletePassword" className="block mb-2 font-semibold text-[#FAFAFA]">
+                      Confirm your password to delete account
+                    </label>
+                    <input
+                      type="password"
+                      id="deletePassword"
+                      value={deletePassword}
+                      onChange={(e) => setDeletePassword(e.target.value)}
+                      className="w-full px-4 py-2 bg-[#121212] border border-red-600 text-[#FAFAFA] focus:outline-none focus:border-red-500 rounded-md"
+                      required
+                    />
+                  </div>
+
+                  <div className="flex gap-4">
+                    <button
+                      type="submit"
+                      disabled={deleting}
+                      className="flex-1 py-2 bg-red-600 text-white hover:bg-red-700 transition-all cursor-pointer font-semibold disabled:opacity-50 disabled:cursor-not-allowed rounded-md"
+                    >
+                      {deleting ? "Deleting..." : "Yes, Delete My Account"}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowDeleteConfirm(false);
+                        setDeletePassword("");
+                        setDeleteError("");
+                      }}
+                      className="flex-1 py-2 bg-transparent border border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white transition-all font-semibold rounded-md"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </Layout>

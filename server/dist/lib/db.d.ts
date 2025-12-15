@@ -47,6 +47,8 @@ export declare function getUserByUsername(username: string): Promise<User | unde
 export declare function getUserById(id: string): Promise<User | undefined>;
 export declare function createUser(id: string, username: string, passwordHash: string): Promise<User>;
 export declare function updateUserSettings(userId: string, country: string | null, postalCode: string | null, latitude: number | null, longitude: number | null, availableSellXmr: boolean, availableBuyXmr: boolean, contactInfo: string | null): Promise<User | undefined>;
+export declare function updateUserPassword(userId: string, passwordHash: string): Promise<boolean>;
+export declare function deleteUser(userId: string): Promise<boolean>;
 export declare function getAvailableUsers(country?: string, state?: string, city?: string): Promise<PublicUser[]>;
 export declare function createReview(id: string, reviewerId: string, revieweeUsername: string, rating: number, comment: string): Promise<Review>;
 export declare function getApprovedReviewsForUser(username: string): Promise<ReviewWithReviewer[]>;
