@@ -27,6 +27,7 @@ async function initializeTables() {
         longitude DOUBLE PRECISION,
         available_sell_xmr INTEGER DEFAULT 0,
         available_buy_xmr INTEGER DEFAULT 0,
+        on_break INTEGER DEFAULT 0,
         contact_info TEXT,
         is_admin INTEGER DEFAULT 0,
         created_at BIGINT DEFAULT EXTRACT(EPOCH FROM NOW())::BIGINT,
@@ -56,6 +57,9 @@ async function initializeTables() {
         version INTEGER PRIMARY KEY,
         applied_at BIGINT DEFAULT EXTRACT(EPOCH FROM NOW())::BIGINT
       );
+
+      -- Add on_break column if it doesn't exist (for existing databases)
+      ALTER TABLE users ADD COLUMN IF NOT EXISTS on_break INTEGER DEFAULT 0;
     `);
     console.log("Database tables initialized successfully");
   } catch (error) {
@@ -82,6 +86,7 @@ export interface User {
   longitude: number | null;
   available_sell_xmr: number;
   available_buy_xmr: number;
+  on_break: number;
   contact_info: string | null;
   is_admin: number;
   created_at: number;
@@ -99,6 +104,7 @@ export interface PublicUser {
   longitude: number | null;
   available_sell_xmr: number;
   available_buy_xmr: number;
+  on_break: number;
   contact_info: string | null;
   created_at: number;
 }
@@ -149,15 +155,16 @@ export async function updateUserSettings(
   longitude: number | null,
   availableSellXmr: boolean,
   availableBuyXmr: boolean,
+  onBreak: boolean,
   contactInfo: string | null
 ): Promise<User | undefined> {
   await pool.query(
     `UPDATE users
      SET country = $1, state = $2, city = $3, postal_code = $4, latitude = $5, longitude = $6,
-         available_sell_xmr = $7, available_buy_xmr = $8, contact_info = $9,
+         available_sell_xmr = $7, available_buy_xmr = $8, on_break = $9, contact_info = $10,
          updated_at = EXTRACT(EPOCH FROM NOW())::BIGINT
-     WHERE id = $10`,
-    [country, state, city, postalCode, latitude, longitude, availableSellXmr ? 1 : 0, availableBuyXmr ? 1 : 0, contactInfo, userId]
+     WHERE id = $11`,
+    [country, state, city, postalCode, latitude, longitude, availableSellXmr ? 1 : 0, availableBuyXmr ? 1 : 0, onBreak ? 1 : 0, contactInfo, userId]
   );
   return getUserById(userId);
 }
@@ -206,7 +213,7 @@ export async function getAvailableUsers(
 ): Promise<PublicUser[]> {
   let query = `
     SELECT id, username, country, state, city, postal_code, latitude, longitude,
-           available_sell_xmr, available_buy_xmr, contact_info, created_at
+           available_sell_xmr, available_buy_xmr, on_break, contact_info, created_at
     FROM users
     WHERE (available_sell_xmr = 1 OR available_buy_xmr = 1 OR (latitude IS NOT NULL AND longitude IS NOT NULL))
   `;

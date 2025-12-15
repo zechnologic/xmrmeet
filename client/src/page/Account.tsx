@@ -13,6 +13,7 @@ interface UserSettings {
   longitude: number | null;
   available_sell_xmr: number;
   available_buy_xmr: number;
+  on_break: number;
   contact_info: string | null;
   created_at: number;
   updated_at: number;
@@ -37,6 +38,7 @@ function Account() {
   const [postalCode, setPostalCode] = useState("");
   const [availableSellXmr, setAvailableSellXmr] = useState(false);
   const [availableBuyXmr, setAvailableBuyXmr] = useState(false);
+  const [onBreak, setOnBreak] = useState(false);
   const [contactInfo, setContactInfo] = useState("");
 
   // Password change state
@@ -92,6 +94,7 @@ function Account() {
         setPostalCode(data.user.postal_code || "");
         setAvailableSellXmr(!!data.user.available_sell_xmr);
         setAvailableBuyXmr(!!data.user.available_buy_xmr);
+        setOnBreak(!!data.user.on_break);
         setContactInfo(data.user.contact_info || "");
       } else {
         setError(data.error || "Failed to fetch user data");
@@ -157,6 +160,7 @@ function Account() {
           postalCode: postalCode || null,
           availableSellXmr,
           availableBuyXmr,
+          onBreak,
           contactInfo: contactInfo || null,
         }),
       });
@@ -373,7 +377,7 @@ function Account() {
                 </span>
               </label>
 
-              <label className="flex items-center cursor-pointer">
+              <label className="flex items-center mb-3 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={availableBuyXmr}
@@ -382,6 +386,18 @@ function Account() {
                 />
                 <span className="ml-3 text-white">
                   I am available to buy XMR with cash
+                </span>
+              </label>
+
+              <label className="flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={onBreak}
+                  onChange={(e) => setOnBreak(e.target.checked)}
+                  className="w-5 h-5 accent-yellow-500 cursor-pointer"
+                />
+                <span className="ml-3 text-white">
+                  I'm currently on break (still show on map)
                 </span>
               </label>
             </div>

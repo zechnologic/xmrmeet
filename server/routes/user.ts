@@ -70,13 +70,20 @@ router.get("/api/user/me", authenticateToken, async (req: Request, res: Response
 router.put("/api/user/settings", authenticateToken, async (req: Request, res: Response) => {
   try {
     const { userId } = (req as any).user;
-    const { country, postalCode, availableSellXmr, availableBuyXmr, contactInfo } = req.body;
+    const { country, postalCode, availableSellXmr, availableBuyXmr, onBreak, contactInfo } = req.body;
 
     // Validation
     if (typeof availableSellXmr !== "boolean" || typeof availableBuyXmr !== "boolean") {
       return res.status(400).json({
         success: false,
         error: "availableSellXmr and availableBuyXmr must be boolean values",
+      });
+    }
+
+    if (typeof onBreak !== "boolean") {
+      return res.status(400).json({
+        success: false,
+        error: "onBreak must be a boolean value",
       });
     }
 
@@ -121,6 +128,7 @@ router.put("/api/user/settings", authenticateToken, async (req: Request, res: Re
       longitude,
       availableSellXmr,
       availableBuyXmr,
+      onBreak,
       contactInfo || null
     );
 

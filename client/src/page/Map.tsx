@@ -16,6 +16,7 @@ interface AvailableUser {
   longitude: number | null;
   available_sell_xmr: number;
   available_buy_xmr: number;
+  on_break: number;
   contact_info: string | null;
   created_at: number;
 }
@@ -139,15 +140,20 @@ function Map() {
               url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
             />
 
-            {groupedUsers.map((group) => (
+            {groupedUsers.map((group) => {
+              const hasAnyOnBreak = group.users.some(u => u.on_break === 1);
+              const fillColor = hasAnyOnBreak ? "#eab308" : "#ea580c";
+              const strokeColor = hasAnyOnBreak ? "#facc15" : "#fb923c";
+
+              return (
               <CircleMarker
                 key={`${group.lat},${group.lon}`}
                 center={[group.lat, group.lon]}
                 radius={10}
                 pathOptions={{
-                  fillColor: "#ea580c",
+                  fillColor,
                   fillOpacity: 0.8,
-                  color: "#fb923c",
+                  color: strokeColor,
                   weight: 2,
                 }}
               >
@@ -198,7 +204,8 @@ function Map() {
                   </div>
                 </Popup>
               </CircleMarker>
-            ))}
+              );
+            })}
           </MapContainer>
         )}
       </div>
