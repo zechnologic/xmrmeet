@@ -154,6 +154,11 @@ function HowItWorks() {
                     email. Avoid sharing sensitive info publicly.
                   </li>
                   <li>
+                    <strong>Be patient and flexible:</strong> Give users a day or two to respond
+                    to trade requests. People are often busy and need time to plan when they'll
+                    be free to meet up. Patience builds better connections.
+                  </li>
+                  <li>
                     <strong>Confirm details before meeting:</strong> Double-check location, time,
                     and amount. Send a photo of the meetup spot if needed.
                   </li>
