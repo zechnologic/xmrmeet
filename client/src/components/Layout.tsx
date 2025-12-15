@@ -3,11 +3,9 @@ import Footer from "./Footer";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen bg-[#121212]">
       <Nav />
-      <div className="flex-grow">
-        {children}
-      </div>
+      <div>{children}</div>
       <Footer />
     </div>
   );

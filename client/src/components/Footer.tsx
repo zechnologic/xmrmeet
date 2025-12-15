@@ -6,13 +6,17 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="text-sm">
-            <span className="text-orange-600 font-semibold">XMR Meet</span> - Peer-to-peer meetups for cash-to-XMR trades
+            <span className="text-orange-600 font-semibold">XMR Meet</span> -
+            Peer-to-peer meetups for cash-to-XMR trades
           </div>
           <div className="flex gap-6 text-sm">
             <Link to="/about" className="hover:text-orange-500 transition-all">
               About
             </Link>
-            <Link to="/privacy" className="hover:text-orange-500 transition-all">
+            <Link
+              to="/privacy"
+              className="hover:text-orange-500 transition-all"
+            >
               Privacy
             </Link>
             <Link to="/terms" className="hover:text-orange-500 transition-all">
@@ -31,7 +35,7 @@ export default function Footer() {
               rel="noopener noreferrer"
               className="hover:text-orange-500 transition-all"
             >
-              X (Twitter)
+              Twitter
             </a>
             <a
               href="https://youtube.com/@zechnologic"
