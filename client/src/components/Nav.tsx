@@ -53,7 +53,7 @@ export default function Nav() {
         </Link>
         {isLoggedIn ? (
           <Link to="/account">
-            <button className="px-4 py-2 bg-orange-600 text-white hover:bg-orange-700 transition-all rounded-md">
+            <button className="px-4 py-2 bg-orange-600 text-[#FAFAFA] hover:bg-orange-700 transition-all rounded-md">
               Account
             </button>
           </Link>
@@ -65,7 +65,7 @@ export default function Nav() {
               </button>
             </Link>
             <Link to="/signup">
-              <button className="px-4 py-2 bg-orange-600 text-white hover:bg-orange-700 transition-all rounded-md">
+              <button className="px-4 py-2 bg-orange-600 text-[#FAFAFA] hover:bg-orange-700 transition-all rounded-md">
                 Sign up
               </button>
             </Link>
