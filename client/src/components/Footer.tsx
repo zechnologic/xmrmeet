@@ -9,6 +9,9 @@ export default function Footer() {
             <span className="text-orange-600 font-semibold">XMR Meet</span> - Peer-to-peer meetups for cash-to-XMR trades
           </div>
           <div className="flex gap-6 text-sm">
+            <Link to="/about" className="hover:text-orange-500 transition-colors">
+              About
+            </Link>
             <Link to="/privacy" className="hover:text-orange-500 transition-colors">
               Privacy
             </Link>

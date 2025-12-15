@@ -31,6 +31,11 @@ export default function Nav() {
         </div>
       </Link>
       <div className="flex gap-4 items-center">
+        <Link to="/about">
+          <button className="px-4 py-1 hover:text-orange-500 transition-colors">
+            About
+          </button>
+        </Link>
         <Link to="/how-it-works">
           <button className="px-4 py-1 hover:text-orange-500 transition-colors">
             How It Works

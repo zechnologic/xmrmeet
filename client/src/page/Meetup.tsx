@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router";
 import Layout from "../components/Layout";
 import { API_BASE_URL } from "../config/api";
 
@@ -204,9 +205,11 @@ function Meetup() {
               >
                 <div className="flex items-start justify-between">
                   <div>
-                    <h3 className="font-bold text-xl text-orange-500">
-                      {user.username}
-                    </h3>
+                    <Link to={`/user/${user.username}`}>
+                      <h3 className="font-bold text-xl text-orange-500 hover:text-orange-400 cursor-pointer">
+                        {user.username}
+                      </h3>
+                    </Link>
                     {(user.country || user.state || user.city) && (
                       <p className="text-gray-400 mt-1">
                         <span className="text-orange-600">📍</span> {getLocationString(user)}

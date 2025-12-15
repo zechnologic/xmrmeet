@@ -67,5 +67,59 @@ export function getAvailableUsers(country, state, city) {
     const stmt = db.prepare(query + " ORDER BY updated_at DESC");
     return stmt.all(...params);
 }
+// Review operations
+export function createReview(id, reviewerId, revieweeUsername, rating, comment) {
+    const stmt = db.prepare("INSERT INTO reviews (id, reviewer_id, reviewee_username, rating, comment) VALUES (?, ?, ?, ?, ?)");
+    stmt.run(id, reviewerId, revieweeUsername, rating, comment);
+    return db.prepare("SELECT * FROM reviews WHERE id = ?").get(id);
+}
+export function getApprovedReviewsForUser(username) {
+    const stmt = db.prepare(`
+    SELECT r.*, u.username as reviewer_username
+    FROM reviews r
+    JOIN users u ON r.reviewer_id = u.id
+    WHERE r.reviewee_username = ? AND r.approved = 1
+    ORDER BY r.created_at DESC
+  `);
+    return stmt.all(username);
+}
+export function getAverageRating(username) {
+    const stmt = db.prepare(`
+    SELECT AVG(rating) as avg_rating
+    FROM reviews
+    WHERE reviewee_username = ? AND approved = 1
+  `);
+    const result = stmt.get(username);
+    return result.avg_rating;
+}
+export function getPendingReviews() {
+    const stmt = db.prepare(`
+    SELECT r.*, u.username as reviewer_username
+    FROM reviews r
+    JOIN users u ON r.reviewer_id = u.id
+    WHERE r.approved = 0
+    ORDER BY r.created_at ASC
+  `);
+    return stmt.all();
+}
+export function approveReview(reviewId) {
+    const stmt = db.prepare("UPDATE reviews SET approved = 1 WHERE id = ?");
+    const result = stmt.run(reviewId);
+    return result.changes > 0;
+}
+export function deleteReview(reviewId) {
+    const stmt = db.prepare("DELETE FROM reviews WHERE id = ?");
+    const result = stmt.run(reviewId);
+    return result.changes > 0;
+}
+export function hasUserReviewedUser(reviewerId, revieweeUsername) {
+    const stmt = db.prepare(`
+    SELECT COUNT(*) as count
+    FROM reviews
+    WHERE reviewer_id = ? AND reviewee_username = ?
+  `);
+    const result = stmt.get(reviewerId, revieweeUsername);
+    return result.count > 0;
+}
 export default db;
 //# sourceMappingURL=db.js.map

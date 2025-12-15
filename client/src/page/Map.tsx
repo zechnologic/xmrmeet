@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { MapContainer, TileLayer, CircleMarker, Popup } from "react-leaflet";
+import { Link } from "react-router";
 import Layout from "../components/Layout";
 import { API_BASE_URL } from "../config/api";
 import "leaflet/dist/leaflet.css";
@@ -148,7 +149,11 @@ function Map() {
                     </h3>
                     {group.users.map((user) => (
                       <div key={user.id} className="mb-3 pb-3 border-b border-gray-200 last:border-b-0">
-                        <div className="font-semibold text-gray-900 mb-1">{user.username}</div>
+                        <Link to={`/user/${user.username}`}>
+                          <div className="font-semibold text-gray-900 mb-1 hover:text-orange-600 cursor-pointer">
+                            {user.username}
+                          </div>
+                        </Link>
                         <div className="text-sm text-gray-700 space-y-1">
                           {user.available_sell_xmr === 1 && (
                             <div>📤 Available to sell XMR</div>

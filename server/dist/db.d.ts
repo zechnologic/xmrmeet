@@ -30,10 +30,29 @@ export interface PublicUser {
     contact_info: string | null;
     created_at: number;
 }
+export interface Review {
+    id: string;
+    reviewer_id: string;
+    reviewee_username: string;
+    rating: number;
+    comment: string;
+    approved: number;
+    created_at: number;
+}
+export interface ReviewWithReviewer extends Review {
+    reviewer_username: string;
+}
 export declare function getUserByUsername(username: string): User | undefined;
 export declare function getUserById(id: string): User | undefined;
 export declare function createUser(id: string, username: string, passwordHash: string): User;
 export declare function updateUserSettings(userId: string, country: string | null, postalCode: string | null, latitude: number | null, longitude: number | null, availableSellXmr: boolean, availableBuyXmr: boolean, contactInfo: string | null): User | undefined;
 export declare function getAvailableUsers(country?: string, state?: string, city?: string): PublicUser[];
+export declare function createReview(id: string, reviewerId: string, revieweeUsername: string, rating: number, comment: string): Review;
+export declare function getApprovedReviewsForUser(username: string): ReviewWithReviewer[];
+export declare function getAverageRating(username: string): number | null;
+export declare function getPendingReviews(): ReviewWithReviewer[];
+export declare function approveReview(reviewId: string): boolean;
+export declare function deleteReview(reviewId: string): boolean;
+export declare function hasUserReviewedUser(reviewerId: string, revieweeUsername: string): boolean;
 export default db;
 //# sourceMappingURL=db.d.ts.map

@@ -30,6 +30,31 @@ const migrations = [
       CREATE INDEX IF NOT EXISTS idx_users_postal ON users(country, postal_code);
       CREATE INDEX IF NOT EXISTS idx_users_coordinates ON users(latitude, longitude);
     `
+  },
+  {
+    version: 2,
+    name: "add_admin_field",
+    sql: `
+      ALTER TABLE users ADD COLUMN is_admin INTEGER DEFAULT 0;
+    `
+  },
+  {
+    version: 3,
+    name: "create_reviews_table",
+    sql: `
+      CREATE TABLE IF NOT EXISTS reviews (
+        id TEXT PRIMARY KEY,
+        reviewer_id TEXT NOT NULL,
+        reviewee_username TEXT NOT NULL,
+        rating INTEGER NOT NULL CHECK(rating >= 1 AND rating <= 5),
+        comment TEXT NOT NULL,
+        approved INTEGER DEFAULT 0,
+        created_at INTEGER DEFAULT (strftime('%s', 'now')),
+        FOREIGN KEY (reviewer_id) REFERENCES users(id)
+      );
+      CREATE INDEX IF NOT EXISTS idx_reviews_reviewee ON reviews(reviewee_username);
+      CREATE INDEX IF NOT EXISTS idx_reviews_approved ON reviews(approved);
+    `
   }
 ];
 

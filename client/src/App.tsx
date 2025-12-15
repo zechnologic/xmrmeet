@@ -9,6 +9,8 @@ import Map from "./page/Map.tsx";
 import Privacy from "./page/Privacy.tsx";
 import Terms from "./page/Terms.tsx";
 import HowItWorks from "./page/HowItWorks.tsx";
+import About from "./page/About.tsx";
+import UserProfile from "./page/UserProfile.tsx";
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
         <Route path="/account" element={<Account />} />
         <Route path="/meet" element={<Meetup />} />
         <Route path="/map" element={<Map />} />
+        <Route path="/user/:username" element={<UserProfile />} />
+        <Route path="/about" element={<About />} />
         <Route path="/how-it-works" element={<HowItWorks />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/terms" element={<Terms />} />

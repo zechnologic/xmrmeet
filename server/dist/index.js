@@ -7,6 +7,7 @@ import loginRouter from "./routes/login.js";
 import userRouter from "./routes/user.js";
 import meetupRouter from "./routes/meetup.js";
 import locationsRouter from "./routes/locations.js";
+import reviewsRouter from "./routes/reviews.js";
 import { runMigrations } from "./db/migrations.js";
 import { signupLimiter, loginLimiter, settingsLimiter, publicApiLimiter, generalLimiter, } from "./middleware/rateLimiters.js";
 // ES module equivalent of __dirname
@@ -34,6 +35,7 @@ app.use(loginRouter);
 app.use(userRouter);
 app.use(meetupRouter);
 app.use(locationsRouter);
+app.use(reviewsRouter);
 app.use(express.static(path.join(__dirname, "../../client/dist")));
 // Handle all routes by serving index.html (SPA fallback)
 app.use((req, res) => {

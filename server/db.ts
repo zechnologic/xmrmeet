@@ -60,6 +60,20 @@ export interface PublicUser {
   created_at: number;
 }
 
+export interface Review {
+  id: string;
+  reviewer_id: string;
+  reviewee_username: string;
+  rating: number;
+  comment: string;
+  approved: number;
+  created_at: number;
+}
+
+export interface ReviewWithReviewer extends Review {
+  reviewer_username: string;
+}
+
 export function getUserByUsername(username: string): User | undefined {
   const stmt = db.prepare("SELECT * FROM users WHERE username = ?");
   return stmt.get(username) as User | undefined;
@@ -128,6 +142,75 @@ export function getAvailableUsers(
 
   const stmt = db.prepare(query + " ORDER BY updated_at DESC");
   return stmt.all(...params) as PublicUser[];
+}
+
+// Review operations
+export function createReview(
+  id: string,
+  reviewerId: string,
+  revieweeUsername: string,
+  rating: number,
+  comment: string
+): Review {
+  const stmt = db.prepare(
+    "INSERT INTO reviews (id, reviewer_id, reviewee_username, rating, comment) VALUES (?, ?, ?, ?, ?)"
+  );
+  stmt.run(id, reviewerId, revieweeUsername, rating, comment);
+  return db.prepare("SELECT * FROM reviews WHERE id = ?").get(id) as Review;
+}
+
+export function getApprovedReviewsForUser(username: string): ReviewWithReviewer[] {
+  const stmt = db.prepare(`
+    SELECT r.*, u.username as reviewer_username
+    FROM reviews r
+    JOIN users u ON r.reviewer_id = u.id
+    WHERE r.reviewee_username = ? AND r.approved = 1
+    ORDER BY r.created_at DESC
+  `);
+  return stmt.all(username) as ReviewWithReviewer[];
+}
+
+export function getAverageRating(username: string): number | null {
+  const stmt = db.prepare(`
+    SELECT AVG(rating) as avg_rating
+    FROM reviews
+    WHERE reviewee_username = ? AND approved = 1
+  `);
+  const result = stmt.get(username) as { avg_rating: number | null };
+  return result.avg_rating;
+}
+
+export function getPendingReviews(): ReviewWithReviewer[] {
+  const stmt = db.prepare(`
+    SELECT r.*, u.username as reviewer_username
+    FROM reviews r
+    JOIN users u ON r.reviewer_id = u.id
+    WHERE r.approved = 0
+    ORDER BY r.created_at ASC
+  `);
+  return stmt.all() as ReviewWithReviewer[];
+}
+
+export function approveReview(reviewId: string): boolean {
+  const stmt = db.prepare("UPDATE reviews SET approved = 1 WHERE id = ?");
+  const result = stmt.run(reviewId);
+  return result.changes > 0;
+}
+
+export function deleteReview(reviewId: string): boolean {
+  const stmt = db.prepare("DELETE FROM reviews WHERE id = ?");
+  const result = stmt.run(reviewId);
+  return result.changes > 0;
+}
+
+export function hasUserReviewedUser(reviewerId: string, revieweeUsername: string): boolean {
+  const stmt = db.prepare(`
+    SELECT COUNT(*) as count
+    FROM reviews
+    WHERE reviewer_id = ? AND reviewee_username = ?
+  `);
+  const result = stmt.get(reviewerId, revieweeUsername) as { count: number };
+  return result.count > 0;
 }
 
 export default db;
