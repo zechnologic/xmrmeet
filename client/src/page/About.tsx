@@ -165,6 +165,31 @@ function About() {
             </div>
           </section>
 
+          {/* Building in the Light */}
+          <section className="mb-12 border-t border-orange-900 pt-8">
+            <h2 className="text-3xl font-bold text-orange-500 mb-6">
+              Building in the Light
+            </h2>
+            <div className="space-y-4">
+              <p>
+                While it's important that we maintain strong privacy tools and
+                infrastructure, it's also time for some of us to build things that
+                are bold, at home, and in the light. It is exhausting to constantly
+                think about ways to run hidden services in offshore server racks.
+                XMR Meet isn't hiding - it's a public directory connecting real
+                people who want to exercise their freedom to transact privately.
+              </p>
+              <p>
+                This is what truly unstoppable looks like. Not servers in foreign
+                jurisdictions. Not encrypted tunnels and tor hidden services. Just
+                people meeting people. The network is the users themselves, and no
+                amount of regulatory pressure can shut down human connection. This
+                is peer-to-peer in its purest form, and it's beyond anyone's reach
+                to stop.
+              </p>
+            </div>
+          </section>
+
           {/* Support the Project */}
           <section className="mb-12 border-t border-orange-900 pt-8">
             <h2 className="text-3xl font-bold text-orange-500 mb-6">
