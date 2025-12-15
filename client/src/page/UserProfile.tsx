@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import type { FormEvent } from "react";
 import { useParams, useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
 import Layout from "../components/Layout";
 import { API_BASE_URL } from "../config/api";
 
@@ -24,6 +25,7 @@ interface Review {
 }
 
 function UserProfile() {
+  const { t } = useTranslation('pages');
   const { username } = useParams<{ username: string }>();
   const navigate = useNavigate();
 
@@ -67,10 +69,10 @@ function UserProfile() {
         setAverageRating(data.averageRating);
         setReviewCount(data.reviewCount);
       } else {
-        setError(data.error || "User not found");
+        setError(data.error || t('userProfile.errorNetwork'));
       }
     } catch (err) {
-      setError("Network error. Please try again.");
+      setError(t('userProfile.errorNetwork'));
       console.error("Fetch error:", err);
     } finally {
       setLoading(false);
@@ -106,15 +108,15 @@ function UserProfile() {
       const data = await response.json();
 
       if (data.success) {
-        setSubmitSuccess("Review submitted! It will be visible after admin approval.");
+        setSubmitSuccess(t('userProfile.reviewSuccess'));
         setShowReviewForm(false);
         setComment("");
         setRating(5);
       } else {
-        setError(data.error || "Failed to submit review");
+        setError(data.error || t('userProfile.errorNetwork'));
       }
     } catch (err) {
-      setError("Network error. Please try again.");
+      setError(t('userProfile.errorNetwork'));
       console.error("Submit error:", err);
     } finally {
       setSubmitting(false);
@@ -137,7 +139,7 @@ function UserProfile() {
     return (
       <Layout>
         <div className="min-h-screen pt-40 px-4 bg-[#232323] text-orange-600">
-          <p>Loading...</p>
+          <p>{t('userProfile.loading')}</p>
         </div>
       </Layout>
     );
@@ -153,7 +155,7 @@ function UserProfile() {
               onClick={() => navigate("/meet")}
               className="px-6 py-2 bg-orange-600 text-white hover:bg-orange-700 transition-colors"
             >
-              Browse Users
+              {t('userProfile.browseUsers')}
             </button>
           </div>
         </div>
@@ -183,7 +185,7 @@ function UserProfile() {
                   {averageRating}
                 </span>
                 <span className="text-gray-500 text-sm">
-                  ({reviewCount} {reviewCount === 1 ? "review" : "reviews"})
+                  ({reviewCount} {reviewCount === 1 ? t('userProfile.review') : t('userProfile.reviews')})
                 </span>
               </div>
             )}
@@ -191,33 +193,33 @@ function UserProfile() {
 
           {/* User Info */}
           <section className="mb-8 p-6 bg-[#2a2a2a] border border-orange-600">
-            <h2 className="text-xl font-bold text-orange-500 mb-4">Profile</h2>
+            <h2 className="text-xl font-bold text-orange-500 mb-4">{t('userProfile.profile')}</h2>
 
             {user.country && (
               <div className="mb-3">
-                <span className="text-gray-400">Location:</span>{" "}
+                <span className="text-gray-400">{t('userProfile.location')}</span>{" "}
                 <span className="text-white">{user.country}{user.postal_code ? ` (${user.postal_code})` : ""}</span>
               </div>
             )}
 
             <div className="mb-3">
-              <span className="text-gray-400">Available to:</span>
+              <span className="text-gray-400">{t('userProfile.availableTo')}</span>
               <div className="mt-2 space-y-1">
                 {user.available_sell_xmr === 1 && (
-                  <div className="text-white">📤 Sell XMR for cash</div>
+                  <div className="text-white">📤 {t('userProfile.sellXmr')}</div>
                 )}
                 {user.available_buy_xmr === 1 && (
-                  <div className="text-white">📥 Buy XMR with cash</div>
+                  <div className="text-white">📥 {t('userProfile.buyXmr')}</div>
                 )}
                 {user.available_sell_xmr === 0 && user.available_buy_xmr === 0 && (
-                  <div className="text-gray-500">Not currently available</div>
+                  <div className="text-gray-500">{t('userProfile.notAvailable')}</div>
                 )}
               </div>
             </div>
 
             {user.contact_info && (
               <div className="mt-4 pt-4 border-t border-orange-900">
-                <span className="text-gray-400 block mb-2">Contact:</span>
+                <span className="text-gray-400 block mb-2">{t('userProfile.contact')}</span>
                 {isLoggedIn ? (
                   <p className="text-white whitespace-pre-wrap">{user.contact_info}</p>
                 ) : (
@@ -230,7 +232,7 @@ function UserProfile() {
                         href="/login"
                         className="px-4 py-2 bg-orange-600 text-white font-semibold hover:bg-orange-700 transition-colors"
                       >
-                        Sign in to view contact info
+                        {t('userProfile.signInToView')}
                       </a>
                     </div>
                   </div>
@@ -258,7 +260,7 @@ function UserProfile() {
                 onClick={() => setShowReviewForm(true)}
                 className="px-6 py-3 bg-orange-600 text-white font-semibold hover:bg-orange-700 transition-colors"
               >
-                Write a Review
+                {t('userProfile.writeReview')}
               </button>
             </div>
           )}
@@ -266,10 +268,10 @@ function UserProfile() {
           {/* Review Form */}
           {showReviewForm && (
             <section className="mb-8 p-6 bg-[#2a2a2a] border border-orange-600">
-              <h2 className="text-xl font-bold text-orange-500 mb-4">Submit Review</h2>
+              <h2 className="text-xl font-bold text-orange-500 mb-4">{t('userProfile.submitReview')}</h2>
               <form onSubmit={handleSubmitReview}>
                 <div className="mb-4">
-                  <label className="block mb-2 font-semibold">Rating</label>
+                  <label className="block mb-2 font-semibold">{t('userProfile.rating')}</label>
                   <div className="flex gap-2">
                     {[1, 2, 3, 4, 5].map((star) => (
                       <button
@@ -288,7 +290,7 @@ function UserProfile() {
 
                 <div className="mb-4">
                   <label htmlFor="comment" className="block mb-2 font-semibold">
-                    Review (10-500 characters)
+                    {t('userProfile.reviewLabel')}
                   </label>
                   <textarea
                     id="comment"
@@ -301,7 +303,7 @@ function UserProfile() {
                     required
                   />
                   <p className="text-xs text-gray-500 mt-1">
-                    {comment.length}/500 characters
+                    {comment.length}/500 {t('userProfile.reviewCharacters')}
                   </p>
                 </div>
 
@@ -311,14 +313,14 @@ function UserProfile() {
                     disabled={submitting}
                     className="px-6 py-2 bg-orange-600 text-white font-semibold hover:bg-orange-700 transition-colors disabled:opacity-50"
                   >
-                    {submitting ? "Submitting..." : "Submit Review"}
+                    {submitting ? t('userProfile.submitting') : t('userProfile.submitButton')}
                   </button>
                   <button
                     type="button"
                     onClick={() => setShowReviewForm(false)}
                     className="px-6 py-2 border border-orange-600 text-orange-600 font-semibold hover:bg-orange-900/30 transition-colors"
                   >
-                    Cancel
+                    {t('userProfile.cancel')}
                   </button>
                 </div>
               </form>
@@ -328,11 +330,11 @@ function UserProfile() {
           {/* Reviews List */}
           <section>
             <h2 className="text-2xl font-bold text-orange-500 mb-4">
-              Reviews ({reviewCount})
+              {t('userProfile.reviewsTitle')} ({reviewCount})
             </h2>
 
             {reviews.length === 0 ? (
-              <p className="text-gray-500">No reviews yet.</p>
+              <p className="text-gray-500">{t('userProfile.noReviews')}</p>
             ) : (
               <div className="space-y-4">
                 {reviews.map((review) => (
