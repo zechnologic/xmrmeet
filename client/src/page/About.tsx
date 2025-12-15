@@ -49,8 +49,11 @@ function About() {
                 <p className="leading-relaxed">
                   Think of XMR Meet like EV charging stations for electric vehicles.
                   When there are only a few charging stations, EV adoption is limited
-                  and road trips feel risky. But as more stations appear on the map,
-                  suddenly electric vehicles become practical for traveling anywhere.
+                  and road trips feel risky. But as more stations appear on{" "}
+                  <Link to="/map" className="text-orange-500 hover:text-orange-400 font-semibold">
+                    the map
+                  </Link>
+                  , suddenly electric vehicles become practical for traveling anywhere.
                   That's our vision for Monero. If enough people join this network,
                   you'll be able to exchange XMR for cash wherever you go - on business
                   trips, vacations, or just across town. Like an EV owner searching for
