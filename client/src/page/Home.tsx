@@ -17,9 +17,9 @@ function Home() {
           Connect with Monero enthusiasts
         </h2>
         <h3 className="font-semibold text-xl mt-4 text-[#FAFAFA] max-w-2xl">
-          XMR Meet is a community directory for Monero hobbyists who enjoy
-          in-person cash-to-XMR exchanges. Find like-minded people in your area
-          and connect for casual P2P meetups.
+          XMR Meet is a community directory for Monero enthusiasts looking to
+          connect in person. Find like-minded people in your area for casual
+          meetups and exchange fiat for XMR.
         </h3>
         <div className="mt-8 flex gap-4">
           <Link to="/meet">
