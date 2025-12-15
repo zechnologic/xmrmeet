@@ -1,6 +1,6 @@
 # XMR Meet
 
-**XMR Meet** is an open-source, community-driven platform for Monero enthusiasts who enjoy connecting with others **in person to exchange Monero and cash**. The website is designed for hobbyists and enthusiasts to discover fellow community members in their area who are open to casual, in-person exchanges.
+**XMR Meet** is an open-source, community-driven platform for Monero enthusiasts who enjoy connecting with others **in person and exchanging Monero and cash**. The website is designed for hobbyists and enthusiasts to discover fellow community members in their area who are open to casual, in-person exchanges.
 
 This project is built for **fun, education, and community engagement**—a simple way to see who’s around, share your interest in meeting up, and connect with like-minded peers who enjoy exchanging value in person.
 

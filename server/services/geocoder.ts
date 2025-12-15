@@ -7,6 +7,29 @@ interface GeocodingResult {
   state: string | null;
 }
 
+// Helper function to normalize state names to state codes
+function normalizeStateToCode(countryCode: string, stateName: string | null): string | null {
+  if (!stateName) return null;
+
+  const country = LOCATIONS.find(c => c.code === countryCode);
+  if (!country) return stateName;
+
+  // Try exact match first (case insensitive)
+  const stateNameLower = stateName.toLowerCase();
+  const exactMatch = country.states.find(s => s.name.toLowerCase() === stateNameLower);
+  if (exactMatch) return exactMatch.code;
+
+  // Try partial match (for cases like "State of XYZ" or "XYZ Province")
+  const partialMatch = country.states.find(s =>
+    stateNameLower.includes(s.name.toLowerCase()) ||
+    s.name.toLowerCase().includes(stateNameLower)
+  );
+  if (partialMatch) return partialMatch.code;
+
+  // If no match found, return original
+  return stateName;
+}
+
 interface CacheEntry {
   coordinates: GeocodingResult;
   timestamp: number;
