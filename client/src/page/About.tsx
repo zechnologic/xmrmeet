@@ -10,6 +10,10 @@ function About() {
             About XMR Meet
           </h1>
 
+          <div className="flex justify-center mb-8">
+            <img src="/meeting.png" alt="XMR Meet" className="max-w-full h-auto rounded-md" />
+          </div>
+
           {/* Mission Statement */}
           <section className="mb-12">
             <p className="text-xl text-[#FAFAFA] leading-relaxed">
