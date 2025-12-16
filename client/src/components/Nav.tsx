@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router";
+import { API_BASE_URL } from "../config/api";
 
 export default function Nav() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -11,6 +13,7 @@ export default function Nav() {
 
     if (token && userData) {
       setIsLoggedIn(true);
+      checkAdminStatus(token);
     }
 
     // Listen for storage changes (login/logout in other tabs)
@@ -18,11 +21,37 @@ export default function Nav() {
       const token = localStorage.getItem("token");
       const userData = localStorage.getItem("user");
       setIsLoggedIn(!!token && !!userData);
+      if (token) {
+        checkAdminStatus(token);
+      } else {
+        setIsAdmin(false);
+      }
     };
 
     window.addEventListener("storage", handleStorageChange);
     return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
+
+  const checkAdminStatus = async (token: string) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/admin/check`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json();
+
+      if (data.success && data.isAdmin) {
+        setIsAdmin(true);
+      } else {
+        setIsAdmin(false);
+      }
+    } catch (err) {
+      console.error("Error checking admin status:", err);
+      setIsAdmin(false);
+    }
+  };
 
   return (
     <>
@@ -56,11 +85,20 @@ export default function Nav() {
             </button>
           </Link>
           {isLoggedIn ? (
-            <Link to="/account">
-              <button className="px-4 py-2 bg-orange-600 text-[#FAFAFA] hover:bg-orange-700 transition-all rounded-md">
-                Account
-              </button>
-            </Link>
+            <>
+              {isAdmin && (
+                <Link to="/admin">
+                  <button className="px-4 py-1 hover:text-orange-500 transition-colors">
+                    Admin
+                  </button>
+                </Link>
+              )}
+              <Link to="/account">
+                <button className="px-4 py-2 bg-orange-600 text-[#FAFAFA] hover:bg-orange-700 transition-all rounded-md">
+                  Account
+                </button>
+              </Link>
+            </>
           ) : (
             <>
               <Link to="/login">
@@ -142,6 +180,13 @@ export default function Nav() {
                 How It Works
               </button>
             </Link>
+            {isAdmin && (
+              <Link to="/admin" onClick={() => setIsMenuOpen(false)}>
+                <button className="w-full text-left px-4 py-3 text-orange-600 hover:bg-[#171717] hover:text-orange-500 transition-all">
+                  Admin
+                </button>
+              </Link>
+            )}
             {!isLoggedIn && (
               <Link to="/signup" onClick={() => setIsMenuOpen(false)}>
                 <button className="w-full text-left px-4 py-3 text-orange-600 hover:bg-[#171717] hover:text-orange-500 transition-all">

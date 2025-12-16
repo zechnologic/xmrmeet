@@ -57,12 +57,12 @@ router.get("/api/user/me", authenticateToken, async (req, res) => {
 router.put("/api/user/settings", authenticateToken, async (req, res) => {
     try {
         const { userId } = req.user;
-        const { country, postalCode, availableSellXmr, availableBuyXmr, onBreak, contactInfo } = req.body;
+        const { country, postalCode, availableSellXmr, availableBuyXmr, availableMeetup, onBreak, contactInfo } = req.body;
         // Validation
-        if (typeof availableSellXmr !== "boolean" || typeof availableBuyXmr !== "boolean") {
+        if (typeof availableSellXmr !== "boolean" || typeof availableBuyXmr !== "boolean" || typeof availableMeetup !== "boolean") {
             return res.status(400).json({
                 success: false,
-                error: "availableSellXmr and availableBuyXmr must be boolean values",
+                error: "availableSellXmr, availableBuyXmr, and availableMeetup must be boolean values",
             });
         }
         if (typeof onBreak !== "boolean") {
@@ -101,7 +101,7 @@ router.put("/api/user/settings", authenticateToken, async (req, res) => {
                 });
             }
         }
-        const updatedUser = await updateUserSettings(userId, country || null, state, city, postalCode || null, latitude, longitude, availableSellXmr, availableBuyXmr, onBreak, contactInfo || null);
+        const updatedUser = await updateUserSettings(userId, country || null, state, city, postalCode || null, latitude, longitude, availableSellXmr, availableBuyXmr, availableMeetup, onBreak, contactInfo || null);
         if (!updatedUser) {
             return res.status(404).json({
                 success: false,

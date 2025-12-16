@@ -11,6 +11,7 @@ import Terms from "./page/Terms.tsx";
 import HowItWorks from "./page/HowItWorks.tsx";
 import About from "./page/About.tsx";
 import UserProfile from "./page/UserProfile.tsx";
+import Admin from "./page/Admin.tsx";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/account" element={<Account />} />
+        <Route path="/admin" element={<Admin />} />
         <Route path="/meet" element={<Meetup />} />
         <Route path="/map" element={<Map />} />
         <Route path="/user/:username" element={<UserProfile />} />

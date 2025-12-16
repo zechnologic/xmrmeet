@@ -10,6 +10,7 @@ import userRouter from "./routes/user.js";
 import meetupRouter from "./routes/meetup.js";
 import locationsRouter from "./routes/locations.js";
 import reviewsRouter from "./routes/reviews.js";
+import adminRouter from "./routes/admin.js";
 import { signupLimiter, loginLimiter, settingsLimiter, publicApiLimiter, generalLimiter, } from "./middleware/rateLimiters.js";
 // ES module equivalent of __dirname
 const __filename = fileURLToPath(import.meta.url);
@@ -58,6 +59,7 @@ app.use(userRouter);
 app.use(meetupRouter);
 app.use(locationsRouter);
 app.use(reviewsRouter);
+app.use(adminRouter);
 app.use(express.static(path.join(__dirname, "../../client/dist")));
 // Handle all routes by serving index.html (SPA fallback)
 app.use((_req, res) => {

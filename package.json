@@ -12,7 +12,8 @@
     "clean": "rm -rf server/dist client/dist",
     "dev": "npm run clean && npm run build:server && npm run build:client && npm run start",
     "start": "node server/dist/index.js",
-    "reset-db": "node reset_db.js"
+    "reset-db": "node reset_db.js",
+    "set-admin": "npm run build:server && node server/dist/scripts/setAdmin.js"
   },
   "keywords": [],
   "author": "",

@@ -10,6 +10,7 @@ import userRouter from "./routes/user.js";
 import meetupRouter from "./routes/meetup.js";
 import locationsRouter from "./routes/locations.js";
 import reviewsRouter from "./routes/reviews.js";
+import adminRouter from "./routes/admin.js";
 import {
   signupLimiter,
   loginLimiter,
@@ -74,6 +75,7 @@ app.use(userRouter);
 app.use(meetupRouter);
 app.use(locationsRouter);
 app.use(reviewsRouter);
+app.use(adminRouter);
 
 app.use(express.static(path.join(__dirname, "../../client/dist")));
 
