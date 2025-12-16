@@ -2,4 +2,3 @@ node_modules
 .env
 database.db
 server/database.db
-client/public/meeting.png
