@@ -51,15 +51,21 @@ class Geocoder {
         this.lastRequestTime = Date.now();
     }
     async fetchWithGeoapify(countryCode, postalCode, timeoutMs) {
+        const apiKey = process.env.GEOAPIFY_API_KEY;
+        if (!apiKey) {
+            // No API key configured, skip Geoapify
+            return null;
+        }
         const controller = new AbortController();
         const timeout = setTimeout(() => controller.abort(), timeoutMs);
         try {
-            // Geoapify free tier: 3000 requests/day, no API key needed for basic usage
+            // Geoapify free tier: 3000 requests/day with API key
             const url = new URL("https://api.geoapify.com/v1/geocode/search");
             url.searchParams.set("postcode", postalCode);
             url.searchParams.set("filter", `countrycode:${countryCode.toLowerCase()}`);
             url.searchParams.set("format", "json");
             url.searchParams.set("limit", "1");
+            url.searchParams.set("apiKey", apiKey);
             const response = await fetch(url.toString(), {
                 signal: controller.signal,
                 headers: {
@@ -141,22 +147,26 @@ class Geocoder {
         }
     }
     async fetchGeocodingData(countryCode, postalCode, timeoutMs) {
-        // Try Geoapify first (more reliable, 3000 req/day free)
-        try {
-            const result = await this.fetchWithGeoapify(countryCode, postalCode, timeoutMs);
-            if (result) {
-                console.log(`Geocoded with Geoapify: ${postalCode}, ${countryCode}`);
-                return result;
+        // Try Geoapify first if API key is configured (more reliable, 3000 req/day free)
+        const hasGeoapifyKey = !!process.env.GEOAPIFY_API_KEY;
+        if (hasGeoapifyKey) {
+            try {
+                const result = await this.fetchWithGeoapify(countryCode, postalCode, timeoutMs);
+                if (result) {
+                    console.log(`Geocoded with Geoapify: ${postalCode}, ${countryCode}`);
+                    return result;
+                }
+            }
+            catch (error) {
+                console.warn(`Geoapify failed, trying Nominatim fallback:`, error);
             }
         }
-        catch (error) {
-            console.warn(`Geoapify failed, trying Nominatim fallback:`, error);
-        }
-        // Fallback to Nominatim if Geoapify fails
+        // Use Nominatim (either as primary or fallback)
         try {
             const result = await this.fetchWithNominatim(countryCode, postalCode, timeoutMs);
             if (result) {
-                console.log(`Geocoded with Nominatim (fallback): ${postalCode}, ${countryCode}`);
+                const source = hasGeoapifyKey ? 'Nominatim (fallback)' : 'Nominatim';
+                console.log(`Geocoded with ${source}: ${postalCode}, ${countryCode}`);
                 return result;
             }
         }
