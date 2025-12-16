@@ -9,6 +9,7 @@ This project is built for **fun, education, and community engagement**—a simpl
 - Users can create a profile and indicate:
 
   - Their city or general location
+  - Whether they are available to hang out
   - Whether they are available to exchange **Monero for cash, cash for Monero, or both**
 
 - All communication and meetup details happen **offline**, via any third-party messaging service (Signal, WhatsApp, Telegram, email, etc.). XMR Meet is just a directory for those interested in meeting up - it does not handle trades directly.
@@ -17,7 +18,7 @@ This project is built for **fun, education, and community engagement**—a simpl
 
 ## Features
 
-- Quickly see who in your area is open to casual Monero-cash exchanges
+- Quickly see who in your area is open to discussing Monero and/or helping out with casual Monero-cash exchanges
 - Open-source and freely available under the **AGPLv3 License**
 - Focused on community, connection, and shared enthusiasm for Monero
 
@@ -105,12 +106,14 @@ We welcome contributions from the community! Whether you're fixing bugs, adding 
 ### Setup
 
 1. **Fork or Clone the Repository**
+
    ```bash
    git clone https://github.com/zechnologic/xmrmeet.git
    cd xmrmeet
    ```
 
 2. **Install Dependencies**
+
    ```bash
    npm install
    cd client && npm install && cd ..
@@ -119,6 +122,7 @@ We welcome contributions from the community! Whether you're fixing bugs, adding 
 3. **Configure Environment Variables**
 
    Copy `.env.example` to `.env` and configure your local settings:
+
    ```bash
    cp .env.example .env
    ```
@@ -128,6 +132,7 @@ We welcome contributions from the community! Whether you're fixing bugs, adding 
 4. **Set Up the Database**
 
    Create a PostgreSQL database and run the initialization:
+
    ```bash
    npm run reset-db
    ```
@@ -135,24 +140,31 @@ We welcome contributions from the community! Whether you're fixing bugs, adding 
 ### Running Locally
 
 #### Option 1: Full Production-Like Build
+
 Run the full build and serve from backend (localhost:3000):
+
 ```bash
 npm run dev
 ```
 
 #### Option 2: Development Mode (Recommended for Frontend Work)
+
 Run both servers separately for hot-reload during development:
 
 **Terminal 1 - Backend Server:**
+
 ```bash
 npm run dev:server
 ```
+
 Backend runs at `http://localhost:3000`
 
 **Terminal 2 - Vite Dev Server:**
+
 ```bash
 npm run dev:client
 ```
+
 Frontend runs at `http://localhost:5173` with hot-reload
 
 API requests from `:5173` are automatically proxied to `:3000`.
@@ -174,6 +186,7 @@ xmrmeet/
 ### Making Changes
 
 1. Create a new branch for your feature or fix:
+
    ```bash
    git checkout -b feature/your-feature-name
    ```
@@ -181,11 +194,13 @@ xmrmeet/
 2. Make your changes and test them locally
 
 3. Commit your changes with clear, descriptive commit messages:
+
    ```bash
    git commit -m "Add feature: description of what you added"
    ```
 
 4. Push to your fork:
+
    ```bash
    git push origin feature/your-feature-name
    ```
