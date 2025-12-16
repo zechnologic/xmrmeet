@@ -21,10 +21,10 @@ function About() {
           <section className="mb-12">
             <p className="text-xl text-[#FAFAFA] leading-relaxed">
               XMR Meet is an open-source, community-driven platform for Monero
-              enthusiasts who enjoy connecting with others in person to exchange
-              Monero and cash. We're a simple directory for hobbyists who want
-              to discover fellow community members in their area and engage in
-              casual, P2P exchanges.
+              enthusiasts who enjoy connecting with others in person and
+              exchanging Monero and cash. We're a simple directory for hobbyists
+              who want to discover fellow community members in their area and
+              engage in casual, P2P exchanges.
             </p>
           </section>
 
