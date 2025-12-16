@@ -10,7 +10,7 @@ function About() {
             About XMR Meet
           </h1>
 
-          <div className="flex justify-center mb-8">
+          <div className="flex justify-center mb-8 max-w-[540px]">
             <img
               src="/meeting.png"
               alt="XMR Meet"
