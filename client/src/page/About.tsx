@@ -10,7 +10,7 @@ function About() {
             About XMR Meet
           </h1>
 
-          <div className="mb-8 max-w-135">
+          <div className="mb-8 max-w-120 w-full">
             <img
               src="/meeting.png"
               alt="XMR Meet"
