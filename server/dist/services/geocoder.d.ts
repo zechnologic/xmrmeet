@@ -11,6 +11,9 @@ declare class Geocoder {
     private getFromCache;
     private saveToCache;
     private rateLimitedDelay;
+    private fetchWithGeoapify;
+    private fetchWithNominatim;
+    private fetchGeocodingData;
     geocodePostalCode(countryCode: string, postalCode: string): Promise<GeocodingResult | null>;
 }
 export declare const geocoder: Geocoder;

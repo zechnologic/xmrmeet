@@ -87,14 +87,26 @@ router.put("/api/user/settings", authenticateToken, async (req: Request, res: Re
       });
     }
 
-    // Geocode location if provided
-    let latitude: number | null = null;
-    let longitude: number | null = null;
-    let city: string | null = null;
-    let state: string | null = null;
+    // Get current user data to check if location changed
+    const currentUser = await getUserById(userId);
+    if (!currentUser) {
+      return res.status(404).json({
+        success: false,
+        error: "User not found",
+      });
+    }
 
-    if (country && postalCode) {
+    // Geocode location if provided AND if location has changed
+    let latitude: number | null = currentUser.latitude;
+    let longitude: number | null = currentUser.longitude;
+    let city: string | null = currentUser.city;
+    let state: string | null = currentUser.state;
+
+    const locationChanged = currentUser.country !== country || currentUser.postal_code !== postalCode;
+
+    if (country && postalCode && locationChanged) {
       try {
+        console.log(`Location changed for user ${userId}, geocoding: ${postalCode}, ${country}`);
         const coords = await geocoder.geocodePostalCode(country, postalCode);
 
         if (coords) {
@@ -116,6 +128,15 @@ router.put("/api/user/settings", authenticateToken, async (req: Request, res: Re
           error: "Unable to process this zip code. Please choose a different nearby zip code instead.",
         });
       }
+    } else if (country && postalCode && !locationChanged) {
+      console.log(`Location unchanged for user ${userId}, reusing cached coordinates`);
+      // Keep existing coordinates
+    } else {
+      // No country or postal code provided, clear location data
+      latitude = null;
+      longitude = null;
+      city = null;
+      state = null;
     }
 
     const updatedUser = await updateUserSettings(

@@ -71,13 +71,23 @@ router.put("/api/user/settings", authenticateToken, async (req, res) => {
                 error: "onBreak must be a boolean value",
             });
         }
-        // Geocode location if provided
-        let latitude = null;
-        let longitude = null;
-        let city = null;
-        let state = null;
-        if (country && postalCode) {
+        // Get current user data to check if location changed
+        const currentUser = await getUserById(userId);
+        if (!currentUser) {
+            return res.status(404).json({
+                success: false,
+                error: "User not found",
+            });
+        }
+        // Geocode location if provided AND if location has changed
+        let latitude = currentUser.latitude;
+        let longitude = currentUser.longitude;
+        let city = currentUser.city;
+        let state = currentUser.state;
+        const locationChanged = currentUser.country !== country || currentUser.postal_code !== postalCode;
+        if (country && postalCode && locationChanged) {
             try {
+                console.log(`Location changed for user ${userId}, geocoding: ${postalCode}, ${country}`);
                 const coords = await geocoder.geocodePostalCode(country, postalCode);
                 if (coords) {
                     latitude = coords.lat;
@@ -100,6 +110,17 @@ router.put("/api/user/settings", authenticateToken, async (req, res) => {
                     error: "Unable to process this zip code. Please choose a different nearby zip code instead.",
                 });
             }
+        }
+        else if (country && postalCode && !locationChanged) {
+            console.log(`Location unchanged for user ${userId}, reusing cached coordinates`);
+            // Keep existing coordinates
+        }
+        else {
+            // No country or postal code provided, clear location data
+            latitude = null;
+            longitude = null;
+            city = null;
+            state = null;
         }
         const updatedUser = await updateUserSettings(userId, country || null, state, city, postalCode || null, latitude, longitude, availableSellXmr, availableBuyXmr, availableMeetup, onBreak, contactInfo || null);
         if (!updatedUser) {

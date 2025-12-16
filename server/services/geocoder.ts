@@ -75,7 +75,70 @@ class Geocoder {
     this.lastRequestTime = Date.now();
   }
 
-  private async fetchGeocodingData(
+  private async fetchWithGeoapify(
+    countryCode: string,
+    postalCode: string,
+    timeoutMs: number
+  ): Promise<GeocodingResult | null> {
+    const apiKey = process.env.GEOAPIFY_API_KEY;
+    if (!apiKey) {
+      // No API key configured, skip Geoapify
+      return null;
+    }
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), timeoutMs);
+
+    try {
+      // Geoapify free tier: 3000 requests/day with API key
+      const url = new URL("https://api.geoapify.com/v1/geocode/search");
+      url.searchParams.set("postcode", postalCode);
+      url.searchParams.set("filter", `countrycode:${countryCode.toLowerCase()}`);
+      url.searchParams.set("format", "json");
+      url.searchParams.set("limit", "1");
+      url.searchParams.set("apiKey", apiKey);
+
+      const response = await fetch(url.toString(), {
+        signal: controller.signal,
+        headers: {
+          "User-Agent": "XMRMeet/1.0",
+        },
+      });
+
+      clearTimeout(timeout);
+
+      if (!response.ok) {
+        console.error(`Geoapify API error: ${response.status} ${response.statusText}`);
+        return null;
+      }
+
+      const data: any = await response.json();
+
+      if (!data.results || data.results.length === 0) {
+        console.warn(`No Geoapify results for: ${postalCode}, ${countryCode}`);
+        return null;
+      }
+
+      const result = data.results[0];
+
+      // Extract city and state
+      const city = result.city || result.county || result.municipality || null;
+      const stateName = result.state || result.state_district || result.province || null;
+      const state = normalizeStateToCode(countryCode, stateName);
+
+      return {
+        lat: result.lat,
+        lon: result.lon,
+        city,
+        state,
+      };
+    } catch (error) {
+      clearTimeout(timeout);
+      throw error;
+    }
+  }
+
+  private async fetchWithNominatim(
     countryCode: string,
     postalCode: string,
     timeoutMs: number
@@ -96,7 +159,7 @@ class Geocoder {
       const response = await fetch(url.toString(), {
         signal: controller.signal,
         headers: {
-          "User-Agent": "XMRMeet/0.0.1 (GitHub)",
+          "User-Agent": "XMRMeet/1.0",
         },
       });
 
@@ -110,7 +173,7 @@ class Geocoder {
       const data = await response.json();
 
       if (!Array.isArray(data) || data.length === 0) {
-        console.warn(`No geocoding results for: ${postalCode}, ${countryCode}`);
+        console.warn(`No Nominatim results for: ${postalCode}, ${countryCode}`);
         return null;
       }
 
@@ -137,6 +200,41 @@ class Geocoder {
       clearTimeout(timeout);
       throw error;
     }
+  }
+
+  private async fetchGeocodingData(
+    countryCode: string,
+    postalCode: string,
+    timeoutMs: number
+  ): Promise<GeocodingResult | null> {
+    // Try Geoapify first if API key is configured (more reliable, 3000 req/day free)
+    const hasGeoapifyKey = !!process.env.GEOAPIFY_API_KEY;
+
+    if (hasGeoapifyKey) {
+      try {
+        const result = await this.fetchWithGeoapify(countryCode, postalCode, timeoutMs);
+        if (result) {
+          console.log(`Geocoded with Geoapify: ${postalCode}, ${countryCode}`);
+          return result;
+        }
+      } catch (error) {
+        console.warn(`Geoapify failed, trying Nominatim fallback:`, error);
+      }
+    }
+
+    // Use Nominatim (either as primary or fallback)
+    try {
+      const result = await this.fetchWithNominatim(countryCode, postalCode, timeoutMs);
+      if (result) {
+        const source = hasGeoapifyKey ? 'Nominatim (fallback)' : 'Nominatim';
+        console.log(`Geocoded with ${source}: ${postalCode}, ${countryCode}`);
+        return result;
+      }
+    } catch (error) {
+      throw error;
+    }
+
+    return null;
   }
 
   async geocodePostalCode(
