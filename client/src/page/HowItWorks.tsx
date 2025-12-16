@@ -79,6 +79,45 @@ function HowItWorks() {
             </div>
           </section>
 
+          {/* What to Bring */}
+          <section className="mb-12">
+            <h2 className="text-2xl font-bold text-orange-500 mb-4">
+              What to Bring to a Meetup
+            </h2>
+            <div className="space-y-4">
+              <p className="text-gray-400">
+                To complete exchanges smoothly, you'll need a way to send or receive Monero.
+                We recommend one of these options:
+              </p>
+              <div className="space-y-6">
+                <div className="bg-[#171717] border border-orange-600/50 p-4 rounded-md">
+                  <h3 className="text-lg font-semibold text-white mb-2">
+                    Option 1: Laptop with Monero GUI Wallet
+                  </h3>
+                  <ul className="list-disc list-inside space-y-2 ml-4 text-gray-300">
+                    <li>Download the official Monero GUI wallet from <a href="https://www.getmonero.org" target="_blank" rel="noopener noreferrer" className="text-orange-500 hover:underline">getmonero.org</a></li>
+                    <li>Full node capability for maximum privacy and security</li>
+                    <li>Ideal for larger screens and easier transaction verification</li>
+                  </ul>
+                </div>
+                <div className="bg-[#171717] border border-orange-600/50 p-4 rounded-md">
+                  <h3 className="text-lg font-semibold text-white mb-2">
+                    Option 2: Phone with CakeWallet
+                  </h3>
+                  <ul className="list-disc list-inside space-y-2 ml-4 text-gray-300">
+                    <li>Download CakeWallet for iOS or Android</li>
+                    <li>Easy-to-use mobile interface for quick exchanges</li>
+                    <li>Most convenient for in-person meetups at cafés or public spaces</li>
+                  </ul>
+                </div>
+              </div>
+              <p className="text-sm text-gray-500 mt-4">
+                <strong>Note:</strong> Make sure your wallet is synced before the meetup to avoid delays.
+                Have your receive address ready if you're buying XMR, or know how to send if you're selling.
+              </p>
+            </div>
+          </section>
+
           {/* Safety Guidelines */}
           <section className="mb-12 border-t border-orange-900 pt-8">
             <h2 className="text-2xl font-bold text-orange-500 mb-4">
