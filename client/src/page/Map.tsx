@@ -135,11 +135,14 @@ function Map() {
           </div>
         ) : (
           <MapContainer
-            center={[39.0, -40.0]}
+            center={[39.0, -70.0]}
             zoom={3}
             maxZoom={10}
             minZoom={2}
-            maxBounds={[[-90, -180], [90, 180]]}
+            maxBounds={[
+              [-90, -180],
+              [90, 180],
+            ]}
             maxBoundsViscosity={1.0}
             style={{ height: "calc(100vh - 48px)", width: "100%" }}
             className="z-0"
