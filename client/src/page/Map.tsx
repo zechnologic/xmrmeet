@@ -125,85 +125,89 @@ function Map() {
           <div className="flex items-center justify-center h-[calc(100vh-48px)]">
             <div className="text-center text-gray-400">
               <p className="text-xl mb-2">No users with locations yet</p>
-              <p className="text-sm">Add your location in Account settings to appear on the map</p>
+              <p className="text-sm">
+                Add your location in Account settings to appear on the map
+              </p>
             </div>
           </div>
         ) : (
           <MapContainer
             center={[39.8283, -98.5795]}
-            zoom={4}
+            zoom={8}
             style={{ height: "calc(100vh - 48px)", width: "100%" }}
             className="z-0"
             attributionControl={false}
           >
-            <TileLayer
-              url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-            />
+            <TileLayer url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" />
 
             {groupedUsers.map((group) => {
-              const hasAnyOnBreak = group.users.some(u => u.on_break === 1);
+              const hasAnyOnBreak = group.users.some((u) => u.on_break === 1);
               const fillColor = hasAnyOnBreak ? "#eab308" : "#ea580c";
               const strokeColor = hasAnyOnBreak ? "#facc15" : "#fb923c";
 
               return (
-              <CircleMarker
-                key={`${group.lat},${group.lon}`}
-                center={[group.lat, group.lon]}
-                radius={10}
-                pathOptions={{
-                  fillColor,
-                  fillOpacity: 0.8,
-                  color: strokeColor,
-                  weight: 2,
-                }}
-              >
-                <Popup>
-                  <div className="p-2 min-w-[200px]">
-                    <h3 className="font-bold mb-3 text-gray-900">
-                      {group.users.length} {group.users.length === 1 ? "user" : "users"}
-                    </h3>
-                    {group.users.map((user) => (
-                      <div key={user.id} className="mb-3 pb-3 border-b border-gray-200 last:border-b-0">
-                        <Link to={`/user/${user.username}`}>
-                          <div className="font-semibold text-gray-900 mb-1 hover:text-orange-600 cursor-pointer">
-                            {user.username}
-                          </div>
-                        </Link>
-                        {(user.city || user.country) && (
-                          <div className="text-xs text-gray-600 mb-2">
-                            {getLocationString(user)}
-                          </div>
-                        )}
-                        <div className="text-sm text-gray-700 space-y-1">
-                          {user.available_sell_xmr === 1 && (
-                            <div>📤 Available to sell XMR</div>
-                          )}
-                          {user.available_buy_xmr === 1 && (
-                            <div>📥 Available to buy XMR</div>
-                          )}
-                        </div>
-                        <div className="text-xs mt-2">
-                          {isLoggedIn ? (
-                            user.contact_info ? (
-                              <div className="text-gray-600">
-                                <strong>Contact:</strong> {user.contact_info}
-                              </div>
-                            ) : (
-                              <div className="text-gray-500 italic">
-                                No contact info provided
-                              </div>
-                            )
-                          ) : (
-                            <div className="text-orange-600 font-semibold blur-sm select-none">
-                              Sign in to view this user's contact info
+                <CircleMarker
+                  key={`${group.lat},${group.lon}`}
+                  center={[group.lat, group.lon]}
+                  radius={10}
+                  pathOptions={{
+                    fillColor,
+                    fillOpacity: 0.8,
+                    color: strokeColor,
+                    weight: 2,
+                  }}
+                >
+                  <Popup>
+                    <div className="p-2 min-w-[200px]">
+                      <h3 className="font-bold mb-3 text-gray-900">
+                        {group.users.length}{" "}
+                        {group.users.length === 1 ? "user" : "users"}
+                      </h3>
+                      {group.users.map((user) => (
+                        <div
+                          key={user.id}
+                          className="mb-3 pb-3 border-b border-gray-200 last:border-b-0"
+                        >
+                          <Link to={`/user/${user.username}`}>
+                            <div className="font-semibold text-gray-900 mb-1 hover:text-orange-600 cursor-pointer">
+                              {user.username}
+                            </div>
+                          </Link>
+                          {(user.city || user.country) && (
+                            <div className="text-xs text-gray-600 mb-2">
+                              {getLocationString(user)}
                             </div>
                           )}
+                          <div className="text-sm text-gray-700 space-y-1">
+                            {user.available_sell_xmr === 1 && (
+                              <div>📤 Available to sell XMR</div>
+                            )}
+                            {user.available_buy_xmr === 1 && (
+                              <div>📥 Available to buy XMR</div>
+                            )}
+                          </div>
+                          <div className="text-xs mt-2">
+                            {isLoggedIn ? (
+                              user.contact_info ? (
+                                <div className="text-gray-600">
+                                  <strong>Contact:</strong> {user.contact_info}
+                                </div>
+                              ) : (
+                                <div className="text-gray-500 italic">
+                                  No contact info provided
+                                </div>
+                              )
+                            ) : (
+                              <div className="text-orange-600 font-semibold blur-sm select-none">
+                                Sign in to view this user's contact info
+                              </div>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    ))}
-                  </div>
-                </Popup>
-              </CircleMarker>
+                      ))}
+                    </div>
+                  </Popup>
+                </CircleMarker>
               );
             })}
           </MapContainer>
