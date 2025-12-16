@@ -55,6 +55,7 @@ export declare function updateUserSettings(userId: string, country: string | nul
 export declare function updateUserPassword(userId: string, passwordHash: string): Promise<boolean>;
 export declare function deleteUser(userId: string): Promise<boolean>;
 export declare function getAvailableUsers(country?: string, state?: string, city?: string): Promise<PublicUser[]>;
+export declare function getAllUsers(): Promise<PublicUser[]>;
 export declare function createReview(id: string, reviewerId: string, revieweeUsername: string, rating: number, comment: string): Promise<Review>;
 export declare function getApprovedReviewsForUser(username: string): Promise<ReviewWithReviewer[]>;
 export declare function getAverageRating(username: string): Promise<number | null>;

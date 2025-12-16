@@ -147,6 +147,15 @@ export async function getAvailableUsers(country, state, city) {
     const result = await pool.query(query, params);
     return result.rows;
 }
+export async function getAllUsers() {
+    const result = await pool.query(`
+    SELECT id, username, country, state, city, postal_code, latitude, longitude,
+           available_sell_xmr, available_buy_xmr, available_meetup, on_break, contact_info, created_at
+    FROM users
+    ORDER BY created_at DESC
+  `);
+    return result.rows;
+}
 // Review operations
 export async function createReview(id, reviewerId, revieweeUsername, rating, comment) {
     await pool.query("INSERT INTO reviews (id, reviewer_id, reviewee_username, rating, comment) VALUES ($1, $2, $3, $4, $5)", [id, reviewerId, revieweeUsername, rating, comment]);

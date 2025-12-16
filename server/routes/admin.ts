@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { getUserById, getPendingReviews, approveReview, deleteReview } from "../lib/db.js";
+import { getUserById, getPendingReviews, approveReview, deleteReview, getAllUsers } from "../lib/db.js";
 
 const router = express.Router();
 
@@ -162,6 +162,24 @@ router.get("/api/admin/check", authenticateToken, async (req: Request, res: Resp
     });
   } catch (error) {
     console.error("Error checking admin status:", error);
+    res.status(500).json({
+      success: false,
+      error: error instanceof Error ? error.message : "Unknown error",
+    });
+  }
+});
+
+// Get all users
+router.get("/api/admin/users", authenticateToken, authenticateAdmin, async (req: Request, res: Response) => {
+  try {
+    const users = await getAllUsers();
+
+    res.json({
+      success: true,
+      users,
+    });
+  } catch (error) {
+    console.error("Error fetching all users:", error);
     res.status(500).json({
       success: false,
       error: error instanceof Error ? error.message : "Unknown error",

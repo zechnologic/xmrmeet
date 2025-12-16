@@ -248,6 +248,16 @@ export async function getAvailableUsers(
   return result.rows;
 }
 
+export async function getAllUsers(): Promise<PublicUser[]> {
+  const result = await pool.query(`
+    SELECT id, username, country, state, city, postal_code, latitude, longitude,
+           available_sell_xmr, available_buy_xmr, available_meetup, on_break, contact_info, created_at
+    FROM users
+    ORDER BY created_at DESC
+  `);
+  return result.rows;
+}
+
 // Review operations
 export async function createReview(
   id: string,
