@@ -45,9 +45,12 @@ function Map() {
       const data = await response.json();
 
       if (data.success) {
-        // Filter users who have coordinates
+        // Filter users who have coordinates and at least one availability checkbox checked
         const usersWithCoords = data.users.filter(
-          (u: AvailableUser) => u.latitude !== null && u.longitude !== null
+          (u: AvailableUser) =>
+            u.latitude !== null &&
+            u.longitude !== null &&
+            (u.available_sell_xmr === 1 || u.available_buy_xmr === 1)
         );
         setUsers(usersWithCoords);
       } else {

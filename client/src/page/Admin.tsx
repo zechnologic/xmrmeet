@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, Link } from "react-router";
 import Layout from "../components/Layout";
 import { API_BASE_URL } from "../config/api";
 
@@ -13,10 +13,26 @@ interface Review {
   created_at: number;
 }
 
+interface AdminUser {
+  id: string;
+  username: string;
+  country: string | null;
+  state: string | null;
+  city: string | null;
+  postal_code: string | null;
+  available_sell_xmr: number;
+  available_buy_xmr: number;
+  available_meetup: number;
+  on_break: number;
+  contact_info: string | null;
+  created_at: number;
+}
+
 function Admin() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [reviews, setReviews] = useState<Review[]>([]);
+  const [users, setUsers] = useState<AdminUser[]>([]);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [processingId, setProcessingId] = useState<string | null>(null);
@@ -47,6 +63,7 @@ function Admin() {
       }
 
       fetchPendingReviews(token);
+      fetchAllUsers(token);
     } catch (err) {
       console.error("Error checking admin access:", err);
       navigate("/");
@@ -73,6 +90,26 @@ function Admin() {
       console.error("Fetch error:", err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchAllUsers = async (token: string) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/admin/users`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setUsers(data.users);
+      } else {
+        console.error("Failed to fetch users:", data.error);
+      }
+    } catch (err) {
+      console.error("Fetch users error:", err);
     }
   };
 
@@ -174,6 +211,15 @@ function Admin() {
     );
   };
 
+  const getLocationString = (user: AdminUser): string => {
+    const parts: string[] = [];
+    if (user.city) parts.push(user.city);
+    if (user.state) parts.push(user.state);
+    if (user.country) parts.push(user.country);
+    if (parts.length === 0 && user.postal_code) return user.postal_code;
+    return parts.join(", ") || "-";
+  };
+
   if (loading) {
     return (
       <Layout>
@@ -263,6 +309,85 @@ function Admin() {
               ))}
             </div>
           )}
+
+          {/* All Users Section */}
+          <div className="mt-12">
+            <h3 className="font-bold text-2xl uppercase mb-4">
+              All Users ({users.length})
+            </h3>
+            <p className="text-[#FAFAFA] mb-6">
+              Complete list of all registered users with their availability settings
+            </p>
+
+            {users.length === 0 ? (
+              <div className="p-8 bg-[#171717] border border-orange-600 rounded-md text-center">
+                <p className="text-[#FAFAFA]">No users found.</p>
+              </div>
+            ) : (
+              <div className="overflow-x-auto border border-orange-600 rounded-md">
+                <table className="w-full bg-[#171717] text-sm">
+                  <thead>
+                    <tr className="border-b border-orange-600">
+                      <th className="px-3 py-2 text-left text-orange-500 font-semibold">User</th>
+                      <th className="px-3 py-2 text-left text-orange-500 font-semibold">Location</th>
+                      <th className="px-3 py-2 text-center text-orange-500 font-semibold">Sell</th>
+                      <th className="px-3 py-2 text-center text-orange-500 font-semibold">Buy</th>
+                      <th className="px-3 py-2 text-center text-orange-500 font-semibold">Meet</th>
+                      <th className="px-3 py-2 text-center text-orange-500 font-semibold">Break</th>
+                      <th className="px-3 py-2 text-left text-orange-500 font-semibold">Contact</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {users.map((user) => (
+                      <tr key={user.id} className="border-b border-orange-900 hover:bg-[#1a1a1a] transition-colors">
+                        <td className="px-3 py-2">
+                          <Link to={`/user/${user.username}`}>
+                            <span className="text-orange-500 hover:text-orange-400 font-medium cursor-pointer">
+                              {user.username}
+                            </span>
+                          </Link>
+                        </td>
+                        <td className="px-3 py-2 text-[#FAFAFA] text-xs">
+                          {getLocationString(user)}
+                        </td>
+                        <td className="px-3 py-2 text-center">
+                          {user.available_sell_xmr === 1 ? (
+                            <span className="text-green-500">✓</span>
+                          ) : (
+                            <span className="text-gray-600">-</span>
+                          )}
+                        </td>
+                        <td className="px-3 py-2 text-center">
+                          {user.available_buy_xmr === 1 ? (
+                            <span className="text-green-500">✓</span>
+                          ) : (
+                            <span className="text-gray-600">-</span>
+                          )}
+                        </td>
+                        <td className="px-3 py-2 text-center">
+                          {user.available_meetup === 1 ? (
+                            <span className="text-green-500">✓</span>
+                          ) : (
+                            <span className="text-gray-600">-</span>
+                          )}
+                        </td>
+                        <td className="px-3 py-2 text-center">
+                          {user.on_break === 1 ? (
+                            <span className="text-yellow-500">⏸</span>
+                          ) : (
+                            <span className="text-gray-600">-</span>
+                          )}
+                        </td>
+                        <td className="px-3 py-2 text-[#FAFAFA] text-xs truncate max-w-[150px]">
+                          {user.contact_info || <span className="text-gray-600">-</span>}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </Layout>

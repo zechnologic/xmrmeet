@@ -74,7 +74,11 @@ function Meetup() {
       const data = await response.json();
 
       if (data.success) {
-        setUsers(data.users);
+        // Filter to only show users with at least one availability checkbox checked
+        const availableUsers = data.users.filter((u: AvailableUser) =>
+          u.available_sell_xmr === 1 || u.available_buy_xmr === 1
+        );
+        setUsers(availableUsers);
       } else {
         setError(data.error || "Failed to fetch users");
       }
