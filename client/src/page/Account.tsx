@@ -13,6 +13,7 @@ interface UserSettings {
   longitude: number | null;
   available_sell_xmr: number;
   available_buy_xmr: number;
+  available_meetup: number;
   on_break: number;
   contact_info: string | null;
   created_at: number;
@@ -38,6 +39,7 @@ function Account() {
   const [postalCode, setPostalCode] = useState("");
   const [availableSellXmr, setAvailableSellXmr] = useState(false);
   const [availableBuyXmr, setAvailableBuyXmr] = useState(false);
+  const [availableMeetup, setAvailableMeetup] = useState(false);
   const [onBreak, setOnBreak] = useState(false);
   const [contactInfo, setContactInfo] = useState("");
 
@@ -94,6 +96,7 @@ function Account() {
         setPostalCode(data.user.postal_code || "");
         setAvailableSellXmr(!!data.user.available_sell_xmr);
         setAvailableBuyXmr(!!data.user.available_buy_xmr);
+        setAvailableMeetup(!!data.user.available_meetup);
         setOnBreak(!!data.user.on_break);
         setContactInfo(data.user.contact_info || "");
       } else {
@@ -130,13 +133,13 @@ function Account() {
     setSaving(true);
 
     // Validate required fields when availability is checked
-    if ((availableSellXmr || availableBuyXmr) && !postalCode) {
+    if ((availableSellXmr || availableBuyXmr || availableMeetup) && !postalCode) {
       setError("Zip/Postal Code is required when availability is enabled");
       setSaving(false);
       return;
     }
 
-    if ((availableSellXmr || availableBuyXmr) && !contactInfo) {
+    if ((availableSellXmr || availableBuyXmr || availableMeetup) && !contactInfo) {
       setError("Contact Info is required when availability is enabled");
       setSaving(false);
       return;
@@ -160,6 +163,7 @@ function Account() {
           postalCode: postalCode || null,
           availableSellXmr,
           availableBuyXmr,
+          availableMeetup,
           onBreak,
           contactInfo: contactInfo || null,
         }),
@@ -346,7 +350,7 @@ function Account() {
             {country && (
               <div className="mb-6">
                 <label htmlFor="postalCode" className="block mb-2 font-semibold">
-                  Zip/Postal Code {(availableSellXmr || availableBuyXmr) ? "(required)" : "(optional)"}
+                  Zip/Postal Code {(availableSellXmr || availableBuyXmr || availableMeetup) ? "(required)" : "(optional)"}
                 </label>
                 <input
                   type="text"
@@ -389,11 +393,31 @@ function Account() {
                 </span>
               </label>
 
+              <label className="flex items-center mb-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={availableMeetup}
+                  onChange={(e) => setAvailableMeetup(e.target.checked)}
+                  className="w-5 h-5 accent-orange-600 cursor-pointer"
+                />
+                <span className="ml-3 text-white">
+                  I am available to meet up and hang out
+                </span>
+              </label>
+
               <label className="flex items-center cursor-pointer">
                 <input
                   type="checkbox"
                   checked={onBreak}
-                  onChange={(e) => setOnBreak(e.target.checked)}
+                  onChange={(e) => {
+                    const isChecked = e.target.checked;
+                    setOnBreak(isChecked);
+                    if (isChecked) {
+                      setAvailableSellXmr(false);
+                      setAvailableBuyXmr(false);
+                      setAvailableMeetup(false);
+                    }
+                  }}
                   className="w-5 h-5 accent-yellow-500 cursor-pointer"
                 />
                 <span className="ml-3 text-white">
@@ -404,7 +428,7 @@ function Account() {
 
             <div className="mb-6">
               <label htmlFor="contactInfo" className="block mb-2 font-semibold">
-                Contact Info {(availableSellXmr || availableBuyXmr) ? "(required)" : "(optional)"}
+                Contact Info {(availableSellXmr || availableBuyXmr || availableMeetup) ? "(required)" : "(optional)"}
               </label>
               <textarea
                 id="contactInfo"
