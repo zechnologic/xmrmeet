@@ -37,7 +37,8 @@ interface CacheEntry {
 
 const CACHE_TTL_MS = 30 * 24 * 60 * 60 * 1000; // 30 days
 const RATE_LIMIT_MS = 1000; // 1 request per second
-const REQUEST_TIMEOUT_MS = 10000; // 10 seconds
+const REQUEST_TIMEOUT_MS = 30000; // 30 seconds
+const MAX_RETRIES = 2; // Retry up to 2 times on timeout/failure
 
 class Geocoder {
   private cache = new Map<string, CacheEntry>();
@@ -74,30 +75,20 @@ class Geocoder {
     this.lastRequestTime = Date.now();
   }
 
-  async geocodePostalCode(
+  private async fetchGeocodingData(
     countryCode: string,
-    postalCode: string
+    postalCode: string,
+    timeoutMs: number
   ): Promise<GeocodingResult | null> {
-    if (!countryCode || !postalCode) return null;
+    await this.rateLimitedDelay();
 
-    const cacheKey = this.getCacheKey(countryCode, postalCode);
-    const cached = this.getFromCache(cacheKey);
-    if (cached) {
-      console.log(`Geocoding cache hit: ${cacheKey}`);
-      return cached;
-    }
-
-    console.log(`Geocoding postal code: ${postalCode}, ${countryCode}`);
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), timeoutMs);
 
     try {
-      await this.rateLimitedDelay();
-
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
-
       const url = new URL("https://nominatim.openstreetmap.org/search");
       url.searchParams.set("postalcode", postalCode);
-      url.searchParams.set("country", countryCode); // Use country code instead of name
+      url.searchParams.set("country", countryCode);
       url.searchParams.set("format", "json");
       url.searchParams.set("limit", "1");
       url.searchParams.set("addressdetails", "1");
@@ -141,18 +132,72 @@ class Geocoder {
         state,
       };
 
-      this.saveToCache(cacheKey, result);
-      console.log(`Geocoded ${postalCode}, ${countryCode}: ${result.lat}, ${result.lon}, ${city}, ${state}`);
-
       return result;
     } catch (error) {
-      if (error instanceof Error && error.name === 'AbortError') {
-        console.error(`Geocoding timeout for ${postalCode}, ${countryCode}`);
-      } else {
-        console.error(`Geocoding error for ${postalCode}, ${countryCode}:`, error);
-      }
-      return null;
+      clearTimeout(timeout);
+      throw error;
     }
+  }
+
+  async geocodePostalCode(
+    countryCode: string,
+    postalCode: string
+  ): Promise<GeocodingResult | null> {
+    if (!countryCode || !postalCode) return null;
+
+    const cacheKey = this.getCacheKey(countryCode, postalCode);
+    const cached = this.getFromCache(cacheKey);
+    if (cached) {
+      console.log(`Geocoding cache hit: ${cacheKey}`);
+      return cached;
+    }
+
+    console.log(`Geocoding postal code: ${postalCode}, ${countryCode}`);
+
+    let lastError: Error | null = null;
+
+    for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+      try {
+        const timeoutMs = REQUEST_TIMEOUT_MS * (attempt + 1); // Increase timeout with each retry
+
+        if (attempt > 0) {
+          console.log(`Retry attempt ${attempt} for ${postalCode}, ${countryCode} (timeout: ${timeoutMs}ms)`);
+        }
+
+        const result = await this.fetchGeocodingData(countryCode, postalCode, timeoutMs);
+
+        if (result) {
+          this.saveToCache(cacheKey, result);
+          console.log(`Geocoded ${postalCode}, ${countryCode}: ${result.lat}, ${result.lon}, ${result.city}, ${result.state}`);
+          return result;
+        }
+
+        // If no results found (but no error), don't retry
+        return null;
+
+      } catch (error) {
+        lastError = error instanceof Error ? error : new Error(String(error));
+
+        if (lastError.name === 'AbortError') {
+          console.error(`Geocoding timeout (attempt ${attempt + 1}/${MAX_RETRIES + 1}) for ${postalCode}, ${countryCode}`);
+        } else {
+          console.error(`Geocoding error (attempt ${attempt + 1}/${MAX_RETRIES + 1}) for ${postalCode}, ${countryCode}:`, lastError);
+        }
+
+        // If this is the last attempt, break and return null
+        if (attempt === MAX_RETRIES) {
+          break;
+        }
+
+        // Wait before retrying (exponential backoff: 2s, 4s)
+        const backoffMs = 2000 * (attempt + 1);
+        console.log(`Waiting ${backoffMs}ms before retry...`);
+        await new Promise(resolve => setTimeout(resolve, backoffMs));
+      }
+    }
+
+    console.error(`Failed to geocode postal code after ${MAX_RETRIES + 1} attempts for user: ${countryCode}, ${postalCode}`);
+    return null;
   }
 }
 

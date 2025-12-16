@@ -369,36 +369,39 @@ function Account() {
             <div className="mb-6 p-4 bg-[#171717] border border-orange-600 rounded-md">
               <h4 className="font-semibold mb-4">Availability</h4>
 
-              <label className="flex items-center mb-3 cursor-pointer">
+              <label className={`flex items-center mb-3 ${onBreak ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}>
                 <input
                   type="checkbox"
                   checked={availableSellXmr}
                   onChange={(e) => setAvailableSellXmr(e.target.checked)}
-                  className="w-5 h-5 accent-orange-600 cursor-pointer"
+                  disabled={onBreak}
+                  className="w-5 h-5 accent-orange-600 cursor-pointer disabled:cursor-not-allowed"
                 />
                 <span className="ml-3 text-white">
                   I am available to sell XMR for cash
                 </span>
               </label>
 
-              <label className="flex items-center mb-3 cursor-pointer">
+              <label className={`flex items-center mb-3 ${onBreak ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}>
                 <input
                   type="checkbox"
                   checked={availableBuyXmr}
                   onChange={(e) => setAvailableBuyXmr(e.target.checked)}
-                  className="w-5 h-5 accent-orange-600 cursor-pointer"
+                  disabled={onBreak}
+                  className="w-5 h-5 accent-orange-600 cursor-pointer disabled:cursor-not-allowed"
                 />
                 <span className="ml-3 text-white">
                   I am available to buy XMR with cash
                 </span>
               </label>
 
-              <label className="flex items-center mb-3 cursor-pointer">
+              <label className={`flex items-center mb-3 ${onBreak ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}>
                 <input
                   type="checkbox"
                   checked={availableMeetup}
                   onChange={(e) => setAvailableMeetup(e.target.checked)}
-                  className="w-5 h-5 accent-orange-600 cursor-pointer"
+                  disabled={onBreak}
+                  className="w-5 h-5 accent-orange-600 cursor-pointer disabled:cursor-not-allowed"
                 />
                 <span className="ml-3 text-white">
                   I am available to meet up and hang out
