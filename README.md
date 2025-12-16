@@ -11,7 +11,7 @@ This project is built for **fun, education, and community engagement**—a simpl
   - Their city or general location
   - Whether they are available to exchange **Monero for cash, cash for Monero, or both**
 
-- All communication and meetup details happen **offline**, via any third-party messaging service (Signal, WhatsApp, Telegram, email, etc.). XMR Meet is just a directory for those interested in meeting up—it does not handle trades directly.
+- All communication and meetup details happen **offline**, via any third-party messaging service (Signal, WhatsApp, Telegram, email, etc.). XMR Meet is just a directory for those interested in meeting up - it does not handle trades directly.
 
 - The platform does **not** facilitate pricing, trading rates, or commercial transactions. It’s purely for hobbyists who enjoy **in-person P2P exchanges as a fun, community activity**.
 
@@ -87,3 +87,125 @@ XMR Meet is for Monero enthusiasts who enjoy casual, in-person exchanges. While 
 ## Final Note
 
 XMR Meet is all about community, fun, and safe in-person exchanges. By following these street-smart tips and guidelines, you can enjoy connecting with fellow Monero enthusiasts while keeping yourself and others safe.
+
+---
+
+# Contributing
+
+We welcome contributions from the community! Whether you're fixing bugs, adding features, or improving documentation, your help is appreciated.
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v18 or higher)
+- PostgreSQL (v14 or higher)
+- npm or yarn
+
+### Setup
+
+1. **Fork or Clone the Repository**
+   ```bash
+   git clone https://github.com/zechnologic/xmrmeet.git
+   cd xmrmeet
+   ```
+
+2. **Install Dependencies**
+   ```bash
+   npm install
+   cd client && npm install && cd ..
+   ```
+
+3. **Configure Environment Variables**
+
+   Copy `.env.example` to `.env` and configure your local settings:
+   ```bash
+   cp .env.example .env
+   ```
+
+   Update the `.env` file with your local PostgreSQL credentials and other settings.
+
+4. **Set Up the Database**
+
+   Create a PostgreSQL database and run the initialization:
+   ```bash
+   npm run reset-db
+   ```
+
+### Running Locally
+
+#### Option 1: Full Production-Like Build
+Run the full build and serve from backend (localhost:3000):
+```bash
+npm run dev
+```
+
+#### Option 2: Development Mode (Recommended for Frontend Work)
+Run both servers separately for hot-reload during development:
+
+**Terminal 1 - Backend Server:**
+```bash
+npm run dev:server
+```
+Backend runs at `http://localhost:3000`
+
+**Terminal 2 - Vite Dev Server:**
+```bash
+npm run dev:client
+```
+Frontend runs at `http://localhost:5173` with hot-reload
+
+API requests from `:5173` are automatically proxied to `:3000`.
+
+### Project Structure
+
+```
+xmrmeet/
+├── client/          # React frontend (Vite + TypeScript)
+├── server/          # Express backend (TypeScript)
+│   ├── index.ts     # Main server entry point
+│   ├── routes/      # API routes
+│   ├── middleware/  # Custom middleware
+│   └── services/    # Business logic
+├── .env.example     # Example environment variables
+└── package.json     # Root package.json with scripts
+```
+
+### Making Changes
+
+1. Create a new branch for your feature or fix:
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+
+2. Make your changes and test them locally
+
+3. Commit your changes with clear, descriptive commit messages:
+   ```bash
+   git commit -m "Add feature: description of what you added"
+   ```
+
+4. Push to your fork:
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+
+5. Open a Pull Request on GitHub with a description of your changes
+
+### Guidelines
+
+- Follow the existing code style and conventions
+- Test your changes thoroughly before submitting
+- Keep PRs focused on a single feature or fix
+- Update documentation if you're changing functionality
+- Be respectful and constructive in discussions
+
+### Questions?
+
+If you have questions or need help getting started, feel free to open an issue on GitHub.
+
+---
+
+## License
+
+This project is licensed under the **GNU Affero General Public License v3.0 (AGPL-3.0)**. See the LICENSE file for details.

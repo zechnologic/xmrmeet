@@ -11,12 +11,14 @@
     "build:client": "cd client && npm run build",
     "clean": "rm -rf server/dist client/dist",
     "dev": "npm run clean && npm run build:server && npm run build:client && npm run start",
+    "dev:server": "npm run build:server && npm run start",
+    "dev:client": "cd client && npm run dev",
     "start": "node server/dist/index.js",
     "reset-db": "node reset_db.js",
     "set-admin": "npm run build:server && node server/dist/scripts/setAdmin.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "@zechnologic",
   "license": "AGPL-3.0",
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
