@@ -10,11 +10,10 @@ function About() {
             About XMR Meet
           </h1>
 
-          <div className="flex justify-center mb-8">
+          {/* <div className="flex justify-center mb-8">
             <img src="/meeting.png" alt="XMR Meet" className="max-w-full h-auto rounded-md" />
-          </div>
+          </div> */}
 
-          {/* Mission Statement */}
           <section className="mb-12">
             <p className="text-xl text-[#FAFAFA] leading-relaxed">
               XMR Meet is an open-source, community-driven platform for Monero
@@ -25,7 +24,6 @@ function About() {
             </p>
           </section>
 
-          {/* Why Section */}
           <section className="mb-12 border-t border-orange-900 pt-8">
             <h2 className="text-3xl font-bold text-orange-500 mb-6">
               Why XMR Meet?
@@ -51,19 +49,23 @@ function About() {
                   Building a Network Effect
                 </h3>
                 <p className="leading-relaxed">
-                  Think of XMR Meet like EV charging stations for electric vehicles.
-                  When there are only a few charging stations, EV adoption is limited
-                  and road trips feel risky. But as more stations appear on{" "}
-                  <Link to="/map" className="text-orange-500 hover:text-orange-400 font-semibold">
+                  Think of XMR Meet like EV charging stations for electric
+                  vehicles. When there are only a few charging stations, EV
+                  adoption is limited and road trips feel risky. But as more
+                  stations appear on{" "}
+                  <Link
+                    to="/map"
+                    className="text-orange-500 hover:text-orange-400 font-semibold"
+                  >
                     the map
                   </Link>
-                  , suddenly electric vehicles become practical for traveling anywhere.
-                  That's our vision for Monero. If enough people join this network,
-                  you'll be able to exchange XMR for cash wherever you go - on business
-                  trips, vacations, or just across town. Like an EV owner searching for
-                  charging stations, XMR users will have a friendly network of people
-                  ready to help them transact, making Monero truly usable as everyday
-                  currency.
+                  , suddenly electric vehicles become practical for traveling
+                  anywhere. That's our vision for Monero. If enough people join
+                  this network, you'll be able to exchange XMR for cash wherever
+                  you go - on business trips, vacations, or just across town.
+                  Like an EV owner searching for charging stations, XMR users
+                  will have a friendly network of people ready to help them
+                  transact, making Monero truly usable as everyday currency.
                 </p>
               </div>
 
@@ -177,19 +179,20 @@ function About() {
             <div className="space-y-4">
               <p>
                 While it's important that we maintain strong privacy tools and
-                infrastructure, it's also time for some of us to build things that
-                are bold, at home, and in the light. It is exhausting to constantly
-                think about ways to run hidden services in offshore server racks.
-                XMR Meet isn't hiding - it's a public directory connecting real
-                people who want to exercise their freedom to transact privately.
+                infrastructure, it's also time for some of us to build things
+                that are bold, at home, and in the light. It is exhausting to
+                constantly think about ways to run hidden services in offshore
+                server racks. XMR Meet isn't hiding - it's a public directory
+                connecting real people who want to exercise their freedom to
+                transact privately.
               </p>
               <p>
-                This is what truly unstoppable looks like. Not servers in foreign
-                jurisdictions. Not encrypted tunnels and tor hidden services. Just
-                people meeting people. The network is the users themselves, and no
-                amount of regulatory pressure can shut down human connection. This
-                is peer-to-peer in its purest form, and it's beyond anyone's reach
-                to stop.
+                This is what truly unstoppable looks like. Not servers in
+                foreign jurisdictions. Not encrypted tunnels and tor hidden
+                services. Just people meeting people. The network is the users
+                themselves, and no amount of regulatory pressure can shut down
+                human connection. This is peer-to-peer in its purest form, and
+                it's beyond anyone's reach to stop.
               </p>
             </div>
           </section>
