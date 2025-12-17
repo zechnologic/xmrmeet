@@ -28,17 +28,17 @@ router.post("/signup", async (req: Request, res: Response) => {
       });
     }
 
-    if (username.length < 3) {
+    if (username.length < 4) {
       return res.status(400).json({
         success: false,
-        error: "Username must be at least 3 characters",
+        error: "Username must be at least 4 characters",
       });
     }
 
-    if (password.length < 6) {
+    if (password.length < 8) {
       return res.status(400).json({
         success: false,
-        error: "Password must be at least 6 characters",
+        error: "Password must be at least 8 characters",
       });
     }
 

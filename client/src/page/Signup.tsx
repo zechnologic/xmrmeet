@@ -28,13 +28,13 @@ function Signup() {
       return;
     }
 
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters");
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters");
       return;
     }
 
-    if (username.length < 3) {
-      setError("Username must be at least 3 characters");
+    if (username.length < 4) {
+      setError("Username must be at least 4 characters");
       return;
     }
 
@@ -119,7 +119,7 @@ function Signup() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               className="w-full px-4 py-2 bg-[#171717] border border-orange-600 text-[#FAFAFA] focus:outline-none focus:border-orange-500"
-              placeholder="Choose a username (min 3 characters)"
+              placeholder="Choose a username (min 4 characters)"
               required
             />
           </div>
@@ -133,7 +133,7 @@ function Signup() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-2 bg-[#171717] border border-orange-600 text-[#FAFAFA] focus:outline-none focus:border-orange-500"
-              placeholder="Choose a password (min 6 characters)"
+              placeholder="Choose a password (min 8 characters)"
               required
             />
           </div>

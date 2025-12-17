@@ -433,14 +433,19 @@ function Account() {
               <label htmlFor="contactInfo" className="block mb-2 font-semibold">
                 Contact Info {(availableSellXmr || availableBuyXmr || availableMeetup) ? "(required)" : "(optional)"}
               </label>
-              <textarea
+              <input
+                type="text"
                 id="contactInfo"
                 value={contactInfo}
                 onChange={(e) => setContactInfo(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                  }
+                }}
                 maxLength={64}
                 className="w-full px-4 py-2 bg-[#171717] border border-orange-600 text-[#FAFAFA] focus:outline-none focus:border-orange-500"
                 placeholder="How should people contact you? (e.g., Signal, Telegram, Email)"
-                rows={3}
               />
               <p className="text-xs text-gray-500 mt-1">
                 This will be publicly visible if you enable availability
