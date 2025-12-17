@@ -124,10 +124,10 @@ router.post("/api/reviews", authenticateToken, async (req: Request, res: Respons
       });
     }
 
-    if (comment.length > 500) {
+    if (comment.length > 120) {
       return res.status(400).json({
         success: false,
-        error: "Comment must be less than 500 characters",
+        error: "Comment must be less than 120 characters",
       });
     }
 

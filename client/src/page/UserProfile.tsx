@@ -288,20 +288,28 @@ function UserProfile() {
 
                 <div className="mb-4">
                   <label htmlFor="comment" className="block mb-2 font-semibold">
-                    Review (10-500 characters)
+                    Review (10-120 characters)
                   </label>
-                  <textarea
+                  <input
+                    type="text"
                     id="comment"
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && e.currentTarget.value.length >= 10) {
+                        // Allow form submission on Enter if valid
+                        return;
+                      } else if (e.key === 'Enter') {
+                        e.preventDefault();
+                      }
+                    }}
                     className="w-full px-4 py-2 bg-[#171717] border border-orange-600 text-[#FAFAFA] focus:outline-none focus:border-orange-500"
-                    rows={4}
                     minLength={10}
-                    maxLength={500}
+                    maxLength={120}
                     required
                   />
                   <p className="text-xs text-gray-500 mt-1">
-                    {comment.length}/500 characters
+                    {comment.length}/120 characters
                   </p>
                 </div>
 
