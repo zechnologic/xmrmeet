@@ -50,7 +50,7 @@ function Map() {
           (u: AvailableUser) =>
             u.latitude !== null &&
             u.longitude !== null &&
-            (u.available_sell_xmr === 1 || u.available_buy_xmr === 1)
+            (u.available_sell_xmr === 1 || u.available_buy_xmr === 1 || u.available_meetup === 1 || u.on_break === 1)
         );
         setUsers(usersWithCoords);
       } else {
