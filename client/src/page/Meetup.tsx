@@ -123,7 +123,7 @@ function Meetup() {
       <div className="min-h-screen pt-40 px-4 bg-[#121212] text-orange-600">
         <h2 className="font-bold text-4xl uppercase">Meetup</h2>
         <p className="mt-2 text-[#FAFAFA] max-w-2xl">
-          Connect with people in your area who want to trade XMR for cash
+          Find local Monero enthusiasts to hang out with and trade XMR in person
         </p>
 
         <div className="mt-8 max-w-md space-y-4">
