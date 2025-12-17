@@ -16,6 +16,7 @@ interface AvailableUser {
   longitude: number | null;
   available_sell_xmr: number;
   available_buy_xmr: number;
+  available_meetup: number;
   on_break: number;
   contact_info: string | null;
   created_at: number;
