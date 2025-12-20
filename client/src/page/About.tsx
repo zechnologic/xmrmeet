@@ -241,23 +241,6 @@ function About() {
                   <li className="flex items-start gap-3">
                     <span className="text-orange-500 text-xl">→</span>
                     <div>
-                      <strong className="text-white">
-                        Subscribe on YouTube:
-                      </strong>{" "}
-                      <a
-                        href="https://youtube.com/@zechnologic"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-orange-500 hover:underline"
-                      >
-                        @zechnologic
-                      </a>{" "}
-                      for crypto tutorials and project updates
-                    </div>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-orange-500 text-xl">→</span>
-                    <div>
                       <strong className="text-white">Star on GitHub:</strong>{" "}
                       <a
                         href="https://github.com/zechnologic/xmrmeet"

@@ -38,14 +38,6 @@ export default function Footer() {
               Twitter
             </a>
             <a
-              href="https://youtube.com/@zechnologic"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-orange-500 transition-all"
-            >
-              YouTube
-            </a>
-            <a
               href="https://github.com/zechnologic/xmrmeet"
               target="_blank"
               rel="noopener noreferrer"
